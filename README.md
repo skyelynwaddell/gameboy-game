@@ -1,2 +1,3 @@
 # gameboy-game
-A game I am developing for the Gameboy in the programming language C
+some open-sourced games I am developing for the gameboy 
+programmed with C/C++ and gameboy development kit 2020
