@@ -7,7 +7,7 @@
  Info:
    Section       : 
    Bank          : 0
-   Map size      : 100 x 100
+   Map size      : 32 x 32
    Tile set      : Z:\Users\skyewaddell\Documents\github\gameboy-games\test game\maps\home_town.gbr
    Plane count   : 1 plane (8 bits)
    Plane order   : Tiles are continues
@@ -20,8 +20,8 @@
 #ifndef __home_town_h_INCLUDE
 #define __home_town_h_INCLUDE
 
-#define homeTownMapWidth 100
-#define homeTownMapHeight 100
+#define homeTownMapWidth 32
+#define homeTownMapHeight 32
 #define homeTownMapBank 0
 
 extern const unsigned char homeTownMap[];

@@ -9,7 +9,7 @@ void main()
 {
     //game variables
     uint8_t bkgSpeed = 1;
-    uint8_t playerSpeed = 0.10;
+    uint8_t playerSpeed = 0.1;
     uint8_t spriteIndex = 0;
     uint8_t playerX = 80;
     uint8_t playerY = 70;
@@ -19,7 +19,7 @@ void main()
     printf("pocket monsters 2");
 
     set_bkg_data(0,12,homeTownTiles);
-    set_bkg_tiles(0,0,40,18,homeTownMap);
+    set_bkg_tiles(0,0,32,32,homeTownMap);
     SHOW_BKG;
 
     //player top left
