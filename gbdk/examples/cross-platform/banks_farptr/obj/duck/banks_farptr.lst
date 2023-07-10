@@ -1,0 +1,301 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler 
+                                      3 ; Version 4.2.2 #13350 (Mac OS X x86_64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module banks_farptr
+                                      6 	.optsdcc -msm83
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _main
+                                     12 	.globl _run
+                                     13 	.globl b_some_bank2_proc1
+                                     14 	.globl _some_bank2_proc1
+                                     15 	.globl b_some_bank2_proc0
+                                     16 	.globl _some_bank2_proc0
+                                     17 	.globl _to_far_ptr
+                                     18 	.globl ___call__banked
+                                     19 	.globl _printf
+                                     20 	.globl _res
+                                     21 	.globl _farptr_var2
+                                     22 	.globl _farptr_var1
+                                     23 	.globl _farptr_var0
+                                     24 ;--------------------------------------------------------
+                                     25 ; special function registers
+                                     26 ;--------------------------------------------------------
+                                     27 ;--------------------------------------------------------
+                                     28 ; ram data
+                                     29 ;--------------------------------------------------------
+                                     30 	.area _DATA
+      000000                         31 _farptr_var0::
+      000000                         32 	.ds 4
+      000004                         33 _farptr_var1::
+      000004                         34 	.ds 4
+      000008                         35 _farptr_var2::
+      000008                         36 	.ds 4
+      00000C                         37 _res::
+      00000C                         38 	.ds 2
+                                     39 ;--------------------------------------------------------
+                                     40 ; ram data
+                                     41 ;--------------------------------------------------------
+                                     42 	.area _INITIALIZED
+                                     43 ;--------------------------------------------------------
+                                     44 ; absolute external ram data
+                                     45 ;--------------------------------------------------------
+                                     46 	.area _DABS (ABS)
+                                     47 ;--------------------------------------------------------
+                                     48 ; global & static initialisations
+                                     49 ;--------------------------------------------------------
+                                     50 	.area _HOME
+                                     51 	.area _GSINIT
+                                     52 	.area _GSFINAL
+                                     53 	.area _GSINIT
+                                     54 ;--------------------------------------------------------
+                                     55 ; Home
+                                     56 ;--------------------------------------------------------
+                                     57 	.area _HOME
+                                     58 	.area _HOME
+                                     59 ;--------------------------------------------------------
+                                     60 ; code
+                                     61 ;--------------------------------------------------------
+                                     62 	.area _CODE
+                                     63 ;src/banks_farptr.c:20: void run() {
+                                     64 ;	---------------------------------
+                                     65 ; Function run
+                                     66 ; ---------------------------------
+      000000                         67 _run::
+                                     68 ;src/banks_farptr.c:22: farptr_var0 = to_far_ptr(some_bank2_proc1, BANK(some_bank2_proc1));
+      000000 1Er00            [ 8]   69 	ld	e, #<(___bank_some_bank2_proc1)
+      000002 16 00            [ 8]   70 	ld	d, #0x00
+      000004 01r00r00         [12]   71 	ld	bc, #_some_bank2_proc1
+      000007 D5               [16]   72 	push	de
+      000008 C5               [16]   73 	push	bc
+      000009 CDr00r00         [24]   74 	call	_to_far_ptr
+      00000C E8 04            [16]   75 	add	sp, #4
+      00000E 4D               [ 4]   76 	ld	c, l
+      00000F 44               [ 4]   77 	ld	b, h
+      000010 21r00r00         [12]   78 	ld	hl, #_farptr_var0
+      000013 7B               [ 4]   79 	ld	a, e
+      000014 22               [ 8]   80 	ld	(hl+), a
+      000015 7A               [ 4]   81 	ld	a, d
+      000016 22               [ 8]   82 	ld	(hl+), a
+      000017 79               [ 4]   83 	ld	a, c
+      000018 22               [ 8]   84 	ld	(hl+), a
+      000019 70               [ 8]   85 	ld	(hl), b
+                                     86 ;src/banks_farptr.c:23: farptr_var1 = to_far_ptr(some_bank2_proc1, BANK(some_bank2_proc1));
+      00001A 1Er00            [ 8]   87 	ld	e, #<(___bank_some_bank2_proc1)
+      00001C 16 00            [ 8]   88 	ld	d, #0x00
+      00001E 01r00r00         [12]   89 	ld	bc, #_some_bank2_proc1
+      000021 D5               [16]   90 	push	de
+      000022 C5               [16]   91 	push	bc
+      000023 CDr00r00         [24]   92 	call	_to_far_ptr
+      000026 E8 04            [16]   93 	add	sp, #4
+      000028 4D               [ 4]   94 	ld	c, l
+      000029 44               [ 4]   95 	ld	b, h
+      00002A 21r04r00         [12]   96 	ld	hl, #_farptr_var1
+      00002D 7B               [ 4]   97 	ld	a, e
+      00002E 22               [ 8]   98 	ld	(hl+), a
+      00002F 7A               [ 4]   99 	ld	a, d
+      000030 22               [ 8]  100 	ld	(hl+), a
+      000031 79               [ 4]  101 	ld	a, c
+      000032 22               [ 8]  102 	ld	(hl+), a
+      000033 70               [ 8]  103 	ld	(hl), b
+                                    104 ;src/banks_farptr.c:24: farptr_var2 = to_far_ptr(some_bank2_proc0, BANK(some_bank2_proc0));
+      000034 1Er00            [ 8]  105 	ld	e, #<(___bank_some_bank2_proc0)
+      000036 16 00            [ 8]  106 	ld	d, #0x00
+      000038 01r00r00         [12]  107 	ld	bc, #_some_bank2_proc0
+      00003B D5               [16]  108 	push	de
+      00003C C5               [16]  109 	push	bc
+      00003D CDr00r00         [24]  110 	call	_to_far_ptr
+      000040 E8 04            [16]  111 	add	sp, #4
+      000042 4D               [ 4]  112 	ld	c, l
+      000043 44               [ 4]  113 	ld	b, h
+      000044 21r08r00         [12]  114 	ld	hl, #_farptr_var2
+      000047 7B               [ 4]  115 	ld	a, e
+      000048 22               [ 8]  116 	ld	(hl+), a
+      000049 7A               [ 4]  117 	ld	a, d
+      00004A 22               [ 8]  118 	ld	(hl+), a
+      00004B 79               [ 4]  119 	ld	a, c
+      00004C 22               [ 8]  120 	ld	(hl+), a
+      00004D 70               [ 8]  121 	ld	(hl), b
+                                    122 ;src/banks_farptr.c:27: printf("FAR PTR0: %x:%x\n", (int)FAR_SEG(farptr_var0), (int)FAR_OFS(farptr_var0));
+      00004E 21r00r00         [12]  123 	ld	hl, #_farptr_var0
+      000051 2A               [ 8]  124 	ld	a, (hl+)
+      000052 4F               [ 4]  125 	ld	c, a
+      000053 46               [ 8]  126 	ld	b, (hl)
+      000054 21r02r00         [12]  127 	ld	hl, #_farptr_var0 + 2
+      000057 2A               [ 8]  128 	ld	a, (hl+)
+      000058 6E               [ 8]  129 	ld	l, (hl)
+                                    130 ;	spillPairReg hl
+      000059 5F               [ 4]  131 	ld	e, a
+      00005A 55               [ 4]  132 	ld	d, l
+      00005B C5               [16]  133 	push	bc
+      00005C D5               [16]  134 	push	de
+      00005D 11rF2r00         [12]  135 	ld	de, #___str_0
+      000060 D5               [16]  136 	push	de
+      000061 CDr00r00         [24]  137 	call	_printf
+      000064 E8 06            [16]  138 	add	sp, #6
+                                    139 ;src/banks_farptr.c:28: printf("FAR PTR1: %x:%x\n", (int)FAR_SEG(farptr_var1), (int)FAR_OFS(farptr_var1));
+      000066 21r04r00         [12]  140 	ld	hl, #_farptr_var1
+      000069 2A               [ 8]  141 	ld	a, (hl+)
+      00006A 4F               [ 4]  142 	ld	c, a
+      00006B 46               [ 8]  143 	ld	b, (hl)
+      00006C 21r06r00         [12]  144 	ld	hl, #_farptr_var1 + 2
+      00006F 2A               [ 8]  145 	ld	a, (hl+)
+      000070 6E               [ 8]  146 	ld	l, (hl)
+                                    147 ;	spillPairReg hl
+      000071 5F               [ 4]  148 	ld	e, a
+      000072 55               [ 4]  149 	ld	d, l
+      000073 C5               [16]  150 	push	bc
+      000074 D5               [16]  151 	push	de
+      000075 11r03r01         [12]  152 	ld	de, #___str_1
+      000078 D5               [16]  153 	push	de
+      000079 CDr00r00         [24]  154 	call	_printf
+      00007C E8 06            [16]  155 	add	sp, #6
+                                    156 ;src/banks_farptr.c:31: FAR_CALL(farptr_var2, void (*)(void));
+      00007E 21r08r00         [12]  157 	ld	hl, #_farptr_var2
+      000081 54               [ 4]  158 	ld	d, h
+      000082 5D               [ 4]  159 	ld	e, l
+      000083 21r00r00         [12]  160 	ld	hl, #___call_banked_ptr
+      000086 1A               [ 8]  161 	ld	a, (de)
+      000087 22               [ 8]  162 	ld	(hl+),	a
+      000088 13               [ 8]  163 	inc	de
+      000089 1A               [ 8]  164 	ld	a, (de)
+      00008A 22               [ 8]  165 	ld	(hl+),	a
+      00008B 13               [ 8]  166 	inc	de
+      00008C 1A               [ 8]  167 	ld	a, (de)
+      00008D 22               [ 8]  168 	ld	(hl+),	a
+      00008E 13               [ 8]  169 	inc	de
+      00008F 1A               [ 8]  170 	ld	a, (de)
+      000090 77               [ 8]  171 	ld	(hl), a
+      000091 CDr00r00         [24]  172 	call	___call__banked
+                                    173 ;src/banks_farptr.c:34: res = some_bank2_proc1(100, 50);
+      000094 11 32 00         [12]  174 	ld	de, #0x0032
+      000097 D5               [16]  175 	push	de
+      000098 11 64 00         [12]  176 	ld	de, #0x0064
+      00009B D5               [16]  177 	push	de
+      00009C 1Er00            [ 8]  178 	ld	e, #b_some_bank2_proc1
+      00009E 21r00r00         [12]  179 	ld	hl, #_some_bank2_proc1
+      0000A1 CDr00r00         [24]  180 	call	___sdcc_bcall_ehl
+      0000A4 E8 04            [16]  181 	add	sp, #4
+      0000A6 21r0Cr00         [12]  182 	ld	hl, #_res
+      0000A9 79               [ 4]  183 	ld	a, c
+      0000AA 22               [ 8]  184 	ld	(hl+), a
+                                    185 ;src/banks_farptr.c:35: printf("CALL DIR: %d\n", res);
+      0000AB 78               [ 4]  186 	ld	a, b
+      0000AC 32               [ 8]  187 	ld	(hl-), a
+      0000AD 2A               [ 8]  188 	ld	a, (hl+)
+      0000AE 5F               [ 4]  189 	ld	e, a
+      0000AF 56               [ 8]  190 	ld	d, (hl)
+      0000B0 D5               [16]  191 	push	de
+      0000B1 11r14r01         [12]  192 	ld	de, #___str_2
+      0000B4 D5               [16]  193 	push	de
+      0000B5 CDr00r00         [24]  194 	call	_printf
+      0000B8 E8 04            [16]  195 	add	sp, #4
+                                    196 ;src/banks_farptr.c:38: res = FAR_CALL(farptr_var1, some_bank2_proc_t, 100, 50);
+      0000BA 21r04r00         [12]  197 	ld	hl, #_farptr_var1
+      0000BD 54               [ 4]  198 	ld	d, h
+      0000BE 5D               [ 4]  199 	ld	e, l
+      0000BF 21r00r00         [12]  200 	ld	hl, #___call_banked_ptr
+      0000C2 1A               [ 8]  201 	ld	a, (de)
+      0000C3 22               [ 8]  202 	ld	(hl+),	a
+      0000C4 13               [ 8]  203 	inc	de
+      0000C5 1A               [ 8]  204 	ld	a, (de)
+      0000C6 22               [ 8]  205 	ld	(hl+),	a
+      0000C7 13               [ 8]  206 	inc	de
+      0000C8 1A               [ 8]  207 	ld	a, (de)
+      0000C9 22               [ 8]  208 	ld	(hl+),	a
+      0000CA 13               [ 8]  209 	inc	de
+      0000CB 1A               [ 8]  210 	ld	a, (de)
+      0000CC 77               [ 8]  211 	ld	(hl), a
+      0000CD 21r00r00         [12]  212 	ld	hl, #___call__banked
+      0000D0 11 32 00         [12]  213 	ld	de, #0x0032
+      0000D3 D5               [16]  214 	push	de
+      0000D4 11 64 00         [12]  215 	ld	de, #0x0064
+      0000D7 D5               [16]  216 	push	de
+      0000D8 CDr00r00         [24]  217 	call	___sdcc_call_hl
+      0000DB E8 04            [16]  218 	add	sp, #4
+      0000DD 21r0Cr00         [12]  219 	ld	hl, #_res
+      0000E0 79               [ 4]  220 	ld	a, c
+      0000E1 22               [ 8]  221 	ld	(hl+), a
+                                    222 ;src/banks_farptr.c:40: printf("CALL IND: %d\n", res);
+      0000E2 78               [ 4]  223 	ld	a, b
+      0000E3 32               [ 8]  224 	ld	(hl-), a
+      0000E4 2A               [ 8]  225 	ld	a, (hl+)
+      0000E5 5F               [ 4]  226 	ld	e, a
+      0000E6 56               [ 8]  227 	ld	d, (hl)
+      0000E7 D5               [16]  228 	push	de
+      0000E8 11r22r01         [12]  229 	ld	de, #___str_3
+      0000EB D5               [16]  230 	push	de
+      0000EC CDr00r00         [24]  231 	call	_printf
+      0000EF E8 04            [16]  232 	add	sp, #4
+                                    233 ;src/banks_farptr.c:41: }
+      0000F1 C9               [16]  234 	ret
+      0000F2                        235 ___str_0:
+      0000F2 46 41 52 20 50 54 52   236 	.ascii "FAR PTR0: %x:%x"
+             30 3A 20 25 78 3A 25
+             78
+      000101 0A                     237 	.db 0x0a
+      000102 00                     238 	.db 0x00
+      000103                        239 ___str_1:
+      000103 46 41 52 20 50 54 52   240 	.ascii "FAR PTR1: %x:%x"
+             31 3A 20 25 78 3A 25
+             78
+      000112 0A                     241 	.db 0x0a
+      000113 00                     242 	.db 0x00
+      000114                        243 ___str_2:
+      000114 43 41 4C 4C 20 44 49   244 	.ascii "CALL DIR: %d"
+             52 3A 20 25 64
+      000120 0A                     245 	.db 0x0a
+      000121 00                     246 	.db 0x00
+      000122                        247 ___str_3:
+      000122 43 41 4C 4C 20 49 4E   248 	.ascii "CALL IND: %d"
+             44 3A 20 25 64
+      00012E 0A                     249 	.db 0x0a
+      00012F 00                     250 	.db 0x00
+                                    251 ;src/banks_farptr.c:43: void main() {
+                                    252 ;	---------------------------------
+                                    253 ; Function main
+                                    254 ; ---------------------------------
+      000130                        255 _main::
+                                    256 ;src/banks_farptr.c:44: ENABLE_RAM;
+      000130 21 00 00         [12]  257 	ld	hl, #0x0000
+      000133 36 0A            [12]  258 	ld	(hl), #0x0a
+                                    259 ;src/banks_farptr.c:45: printf("START (bank=%d)\n", (int)CURRENT_BANK);
+      000135 F0r00            [12]  260 	ldh	a, (__current_bank + 0)
+      000137 4F               [ 4]  261 	ld	c, a
+      000138 06 00            [ 8]  262 	ld	b, #0x00
+      00013A C5               [16]  263 	push	bc
+      00013B 11r57r01         [12]  264 	ld	de, #___str_4
+      00013E D5               [16]  265 	push	de
+      00013F CDr00r00         [24]  266 	call	_printf
+      000142 E8 04            [16]  267 	add	sp, #4
+                                    268 ;src/banks_farptr.c:46: run();
+      000144 CDr00r00         [24]  269 	call	_run
+                                    270 ;src/banks_farptr.c:47: printf("DONE! (bank=%d)\n", (int)CURRENT_BANK);
+      000147 F0r00            [12]  271 	ldh	a, (__current_bank + 0)
+      000149 4F               [ 4]  272 	ld	c, a
+      00014A 06 00            [ 8]  273 	ld	b, #0x00
+      00014C C5               [16]  274 	push	bc
+      00014D 11r68r01         [12]  275 	ld	de, #___str_5
+      000150 D5               [16]  276 	push	de
+      000151 CDr00r00         [24]  277 	call	_printf
+      000154 E8 04            [16]  278 	add	sp, #4
+                                    279 ;src/banks_farptr.c:48: }
+      000156 C9               [16]  280 	ret
+      000157                        281 ___str_4:
+      000157 53 54 41 52 54 20 28   282 	.ascii "START (bank=%d)"
+             62 61 6E 6B 3D 25 64
+             29
+      000166 0A                     283 	.db 0x0a
+      000167 00                     284 	.db 0x00
+      000168                        285 ___str_5:
+      000168 44 4F 4E 45 21 20 28   286 	.ascii "DONE! (bank=%d)"
+             62 61 6E 6B 3D 25 64
+             29
+      000177 0A                     287 	.db 0x0a
+      000178 00                     288 	.db 0x00
+                                    289 	.area _CODE
+                                    290 	.area _INITIALIZER
+                                    291 	.area _CABS (ABS)

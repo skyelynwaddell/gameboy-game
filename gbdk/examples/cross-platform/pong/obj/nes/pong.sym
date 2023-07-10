@@ -1,0 +1,59 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Rockwell 6502/6510/65C02) Page 1
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  2710 L
+    .__.ABS.                                                    =  0000 G
+    .__.CPU.                                                    =  0000 L
+    .__.H$L.                                                    =  0000 L
+  9 _HUD                                                           0000 GR
+  1 __DPTR                                                         0008 GR
+  1 __TEMP                                                         0000 GR
+  9 ___str_0                                                       0011 R
+  A __xinit__sprite_data                                           0000 R
+  3 _ballX                                                         000C GR
+  3 _ballY                                                         000D GR
+    _gotoxy                                                        **** GX
+  8 _init_pad                                                      0000 GR
+  3 _init_pad_n_65536_70                                           0000 R
+  2 _init_pad_sloc0_1_0                                            0000 R
+    _joypad_ex                                                     **** GX
+    _joypad_init                                                   **** GX
+    _joypad_init_PARM_2                                            **** GX
+  3 _joypads                                                       0001 GR
+  8 _main                                                          0073 GR
+  1 _main_sloc0_1_0                                                000A R
+  3 _player1                                                       0006 GR
+  3 _player1_score                                                 0008 GR
+  3 _player2                                                       0007 GR
+  3 _player2_score                                                 000A GR
+    _printf                                                        **** GX
+    _set_sprite_data                                               **** GX
+    _set_sprite_data_PARM_3                                        **** GX
+    _shadow_OAM                                                    **** GX
+    _shadow_PPUMASK                                                **** GX
+  3 _spd_ballX                                                     000E GR
+  3 _spd_ballY                                                     000F GR
+  5 _sprite_data                                                   0000 GR
+    _wait_vbl_done                                                 **** GX
+
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Rockwell 6502/6510/65C02) Page 2
+Hexadecimal [16-Bits]
+
+Area Table
+
+   0 _CODE                                      size    0   flags    0
+   1 ZP                                         size    C   flags   10
+   2 OSEG                                       size    1   flags   14
+   3 BSS                                        size   10   flags    0
+   4 DABS                                       size    0   flags    8
+   5 DATA                                       size   40   flags    0
+   6 GSINIT                                     size    0   flags    0
+   7 GSFINAL                                    size    0   flags    0
+   8 CODE                                       size  388   flags    0
+   9 RODATA                                     size   3A   flags    0
+   A XINIT                                      size   40   flags    0
+   B CABS                                       size    0   flags    8
+

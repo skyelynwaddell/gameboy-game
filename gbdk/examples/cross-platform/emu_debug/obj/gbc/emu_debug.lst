@@ -1,0 +1,625 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler 
+                                      3 ; Version 4.2.2 #13350 (Mac OS X x86_64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module emu_debug
+                                      6 	.optsdcc -msm83
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _main
+                                     12 	.globl _EMU_printf
+                                     13 	.globl _EMU_profiler_message
+                                     14 	.globl _puts
+                                     15 	.globl _printf
+                                     16 	.globl _set_default_palette
+                                     17 	.globl _cpu_fast
+                                     18 	.globl _cpu_slow
+                                     19 ;--------------------------------------------------------
+                                     20 ; special function registers
+                                     21 ;--------------------------------------------------------
+                                     22 ;--------------------------------------------------------
+                                     23 ; ram data
+                                     24 ;--------------------------------------------------------
+                                     25 	.area _DATA
+                                     26 ;--------------------------------------------------------
+                                     27 ; ram data
+                                     28 ;--------------------------------------------------------
+                                     29 	.area _INITIALIZED
+      000000                         30 ___EMU_PROFILER_INIT:
+      000000                         31 	.ds 2
+                                     32 ;--------------------------------------------------------
+                                     33 ; absolute external ram data
+                                     34 ;--------------------------------------------------------
+                                     35 	.area _DABS (ABS)
+                                     36 ;--------------------------------------------------------
+                                     37 ; global & static initialisations
+                                     38 ;--------------------------------------------------------
+                                     39 	.area _HOME
+                                     40 	.area _GSINIT
+                                     41 	.area _GSFINAL
+                                     42 	.area _GSINIT
+                                     43 ;--------------------------------------------------------
+                                     44 ; Home
+                                     45 ;--------------------------------------------------------
+                                     46 	.area _HOME
+                                     47 	.area _HOME
+                                     48 ;--------------------------------------------------------
+                                     49 ; code
+                                     50 ;--------------------------------------------------------
+                                     51 	.area _CODE
+                                     52 ;src/emu_debug.c:26: int main(void)
+                                     53 ;	---------------------------------
+                                     54 ; Function main
+                                     55 ; ---------------------------------
+      000000                         56 _main::
+                                     57 ;src/emu_debug.c:28: SHOW_BKG;
+      000000 F0r00            [12]   58 	ldh	a, (_LCDC_REG + 0)
+      000002 F6 01            [ 8]   59 	or	a, #0x01
+      000004 E0r00            [12]   60 	ldh	(_LCDC_REG + 0), a
+                                     61 ;src/emu_debug.c:29: DISPLAY_ON;
+      000006 F0r00            [12]   62 	ldh	a, (_LCDC_REG + 0)
+      000008 F6 80            [ 8]   63 	or	a, #0x80
+      00000A E0r00            [12]   64 	ldh	(_LCDC_REG + 0), a
+                                     65 ;src/emu_debug.c:32: printf("Message to the\nScreen\n");
+      00000C 11rF5r03         [12]   66 	ld	de, #___str_1
+      00000F CDr00r00         [24]   67 	call	_puts
+                                     68 ;src/emu_debug.c:35: EMU_MESSAGE(""); // new line
+                                     69 	.MACRO EMULOG35 msg_t, ?llbl 
+                                     70 	ld d, d 
+                                     71 	jr llbl 
+                                     72 	.dw 0x6464 
+                                     73 	.dw 0x0000 
+                                     74 	.ascii msg_t 
+                                     75 llbl:
+                                     76 	.ENDM 
+      000012                         77 	EMULOG35 ^/""/ 
+      000012 52               [ 4]    1 	ld d, d 
+      000013 18 04            [12]    2 	jr 10000$ 
+      000015 64 64                    3 	.dw 0x6464 
+      000017 00 00                    4 	.dw 0x0000 
+      000019                          5 	.ascii "" 
+      000019                          6 10000$:
+                                     78 ;src/emu_debug.c:36: EMU_MESSAGE("Message to the EMU console");
+                                     79 	.MACRO EMULOG36 msg_t, ?llbl 
+                                     80 	ld d, d 
+                                     81 	jr llbl 
+                                     82 	.dw 0x6464 
+                                     83 	.dw 0x0000 
+                                     84 	.ascii msg_t 
+                                     85 llbl:
+                                     86 	.ENDM 
+      000019                         87 	EMULOG36 ^/"Message to the EMU console"/ 
+      000019 52               [ 4]    1 	ld d, d 
+      00001A 18 1E            [12]    2 	jr 10001$ 
+      00001C 64 64                    3 	.dw 0x6464 
+      00001E 00 00                    4 	.dw 0x0000 
+      000020 4D 65 73 73 61 67 65     5 	.ascii "Message to the EMU console" 
+             20 74 6F 20 74 68 65
+             20 45 4D 55 20 63 6F
+             6E 73 6F 6C 65
+      00003A                          6 10001$:
+                                     88 ;src/emu_debug.c:53: }
+      00003A F3               [ 4]   89 	di
+                                     90 ;src/emu_debug.c:50: EMU_PROFILE_BEGIN("Profile a single NOP instruction at Normal Speed");
+                                     91 	.MACRO EMULOG50 msg_t, msg_s, ?llbl 
+                                     92 	ld d, d 
+                                     93 	jr llbl 
+                                     94 	.dw 0x6464 
+                                     95 	.dw 0x0000 
+                                     96 	.ascii msg_t 
+                                     97 	.ascii msg_s 
+                                     98 llbl:
+                                     99 	.ENDM 
+      00003B                        100 	EMULOG50 ^/"Profile a single NOP instruction at Normal Speed"/, ^/"%ZEROCLKS%"/ 
+      00003B 52               [ 4]    1 	ld d, d 
+      00003C 18 3E            [12]    2 	jr 10002$ 
+      00003E 64 64                    3 	.dw 0x6464 
+      000040 00 00                    4 	.dw 0x0000 
+      000042 50 72 6F 66 69 6C 65     5 	.ascii "Profile a single NOP instruction at Normal Speed" 
+             20 61 20 73 69 6E 67
+             6C 65 20 4E 4F 50 20
+             69 6E 73 74 72 75 63
+             74 69 6F 6E 20 61 74
+             20 4E 6F 72 6D 61 6C
+             20 53 70 65 65 64
+      000072 25 5A 45 52 4F 43 4C     6 	.ascii "%ZEROCLKS%" 
+             4B 53 25
+      00007C                          7 10002$:
+                                    101 ;src/emu_debug.c:51: __asm__("nop");
+      00007C 00               [ 4]  102 	nop
+                                    103 ;src/emu_debug.c:52: EMU_PROFILE_END("NOP TIME:");
+                                    104 	.MACRO EMULOG52 msg_t, msg_s, ?llbl 
+                                    105 	ld d, d 
+                                    106 	jr llbl 
+                                    107 	.dw 0x6464 
+                                    108 	.dw 0x0000 
+                                    109 	.ascii msg_t 
+                                    110 	.ascii msg_s 
+                                    111 llbl:
+                                    112 	.ENDM 
+      00007D                        113 	EMULOG52 ^/"NOP TIME:"/, ^/"%-8+LASTCLKS%"/ 
+      00007D 52               [ 4]    1 	ld d, d 
+      00007E 18 1A            [12]    2 	jr 10003$ 
+      000080 64 64                    3 	.dw 0x6464 
+      000082 00 00                    4 	.dw 0x0000 
+      000084 4E 4F 50 20 54 49 4D     5 	.ascii "NOP TIME:" 
+             45 3A
+      00008D 25 2D 38 2B 4C 41 53     6 	.ascii "%-8+LASTCLKS%" 
+             54 43 4C 4B 53 25
+      00009A                          7 10003$:
+      00009A FB               [ 4]  114 	ei
+                                    115 ;src/emu_debug.c:66: if (DEVICE_SUPPORTS_COLOR) {
+      00009B 21r00r00         [12]  116 	ld	hl, #__cpu
+      00009E 7E               [ 8]  117 	ld	a, (hl)
+      00009F D6 11            [ 8]  118 	sub	a, #0x11
+      0000A1 C2r12r01         [16]  119 	jp	NZ,00102$
+                                    120 ;src/emu_debug.c:70: cpu_fast();
+      0000A4 CDr00r00         [24]  121 	call	_cpu_fast
+                                    122 ;src/emu_debug.c:72: set_default_palette();
+      0000A7 CDr00r00         [24]  123 	call	_set_default_palette
+                                    124 ;src/emu_debug.c:85: }
+      0000AA F3               [ 4]  125 	di
+                                    126 ;src/emu_debug.c:80: EMU_PROFILE_BEGIN("Profile a single NOP instruction at CGB Double Speed");
+                                    127 	.MACRO EMULOG80 msg_t, msg_s, ?llbl 
+                                    128 	ld d, d 
+                                    129 	jr llbl 
+                                    130 	.dw 0x6464 
+                                    131 	.dw 0x0000 
+                                    132 	.ascii msg_t 
+                                    133 	.ascii msg_s 
+                                    134 llbl:
+                                    135 	.ENDM 
+      0000AB                        136 	EMULOG80 ^/"Profile a single NOP instruction at CGB Double Speed"/, ^/"%ZEROCLKS%"/ 
+      0000AB 52               [ 4]    1 	ld d, d 
+      0000AC 18 42            [12]    2 	jr 10004$ 
+      0000AE 64 64                    3 	.dw 0x6464 
+      0000B0 00 00                    4 	.dw 0x0000 
+      0000B2 50 72 6F 66 69 6C 65     5 	.ascii "Profile a single NOP instruction at CGB Double Speed" 
+             20 61 20 73 69 6E 67
+             6C 65 20 4E 4F 50 20
+             69 6E 73 74 72 75 63
+             74 69 6F 6E 20 61 74
+             20 43 47 42 20 44 6F
+             75 62 6C 65 20 53 70
+             65 65 64
+      0000E6 25 5A 45 52 4F 43 4C     6 	.ascii "%ZEROCLKS%" 
+             4B 53 25
+      0000F0                          7 10004$:
+                                    137 ;src/emu_debug.c:81: __asm__("nop");
+      0000F0 00               [ 4]  138 	nop
+                                    139 ;src/emu_debug.c:84: EMU_MESSAGE("NOP TIME:%-4+LASTCLKS%");
+                                    140 	.MACRO EMULOG84 msg_t, ?llbl 
+                                    141 	ld d, d 
+                                    142 	jr llbl 
+                                    143 	.dw 0x6464 
+                                    144 	.dw 0x0000 
+                                    145 	.ascii msg_t 
+                                    146 llbl:
+                                    147 	.ENDM 
+      0000F1                        148 	EMULOG84 ^/"NOP TIME:%-4+LASTCLKS%"/ 
+      0000F1 52               [ 4]    1 	ld d, d 
+      0000F2 18 1A            [12]    2 	jr 10005$ 
+      0000F4 64 64                    3 	.dw 0x6464 
+      0000F6 00 00                    4 	.dw 0x0000 
+      0000F8 4E 4F 50 20 54 49 4D     5 	.ascii "NOP TIME:%-4+LASTCLKS%" 
+             45 3A 25 2D 34 2B 4C
+             41 53 54 43 4C 4B 53
+             25
+      00010E                          6 10005$:
+      00010E FB               [ 4]  149 	ei
+                                    150 ;src/emu_debug.c:88: cpu_slow();
+      00010F CDr00r00         [24]  151 	call	_cpu_slow
+      000112                        152 00102$:
+                                    153 ;src/emu_debug.c:106: }
+      000112 F3               [ 4]  154 	di
+                                    155 ;src/emu_debug.c:98: EMU_PROFILE_BEGIN("Profile code in a loop");
+                                    156 	.MACRO EMULOG98 msg_t, msg_s, ?llbl 
+                                    157 	ld d, d 
+                                    158 	jr llbl 
+                                    159 	.dw 0x6464 
+                                    160 	.dw 0x0000 
+                                    161 	.ascii msg_t 
+                                    162 	.ascii msg_s 
+                                    163 llbl:
+                                    164 	.ENDM 
+      000113                        165 	EMULOG98 ^/"Profile code in a loop"/, ^/"%ZEROCLKS%"/ 
+      000113 52               [ 4]    1 	ld d, d 
+      000114 18 24            [12]    2 	jr 10006$ 
+      000116 64 64                    3 	.dw 0x6464 
+      000118 00 00                    4 	.dw 0x0000 
+      00011A 50 72 6F 66 69 6C 65     5 	.ascii "Profile code in a loop" 
+             20 63 6F 64 65 20 69
+             6E 20 61 20 6C 6F 6F
+             70
+      000130 25 5A 45 52 4F 43 4C     6 	.ascii "%ZEROCLKS%" 
+             4B 53 25
+      00013A                          7 10006$:
+                                    166 ;src/emu_debug.c:99: for(c=0; c<5; c++) {
+      00013A 01 00 00         [12]  167 	ld	bc, #0x0000
+      00013D                        168 00104$:
+                                    169 ;src/emu_debug.c:101: printf("%d\n", c);
+      00013D C5               [16]  170 	push	bc
+      00013E C5               [16]  171 	push	bc
+      00013F 11r0Br04         [12]  172 	ld	de, #___str_2
+      000142 D5               [16]  173 	push	de
+      000143 CDr00r00         [24]  174 	call	_printf
+      000146 E8 04            [16]  175 	add	sp, #4
+      000148 C1               [12]  176 	pop	bc
+                                    177 ;src/emu_debug.c:99: for(c=0; c<5; c++) {
+      000149 03               [ 8]  178 	inc	bc
+      00014A 79               [ 4]  179 	ld	a, c
+      00014B D6 05            [ 8]  180 	sub	a, #0x05
+      00014D 78               [ 4]  181 	ld	a, b
+      00014E 17               [ 4]  182 	rla
+      00014F 3F               [ 4]  183 	ccf
+      000150 1F               [ 4]  184 	rra
+      000151 DE 80            [ 8]  185 	sbc	a, #0x80
+      000153 38 E8            [12]  186 	jr	C, 00104$
+                                    187 ;src/emu_debug.c:105: EMU_PROFILE_END("LOOP TIME:");
+                                    188 	.MACRO EMULOG105 msg_t, msg_s, ?llbl 
+                                    189 	ld d, d 
+                                    190 	jr llbl 
+                                    191 	.dw 0x6464 
+                                    192 	.dw 0x0000 
+                                    193 	.ascii msg_t 
+                                    194 	.ascii msg_s 
+                                    195 llbl:
+                                    196 	.ENDM 
+      000155                        197 	EMULOG105 ^/"LOOP TIME:"/, ^/"%-8+LASTCLKS%"/ 
+      000155 52               [ 4]    1 	ld d, d 
+      000156 18 1B            [12]    2 	jr 10007$ 
+      000158 64 64                    3 	.dw 0x6464 
+      00015A 00 00                    4 	.dw 0x0000 
+      00015C 4C 4F 4F 50 20 54 49     5 	.ascii "LOOP TIME:" 
+             4D 45 3A
+      000166 25 2D 38 2B 4C 41 53     6 	.ascii "%-8+LASTCLKS%" 
+             54 43 4C 4B 53 25
+      000173                          7 10007$:
+      000173 FB               [ 4]  198 	ei
+                                    199 ;src/emu_debug.c:112: EMU_MESSAGE("Total Clocks: %TOTALCLKS%");
+                                    200 	.MACRO EMULOG112 msg_t, ?llbl 
+                                    201 	ld d, d 
+                                    202 	jr llbl 
+                                    203 	.dw 0x6464 
+                                    204 	.dw 0x0000 
+                                    205 	.ascii msg_t 
+                                    206 llbl:
+                                    207 	.ENDM 
+      000174                        208 	EMULOG112 ^/"Total Clocks: %TOTALCLKS%"/ 
+      000174 52               [ 4]    1 	ld d, d 
+      000175 18 1D            [12]    2 	jr 10008$ 
+      000177 64 64                    3 	.dw 0x6464 
+      000179 00 00                    4 	.dw 0x0000 
+      00017B 54 6F 74 61 6C 20 43     5 	.ascii "Total Clocks: %TOTALCLKS%" 
+             6C 6F 63 6B 73 3A 20
+             25 54 4F 54 41 4C 43
+             4C 4B 53 25
+      000194                          6 10008$:
+                                    209 ;src/emu_debug.c:115: EMU_MESSAGE("Clocks until VBLANK: %CLKS2VBLANK%");
+                                    210 	.MACRO EMULOG115 msg_t, ?llbl 
+                                    211 	ld d, d 
+                                    212 	jr llbl 
+                                    213 	.dw 0x6464 
+                                    214 	.dw 0x0000 
+                                    215 	.ascii msg_t 
+                                    216 llbl:
+                                    217 	.ENDM 
+      000194                        218 	EMULOG115 ^/"Clocks until VBLANK: %CLKS2VBLANK%"/ 
+      000194 52               [ 4]    1 	ld d, d 
+      000195 18 26            [12]    2 	jr 10009$ 
+      000197 64 64                    3 	.dw 0x6464 
+      000199 00 00                    4 	.dw 0x0000 
+      00019B 43 6C 6F 63 6B 73 20     5 	.ascii "Clocks until VBLANK: %CLKS2VBLANK%" 
+             75 6E 74 69 6C 20 56
+             42 4C 41 4E 4B 3A 20
+             25 43 4C 4B 53 32 56
+             42 4C 41 4E 4B 25
+      0001BD                          6 10009$:
+                                    219 ;src/emu_debug.c:118: EMU_MESSAGE("Current  ROM bank: %ROMBANK%");
+                                    220 	.MACRO EMULOG118 msg_t, ?llbl 
+                                    221 	ld d, d 
+                                    222 	jr llbl 
+                                    223 	.dw 0x6464 
+                                    224 	.dw 0x0000 
+                                    225 	.ascii msg_t 
+                                    226 llbl:
+                                    227 	.ENDM 
+      0001BD                        228 	EMULOG118 ^/"Current  ROM bank: %ROMBANK%"/ 
+      0001BD 52               [ 4]    1 	ld d, d 
+      0001BE 18 20            [12]    2 	jr 10010$ 
+      0001C0 64 64                    3 	.dw 0x6464 
+      0001C2 00 00                    4 	.dw 0x0000 
+      0001C4 43 75 72 72 65 6E 74     5 	.ascii "Current  ROM bank: %ROMBANK%" 
+             20 20 52 4F 4D 20 62
+             61 6E 6B 3A 20 25 52
+             4F 4D 42 41 4E 4B 25
+      0001E0                          6 10010$:
+                                    229 ;src/emu_debug.c:119: EMU_MESSAGE("Current SRAM bank: %SRAMBANK%");
+                                    230 	.MACRO EMULOG119 msg_t, ?llbl 
+                                    231 	ld d, d 
+                                    232 	jr llbl 
+                                    233 	.dw 0x6464 
+                                    234 	.dw 0x0000 
+                                    235 	.ascii msg_t 
+                                    236 llbl:
+                                    237 	.ENDM 
+      0001E0                        238 	EMULOG119 ^/"Current SRAM bank: %SRAMBANK%"/ 
+      0001E0 52               [ 4]    1 	ld d, d 
+      0001E1 18 21            [12]    2 	jr 10011$ 
+      0001E3 64 64                    3 	.dw 0x6464 
+      0001E5 00 00                    4 	.dw 0x0000 
+      0001E7 43 75 72 72 65 6E 74     5 	.ascii "Current SRAM bank: %SRAMBANK%" 
+             20 53 52 41 4D 20 62
+             61 6E 6B 3A 20 25 53
+             52 41 4D 42 41 4E 4B
+             25
+      000204                          6 10011$:
+                                    239 ;src/emu_debug.c:121: EMU_MESSAGE("Current VRAM bank: %VRAMBANK%");
+                                    240 	.MACRO EMULOG121 msg_t, ?llbl 
+                                    241 	ld d, d 
+                                    242 	jr llbl 
+                                    243 	.dw 0x6464 
+                                    244 	.dw 0x0000 
+                                    245 	.ascii msg_t 
+                                    246 llbl:
+                                    247 	.ENDM 
+      000204                        248 	EMULOG121 ^/"Current VRAM bank: %VRAMBANK%"/ 
+      000204 52               [ 4]    1 	ld d, d 
+      000205 18 21            [12]    2 	jr 10012$ 
+      000207 64 64                    3 	.dw 0x6464 
+      000209 00 00                    4 	.dw 0x0000 
+      00020B 43 75 72 72 65 6E 74     5 	.ascii "Current VRAM bank: %VRAMBANK%" 
+             20 56 52 41 4D 20 62
+             61 6E 6B 3A 20 25 56
+             52 41 4D 42 41 4E 4B
+             25
+      000228                          6 10012$:
+                                    249 ;src/emu_debug.c:122: EMU_MESSAGE("Current WRAM bank: %WRAMBANK%");
+                                    250 	.MACRO EMULOG122 msg_t, ?llbl 
+                                    251 	ld d, d 
+                                    252 	jr llbl 
+                                    253 	.dw 0x6464 
+                                    254 	.dw 0x0000 
+                                    255 	.ascii msg_t 
+                                    256 llbl:
+                                    257 	.ENDM 
+      000228                        258 	EMULOG122 ^/"Current WRAM bank: %WRAMBANK%"/ 
+      000228 52               [ 4]    1 	ld d, d 
+      000229 18 21            [12]    2 	jr 10013$ 
+      00022B 64 64                    3 	.dw 0x6464 
+      00022D 00 00                    4 	.dw 0x0000 
+      00022F 43 75 72 72 65 6E 74     5 	.ascii "Current WRAM bank: %WRAMBANK%" 
+             20 57 52 41 4D 20 62
+             61 6E 6B 3A 20 25 57
+             52 41 4D 42 41 4E 4B
+             25
+      00024C                          6 10013$:
+                                    259 ;src/emu_debug.c:125: EMU_MESSAGE("All Registers: %ALLREGS%");
+                                    260 	.MACRO EMULOG125 msg_t, ?llbl 
+                                    261 	ld d, d 
+                                    262 	jr llbl 
+                                    263 	.dw 0x6464 
+                                    264 	.dw 0x0000 
+                                    265 	.ascii msg_t 
+                                    266 llbl:
+                                    267 	.ENDM 
+      00024C                        268 	EMULOG125 ^/"All Registers: %ALLREGS%"/ 
+      00024C 52               [ 4]    1 	ld d, d 
+      00024D 18 1C            [12]    2 	jr 10014$ 
+      00024F 64 64                    3 	.dw 0x6464 
+      000251 00 00                    4 	.dw 0x0000 
+      000253 41 6C 6C 20 52 65 67     5 	.ascii "All Registers: %ALLREGS%" 
+             69 73 74 65 72 73 3A
+             20 25 41 4C 4C 52 45
+             47 53 25
+      00026B                          6 10014$:
+                                    269 ;src/emu_debug.c:128: EMU_MESSAGE("Register A + 1: %(A+1)%");
+                                    270 	.MACRO EMULOG128 msg_t, ?llbl 
+                                    271 	ld d, d 
+                                    272 	jr llbl 
+                                    273 	.dw 0x6464 
+                                    274 	.dw 0x0000 
+                                    275 	.ascii msg_t 
+                                    276 llbl:
+                                    277 	.ENDM 
+      00026B                        278 	EMULOG128 ^/"Register A + 1: %(A+1)%"/ 
+      00026B 52               [ 4]    1 	ld d, d 
+      00026C 18 1B            [12]    2 	jr 10015$ 
+      00026E 64 64                    3 	.dw 0x6464 
+      000270 00 00                    4 	.dw 0x0000 
+      000272 52 65 67 69 73 74 65     5 	.ascii "Register A + 1: %(A+1)%" 
+             72 20 41 20 2B 20 31
+             3A 20 25 28 41 2B 31
+             29 25
+      000289                          6 10015$:
+                                    279 ;src/emu_debug.c:131: EMU_MESSAGE("Current Scanline: %SCANLINE%");
+                                    280 	.MACRO EMULOG131 msg_t, ?llbl 
+                                    281 	ld d, d 
+                                    282 	jr llbl 
+                                    283 	.dw 0x6464 
+                                    284 	.dw 0x0000 
+                                    285 	.ascii msg_t 
+                                    286 llbl:
+                                    287 	.ENDM 
+      000289                        288 	EMULOG131 ^/"Current Scanline: %SCANLINE%"/ 
+      000289 52               [ 4]    1 	ld d, d 
+      00028A 18 20            [12]    2 	jr 10016$ 
+      00028C 64 64                    3 	.dw 0x6464 
+      00028E 00 00                    4 	.dw 0x0000 
+      000290 43 75 72 72 65 6E 74     5 	.ascii "Current Scanline: %SCANLINE%" 
+             20 53 63 61 6E 6C 69
+             6E 65 3A 20 25 53 43
+             41 4E 4C 49 4E 45 25
+      0002AC                          6 10016$:
+                                    289 ;src/emu_debug.c:136: EMU_MESSAGE("LY Register (0xFF44): %($ff44)%");
+                                    290 	.MACRO EMULOG136 msg_t, ?llbl 
+                                    291 	ld d, d 
+                                    292 	jr llbl 
+                                    293 	.dw 0x6464 
+                                    294 	.dw 0x0000 
+                                    295 	.ascii msg_t 
+                                    296 llbl:
+                                    297 	.ENDM 
+      0002AC                        298 	EMULOG136 ^/"LY Register (0xFF44): %($ff44)%"/ 
+      0002AC 52               [ 4]    1 	ld d, d 
+      0002AD 18 23            [12]    2 	jr 10017$ 
+      0002AF 64 64                    3 	.dw 0x6464 
+      0002B1 00 00                    4 	.dw 0x0000 
+      0002B3 4C 59 20 52 65 67 69     5 	.ascii "LY Register (0xFF44): %($ff44)%" 
+             73 74 65 72 20 28 30
+             78 46 46 34 34 29 3A
+             20 25 28 24 66 66 34
+             34 29 25
+      0002D2                          6 10017$:
+                                    299 ;src/emu_debug.c:137: EMU_MESSAGE("LY Register (0xFF44): %($ff44)%");
+                                    300 	.MACRO EMULOG137 msg_t, ?llbl 
+                                    301 	ld d, d 
+                                    302 	jr llbl 
+                                    303 	.dw 0x6464 
+                                    304 	.dw 0x0000 
+                                    305 	.ascii msg_t 
+                                    306 llbl:
+                                    307 	.ENDM 
+      0002D2                        308 	EMULOG137 ^/"LY Register (0xFF44): %($ff44)%"/ 
+      0002D2 52               [ 4]    1 	ld d, d 
+      0002D3 18 23            [12]    2 	jr 10018$ 
+      0002D5 64 64                    3 	.dw 0x6464 
+      0002D7 00 00                    4 	.dw 0x0000 
+      0002D9 4C 59 20 52 65 67 69     5 	.ascii "LY Register (0xFF44): %($ff44)%" 
+             73 74 65 72 20 28 30
+             78 46 46 34 34 29 3A
+             20 25 28 24 66 66 34
+             34 29 25
+      0002F8                          6 10018$:
+                                    309 ;src/emu_debug.c:139: EMU_MESSAGE("Is LY Register > Line 67: %($ff44)>67%Yes;No;");
+                                    310 	.MACRO EMULOG139 msg_t, ?llbl 
+                                    311 	ld d, d 
+                                    312 	jr llbl 
+                                    313 	.dw 0x6464 
+                                    314 	.dw 0x0000 
+                                    315 	.ascii msg_t 
+                                    316 llbl:
+                                    317 	.ENDM 
+      0002F8                        318 	EMULOG139 ^/"Is LY Register > Line 67: %($ff44)>67%Yes;No;"/ 
+      0002F8 52               [ 4]    1 	ld d, d 
+      0002F9 18 31            [12]    2 	jr 10019$ 
+      0002FB 64 64                    3 	.dw 0x6464 
+      0002FD 00 00                    4 	.dw 0x0000 
+      0002FF 49 73 20 4C 59 20 52     5 	.ascii "Is LY Register > Line 67: %($ff44)>67%Yes;No;" 
+             65 67 69 73 74 65 72
+             20 3E 20 4C 69 6E 65
+             20 36 37 3A 20 25 28
+             24 66 66 34 34 29 3E
+             36 37 25 59 65 73 3B
+             4E 6F 3B
+      00032C                          6 10019$:
+                                    319 ;src/emu_debug.c:145: EMU_MESSAGE("The following lines contain: PROFILE,(SP+$0),(SP+$1),A,TOTALCLKS,ROMBANK,WRAMBANK");
+                                    320 	.MACRO EMULOG145 msg_t, ?llbl 
+                                    321 	ld d, d 
+                                    322 	jr llbl 
+                                    323 	.dw 0x6464 
+                                    324 	.dw 0x0000 
+                                    325 	.ascii msg_t 
+                                    326 llbl:
+                                    327 	.ENDM 
+      00032C                        328 	EMULOG145 ^/"The following lines contain: PROFILE,(SP+$0),(SP+$1),A,TOTALCLKS,ROMBANK,WRAMBANK"/ 
+      00032C 52               [ 4]    1 	ld d, d 
+      00032D 18 55            [12]    2 	jr 10020$ 
+      00032F 64 64                    3 	.dw 0x6464 
+      000331 00 00                    4 	.dw 0x0000 
+      000333 54 68 65 20 66 6F 6C     5 	.ascii "The following lines contain: PROFILE,(SP+$0),(SP+$1),A,TOTALCLKS,ROMBANK,WRAMBANK" 
+             6C 6F 77 69 6E 67 20
+             6C 69 6E 65 73 20 63
+             6F 6E 74 61 69 6E 3A
+             20 50 52 4F 46 49 4C
+             45 2C 28 53 50 2B 24
+             30 29 2C 28 53 50 2B
+             24 31 29 2C 41 2C 54
+             4F 54 41 4C 43 4C 4B
+             53 2C 52 4F 4D 42 41
+             4E 4B 2C 57 52 41 4D
+             42 41 4E 4B
+      000384                          6 10020$:
+                                    329 ;src/emu_debug.c:147: EMU_profiler_message();
+      000384 CDr00r00         [24]  330 	call	_EMU_profiler_message
+                                    331 ;src/emu_debug.c:150: EMU_MESSAGE("PROFILE,%(SP+$0)%,%(SP+$1)%,%A%,%TOTALCLKS%,%ROMBANK%,%WRAMBANK%");
+                                    332 	.MACRO EMULOG150 msg_t, ?llbl 
+                                    333 	ld d, d 
+                                    334 	jr llbl 
+                                    335 	.dw 0x6464 
+                                    336 	.dw 0x0000 
+                                    337 	.ascii msg_t 
+                                    338 llbl:
+                                    339 	.ENDM 
+      000387                        340 	EMULOG150 ^/"PROFILE,%(SP+$0)%,%(SP+$1)%,%A%,%TOTALCLKS%,%ROMBANK%,%WRAMBANK%"/ 
+      000387 52               [ 4]    1 	ld d, d 
+      000388 18 44            [12]    2 	jr 10021$ 
+      00038A 64 64                    3 	.dw 0x6464 
+      00038C 00 00                    4 	.dw 0x0000 
+      00038E 50 52 4F 46 49 4C 45     5 	.ascii "PROFILE,%(SP+$0)%,%(SP+$1)%,%A%,%TOTALCLKS%,%ROMBANK%,%WRAMBANK%" 
+             2C 25 28 53 50 2B 24
+             30 29 25 2C 25 28 53
+             50 2B 24 31 29 25 2C
+             25 41 25 2C 25 54 4F
+             54 41 4C 43 4C 4B 53
+             25 2C 25 52 4F 4D 42
+             41 4E 4B 25 2C 25 57
+             52 41 4D 42 41 4E 4B
+             25
+      0003CE                          6 10021$:
+                                    341 ;src/emu_debug.c:158: EMU_printf("var0: %hd; var1: %d; var0*var1=%d", (uint8_t)var0, var1, var0 * var1);
+      0003CE 11 60 FF         [12]  342 	ld	de, #0xff60
+      0003D1 D5               [16]  343 	push	de
+      0003D2 11 F6 FF         [12]  344 	ld	de, #0xfff6
+      0003D5 D5               [16]  345 	push	de
+      0003D6 3E 10            [ 8]  346 	ld	a, #0x10
+      0003D8 F5               [16]  347 	push	af
+      0003D9 33               [ 8]  348 	inc	sp
+      0003DA 11r0Fr04         [12]  349 	ld	de, #___str_3
+      0003DD D5               [16]  350 	push	de
+      0003DE CDr00r00         [24]  351 	call	_EMU_printf
+      0003E1 E8 07            [16]  352 	add	sp, #7
+                                    353 ;src/emu_debug.c:161: EMU_TEXT("The End");
+                                    354 	.MACRO EMULOG161 msg_t, ?llbl 
+                                    355 	ld d, d 
+                                    356 	jr llbl 
+                                    357 	.dw 0x6464 
+                                    358 	.dw 0x0000 
+                                    359 	.ascii msg_t 
+                                    360 llbl:
+                                    361 	.ENDM 
+      0003E3                        362 	EMULOG161 ^/"The End"/ 
+      0003E3 52               [ 4]    1 	ld d, d 
+      0003E4 18 0B            [12]    2 	jr 10022$ 
+      0003E6 64 64                    3 	.dw 0x6464 
+      0003E8 00 00                    4 	.dw 0x0000 
+      0003EA 54 68 65 20 45 6E 64     5 	.ascii "The End" 
+      0003F1                          6 10022$:
+                                    363 ;src/emu_debug.c:163: return 0;
+      0003F1 01 00 00         [12]  364 	ld	bc, #0x0000
+                                    365 ;src/emu_debug.c:164: }
+      0003F4 C9               [16]  366 	ret
+      0003F5                        367 ___str_1:
+      0003F5 4D 65 73 73 61 67 65   368 	.ascii "Message to the"
+             20 74 6F 20 74 68 65
+      000403 0A                     369 	.db 0x0a
+      000404 53 63 72 65 65 6E      370 	.ascii "Screen"
+      00040A 00                     371 	.db 0x00
+      00040B                        372 ___str_2:
+      00040B 25 64                  373 	.ascii "%d"
+      00040D 0A                     374 	.db 0x0a
+      00040E 00                     375 	.db 0x00
+      00040F                        376 ___str_3:
+      00040F 76 61 72 30 3A 20 25   377 	.ascii "var0: %hd; var1: %d; var0*var1=%d"
+             68 64 3B 20 76 61 72
+             31 3A 20 25 64 3B 20
+             76 61 72 30 2A 76 61
+             72 31 3D 25 64
+      000430 00                     378 	.db 0x00
+                                    379 	.area _CODE
+                                    380 	.area _INITIALIZER
+      000000                        381 __xinit____EMU_PROFILER_INIT:
+      000000r00r00                  382 	.dw _EMU_profiler_message
+                                    383 	.area _CABS (ABS)

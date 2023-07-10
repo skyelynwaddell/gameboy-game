@@ -1,0 +1,69 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180 / ZX-Next / eZ80)                   Page 1
+Hexadecimal [24-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  002710 L
+    .__.ABS.                                                    =  000000 G
+    .__.CPU.                                                    =  000000 L
+    .__.H$L.                                                    =  000000 L
+    _AUDIOCTRL                                                  =  0000F2 
+    _FMADDRESS                                                  =  0000F0 
+    _FMDATA                                                     =  0000F1 
+    _GLASSES_3D                                                 =  00FFF8 
+    _HCOUNTER                                                   =  00007F 
+    _JOY_CTL                                                    =  00003F 
+    _JOY_PORT1                                                  =  0000DC 
+    _JOY_PORT2                                                  =  0000DD 
+    _MAP_FRAME0                                                 =  00FFFD 
+    _MAP_FRAME1                                                 =  00FFFE 
+    _MAP_FRAME2                                                 =  00FFFF 
+    _MEMORY_CTL                                                 =  00003E 
+    _PSG                                                        =  00007F 
+  1 _PosF                                                          00000D GR
+  1 _PosX                                                          000005 GR
+  1 _PosY                                                          000007 GR
+    _RAM_CONTROL                                                =  00FFFC 
+  1 _SpdX                                                          000009 GR
+  1 _SpdY                                                          00000B GR
+    _VCOUNTER                                                   =  00007E 
+    _VDP_CMD                                                    =  0000BF 
+    _VDP_DATA                                                   =  0000BE 
+    _VDP_STATUS                                                 =  0000BF 
+    ___current_base_tile                                           ****** GX
+    ___current_metasprite                                          ****** GX
+    ___hide_metasprite                                             ****** GX
+    ___move_metasprite                                             ****** GX
+    __current_2bpp_palette                                         ****** GX
+    _fill_rect_compat                                              ****** GX
+  1 _hide                                                          00000E GR
+    _hide_sprites_range                                            ****** GX
+  1 _idx                                                           000010 GR
+  1 _jitter                                                        00000F GR
+    _joypad_ex                                                     ****** GX
+    _joypad_init                                                   ****** GX
+  1 _joypads                                                       000000 GR
+  0 _main                                                          000000 GR
+  0 _pattern                                                       0002F2 GR
+    _set_tile_2bpp_data                                            ****** GX
+    _shadow_VDP_R1                                                 ****** GX
+    _sprite_metasprites                                            ****** GX
+    _sprite_tiles                                                  ****** GX
+    _wait_vbl_done                                                 ****** GX
+
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180 / ZX-Next / eZ80)                   Page 2
+Hexadecimal [24-Bits]
+
+Area Table
+
+   0 _CODE                                      size    302   flags    0
+   1 _DATA                                      size     11   flags    0
+   2 _INITIALIZED                               size      0   flags    0
+   3 _DABS                                      size      0   flags    8
+   4 _HOME                                      size      0   flags    0
+   5 _GSINIT                                    size      0   flags    0
+   6 _GSFINAL                                   size      0   flags    0
+   7 _INITIALIZER                               size      0   flags    0
+   8 _CABS                                      size      0   flags    8
+

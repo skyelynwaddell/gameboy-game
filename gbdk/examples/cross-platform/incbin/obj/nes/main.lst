@@ -1,0 +1,252 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ISO C Compiler 
+                              3 ; Version 4.2.2 #13350 (Mac OS X x86_64)
+                              4 ;--------------------------------------------------------
+                              5 	.module main
+                              6 	.optsdcc -mmos6502
+                              7 	
+                              8 	.globl __TEMP
+                              9 	.globl __DPTR
+                             10 	.area ZP      (PAG)
+   0000                      11 __TEMP:	.ds 8
+   0008                      12 __DPTR:	.ds 2
+                             13 ;--------------------------------------------------------
+                             14 ; Public variables in this module
+                             15 ;--------------------------------------------------------
+                             16 	.globl _main
+                             17 	.globl _init_gfx
+                             18 	.globl ___func_blank_tile_data
+                             19 	.globl ___func_logo_map
+                             20 	.globl ___func_logo_tiles_data
+                             21 	.globl _fill_bkg_rect
+                             22 	.globl _set_bkg_tiles
+                             23 	.globl _set_bkg_data
+                             24 	.globl _wait_vbl_done
+                             25 ;--------------------------------------------------------
+                             26 ; ZP ram data
+                             27 ;--------------------------------------------------------
+                             28 	.area ZP      (PAG)
+                             29 ;--------------------------------------------------------
+                             30 ; overlayable items in ram
+                             31 ;--------------------------------------------------------
+                             32 ;--------------------------------------------------------
+                             33 ; uninitialized external ram data
+                             34 ;--------------------------------------------------------
+                             35 	.area BSS
+                             36 ;--------------------------------------------------------
+                             37 ; absolute external ram data
+                             38 ;--------------------------------------------------------
+                             39 	.area DABS    (ABS)
+                             40 ;--------------------------------------------------------
+                             41 ; initialized external ram data
+                             42 ;--------------------------------------------------------
+                             43 	.area DATA
+                             44 ;--------------------------------------------------------
+                             45 ; global & static initialisations
+                             46 ;--------------------------------------------------------
+                             47 	.area _CODE
+                             48 	.area GSINIT
+                             49 	.area GSFINAL
+                             50 	.area GSINIT
+                             51 ;--------------------------------------------------------
+                             52 ; Home
+                             53 ;--------------------------------------------------------
+                             54 	.area _CODE
+                             55 	.area _CODE
+                             56 ;--------------------------------------------------------
+                             57 ; code
+                             58 ;--------------------------------------------------------
+                             59 	.area CODE
+                             60 ;------------------------------------------------------------
+                             61 ;Allocation info for local variables in function '__func_logo_tiles_data'
+                             62 ;------------------------------------------------------------
+                             63 ;	src/main.c: 6: INCBIN(logo_tiles_data, "res/gbdk2020.bin") // Variable name to use, Path to file
+                             64 ;	-----------------------------------------
+                             65 ;	 function __func_logo_tiles_data
+                             66 ;	-----------------------------------------
+                             67 ;	Register assignment is optimal.
+                             68 ;	Stack space usage: 0 bytes.
+   0000                      69 ___func_logo_tiles_data:
+                             70 ;	naked function: no prologue.
+   0000                      71 		_logo_tiles_data::
+   0000                      72 	 1$:
+   0000 3F 3F 60 7F C0 C0    73 	 .incbin "res/gbdk2020.bin" 
+        80 C0 80 C0 80 C0
+        80 C0 80 C0 FF FF
+        00 FF 00 00 00 00
+        00 00 00 00 00 00
+        00 00 FC FC 06 FE
+        03 03 01 03 01 03
+        01 03 01 03 01 03
+        80 C0 83 C3 83 C7
+        83 C7 83 C7 83 C7
+        83 C7 83 C7 00 00
+        FF FF FF FF FF FF
+        FF FF F8 FF FF F8
+        FF F8 00 00 FF FF
+        FF FF FF FF FF FF
+        00 FF FF 00 FF 00
+        00 00 FF FF FF FF
+        FF FF FF FF 0F FF
+        EF 1F EF 1F 01 03
+        C1 C3 C1 C3 C1 C3
+        C1 C3 C1 C3 C1 C3
+        C1 C3
+   0320                      74 	 2$:
+                     0320    75 	 ___size_logo_tiles_data = (2$-1$) 
+                             76 	 .globl ___size_logo_tiles_data 
+                             77 	 .local b___func_logo_tiles_data 
+                     0000    78 	 ___bank_logo_tiles_data = 0 
+                             79 	 .globl ___bank_logo_tiles_data 
+   0320                      80 00101$:
+                             81 ;	naked function: no epilogue.
+                             82 ;------------------------------------------------------------
+                             83 ;Allocation info for local variables in function '__func_logo_map'
+                             84 ;------------------------------------------------------------
+                             85 ;	src/main.c: 9: INCBIN(logo_map, "res/gbdk2020_map.bin")
+                             86 ;	-----------------------------------------
+                             87 ;	 function __func_logo_map
+                             88 ;	-----------------------------------------
+                             89 ;	Register assignment is optimal.
+                             90 ;	Stack space usage: 0 bytes.
+   0320                      91 ___func_logo_map:
+                             92 ;	naked function: no prologue.
+   0320                      93 		_logo_map::
+   0320                      94 	 1$:
+   0320 00 01 01 01 01 01    95 	 .incbin "res/gbdk2020_map.bin" 
+        02 03 04 05 05 05
+        06 07 08 09 0A 0A
+        0A 0B 0C 0D 0E 0A
+        0A 0A 0B 0C 0D 0E
+        0A 0A 0A 0B 0C 0F
+        10 11 11 11 12 13
+        14 15 15 15 15 15
+        16 17 18 19 15 1A
+        1B 1C 1D 1E 1F 15
+        20 21 22 14 15 23
+        24 25 26 27 14 15
+        28 29 2A 2B 2C 2D
+        2E 2E 2E 2F 30 31
+   0374                      96 	 2$:
+                     0054    97 	 ___size_logo_map = (2$-1$) 
+                             98 	 .globl ___size_logo_map 
+                             99 	 .local b___func_logo_map 
+                     0000   100 	 ___bank_logo_map = 0 
+                            101 	 .globl ___bank_logo_map 
+   0374                     102 00101$:
+                            103 ;	naked function: no epilogue.
+                            104 ;------------------------------------------------------------
+                            105 ;Allocation info for local variables in function '__func_blank_tile_data'
+                            106 ;------------------------------------------------------------
+                            107 ;	src/main.c: 12: INCBIN(blank_tile_data, "res/blanktile.bin")
+                            108 ;	-----------------------------------------
+                            109 ;	 function __func_blank_tile_data
+                            110 ;	-----------------------------------------
+                            111 ;	Register assignment is optimal.
+                            112 ;	Stack space usage: 0 bytes.
+   0374                     113 ___func_blank_tile_data:
+                            114 ;	naked function: no prologue.
+   0374                     115 		_blank_tile_data::
+   0374                     116 	 1$:
+   0374 00 00 00 00 00 00   117 	 .incbin "res/blanktile.bin" 
+        00 00 00 00 00 00
+        00 00 00 00
+   0384                     118 	 2$:
+                     0010   119 	 ___size_blank_tile_data = (2$-1$) 
+                            120 	 .globl ___size_blank_tile_data 
+                            121 	 .local b___func_blank_tile_data 
+                     0000   122 	 ___bank_blank_tile_data = 0 
+                            123 	 .globl ___bank_blank_tile_data 
+   0384                     124 00101$:
+                            125 ;	naked function: no epilogue.
+                            126 ;------------------------------------------------------------
+                            127 ;Allocation info for local variables in function 'init_gfx'
+                            128 ;------------------------------------------------------------
+                            129 ;	src/main.c: 28: void init_gfx() {
+                            130 ;	-----------------------------------------
+                            131 ;	 function init_gfx
+                            132 ;	-----------------------------------------
+                            133 ;	Register assignment is optimal.
+                            134 ;	Stack space usage: 0 bytes.
+   0384                     135 _init_gfx:
+                            136 ;	src/main.c: 30: set_bkg_data(0x80u, 1u, blank_tile_data); // The first 0x80u here is the tile ID
+   0384 A9r74         [ 2]  137 	lda	#_blank_tile_data
+   0386 8Dr00r00      [ 4]  138 	sta	_set_bkg_data_PARM_3
+   0389 A9s03         [ 2]  139 	lda	#>_blank_tile_data
+   038B 8Dr01r00      [ 4]  140 	sta	(_set_bkg_data_PARM_3 + 1)
+   038E A9 80         [ 2]  141 	lda	#0x80
+   0390 A2 01         [ 2]  142 	ldx	#0x01
+   0392 20r00r00      [ 6]  143 	jsr	_set_bkg_data
+                            144 ;	src/main.c: 31: fill_bkg_rect(0u, 0u, DEVICE_SCREEN_WIDTH, DEVICE_SCREEN_HEIGHT, 0x80u);   // The last 0x80u here is the tile ID 
+   0395 A2 20         [ 2]  145 	ldx	#0x20
+   0397 8Er00r00      [ 4]  146 	stx	_fill_bkg_rect_PARM_3
+   039A A2 1E         [ 2]  147 	ldx	#0x1e
+   039C 8Er00r00      [ 4]  148 	stx	_fill_bkg_rect_PARM_4
+   039F A2 80         [ 2]  149 	ldx	#0x80
+   03A1 8Er00r00      [ 4]  150 	stx	_fill_bkg_rect_PARM_5
+   03A4 A9 00         [ 2]  151 	lda	#0x00
+   03A6 AA            [ 2]  152 	tax
+   03A7 20r00r00      [ 6]  153 	jsr	_fill_bkg_rect
+                            154 ;	src/main.c: 35: set_bkg_data(0u, INCBIN_SIZE(logo_tiles_data) / TILE_BYTES, logo_tiles_data);
+   03AA A9r00         [ 2]  155 	lda	#___size_logo_tiles_data
+   03AC A2s00         [ 2]  156 	ldx	#>___size_logo_tiles_data
+   03AE 86*00         [ 3]  157 	stx	*(__TEMP+0)
+   03B0 46*00         [ 5]  158 	lsr	*(__TEMP+0)
+   03B2 6A            [ 2]  159 	ror	a
+   03B3 46*00         [ 5]  160 	lsr	*(__TEMP+0)
+   03B5 6A            [ 2]  161 	ror	a
+   03B6 46*00         [ 5]  162 	lsr	*(__TEMP+0)
+   03B8 6A            [ 2]  163 	ror	a
+   03B9 46*00         [ 5]  164 	lsr	*(__TEMP+0)
+   03BB 6A            [ 2]  165 	ror	a
+   03BC A6*00         [ 3]  166 	ldx	*(__TEMP+0)
+   03BE A2r00         [ 2]  167 	ldx	#_logo_tiles_data
+   03C0 8Er00r00      [ 4]  168 	stx	_set_bkg_data_PARM_3
+   03C3 A2s00         [ 2]  169 	ldx	#>_logo_tiles_data
+   03C5 8Er01r00      [ 4]  170 	stx	(_set_bkg_data_PARM_3 + 1)
+   03C8 AA            [ 2]  171 	tax
+   03C9 A9 00         [ 2]  172 	lda	#0x00
+   03CB 20r00r00      [ 6]  173 	jsr	_set_bkg_data
+                            174 ;	src/main.c: 38: logo_map);
+   03CE A9r20         [ 2]  175 	lda	#_logo_map
+   03D0 8Dr00r00      [ 4]  176 	sta	_set_bkg_tiles_PARM_5
+   03D3 A9s03         [ 2]  177 	lda	#>_logo_map
+   03D5 8Dr01r00      [ 4]  178 	sta	(_set_bkg_tiles_PARM_5 + 1)
+   03D8 A2 07         [ 2]  179 	ldx	#0x07
+   03DA 8Er00r00      [ 4]  180 	stx	_set_bkg_tiles_PARM_3
+   03DD A2 0C         [ 2]  181 	ldx	#0x0c
+   03DF 8Er00r00      [ 4]  182 	stx	_set_bkg_tiles_PARM_4
+   03E2 A9 06         [ 2]  183 	lda	#0x06
+   03E4 A2 03         [ 2]  184 	ldx	#0x03
+   03E6 20r00r00      [ 6]  185 	jsr	_set_bkg_tiles
+                            186 ;	src/main.c: 41: SHOW_BKG;
+   03E9 ADr00r00      [ 4]  187 	lda	_shadow_PPUMASK
+   03EC 09 08         [ 2]  188 	ora	#0x08
+   03EE 8Dr00r00      [ 4]  189 	sta	_shadow_PPUMASK
+   03F1                     190 00101$:
+                            191 ;	src/main.c: 42: }
+   03F1 60            [ 6]  192 	rts
+                            193 ;------------------------------------------------------------
+                            194 ;Allocation info for local variables in function 'main'
+                            195 ;------------------------------------------------------------
+                            196 ;	src/main.c: 46: void main(void)
+                            197 ;	-----------------------------------------
+                            198 ;	 function main
+                            199 ;	-----------------------------------------
+                            200 ;	Register assignment is optimal.
+                            201 ;	Stack space usage: 0 bytes.
+   03F2                     202 _main:
+                            203 ;	src/main.c: 48: init_gfx();
+   03F2 20r84r03      [ 6]  204 	jsr	_init_gfx
+                            205 ;	src/main.c: 51: while(1) {
+   03F5                     206 00102$:
+                            207 ;	src/main.c: 56: wait_vbl_done();
+   03F5 20r00r00      [ 6]  208 	jsr	_wait_vbl_done
+   03F8 4CrF5r03      [ 3]  209 	jmp	00102$
+   03FB                     210 00104$:
+                            211 ;	src/main.c: 58: }
+   03FB 60            [ 6]  212 	rts
+                            213 	.area CODE
+                            214 	.area RODATA
+                            215 	.area XINIT
+                            216 	.area CABS    (ABS)

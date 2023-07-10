@@ -1,0 +1,82 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180 / ZX-Next / eZ80)                   Page 1
+Hexadecimal [24-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  002710 L
+    .__.ABS.                                                    =  000000 G
+    .__.CPU.                                                    =  000000 L
+    .__.H$L.                                                    =  000000 L
+    _AUDIOCTRL                                                  =  0000F2 
+    _FMADDRESS                                                  =  0000F0 
+    _FMDATA                                                     =  0000F1 
+    _GLASSES_3D                                                 =  00FFF8 
+    _HCOUNTER                                                   =  00007F 
+    _JOY_CTL                                                    =  00003F 
+    _JOY_PORT1                                                  =  0000DC 
+    _JOY_PORT2                                                  =  0000DD 
+    _MAP_FRAME0                                                 =  00FFFD 
+    _MAP_FRAME1                                                 =  00FFFE 
+    _MAP_FRAME2                                                 =  00FFFF 
+    _MEMORY_CTL                                                 =  00003E 
+    _PSG                                                        =  00007F 
+    _RAM_CONTROL                                                =  00FFFC 
+    _VCOUNTER                                                   =  00007E 
+    _VDP_CMD                                                    =  0000BF 
+    _VDP_DATA                                                   =  0000BE 
+    _VDP_STATUS                                                 =  0000BF 
+    ___bank_some_const_var_1                                       ****** GX
+    ___bank_some_const_var_2                                       ****** GX
+    ___bank_some_const_var_3                                       ****** GX
+    ___bank_some_const_var_4                                       ****** GX
+    ___sdcc_bcall_ehl                                              ****** GX
+  4 ___str_0                                                       000007 R
+  0 ___str_12                                                      000158 R
+  0 ___str_2                                                       0000CF R
+  0 ___str_4                                                       0000E1 R
+  0 ___str_5                                                       0000E2 R
+  0 ___str_6                                                       0000F8 R
+  0 ___str_7                                                       000110 R
+  0 ___str_8                                                       000128 R
+  0 ___str_9                                                       000140 R
+  4 _bank_fixed                                                    000000 GR
+    _func_1                                                        ****** GX
+    _func_2                                                        ****** GX
+    _func_3                                                        ****** GX
+    _func_4                                                        ****** GX
+  0 _main                                                          000000 GR
+    _printf                                                        ****** GX
+    _puts                                                          ****** GX
+    _set_default_palette                                           ****** GX
+  4 _some_const_var_0                                              000006 GR
+    _some_const_var_1                                              ****** GX
+    _some_const_var_2                                              ****** GX
+    _some_const_var_3                                              ****** GX
+    _some_const_var_4                                              ****** GX
+    _wait_vbl_done                                                 ****** GX
+    b_func_1                                                       ****** GX
+    b_func_2                                                       ****** GX
+    b_func_3                                                       ****** GX
+    b_func_4                                                       ****** GX
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180 / ZX-Next / eZ80)                   Page 2
+Hexadecimal [24-Bits]
+
+Symbol Table
+
+
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180 / ZX-Next / eZ80)                   Page 3
+Hexadecimal [24-Bits]
+
+Area Table
+
+   0 _CODE                                      size    164   flags    0
+   1 _DATA                                      size      0   flags    0
+   2 _INITIALIZED                               size      0   flags    0
+   3 _DABS                                      size      0   flags    8
+   4 _HOME                                      size     18   flags    0
+   5 _GSINIT                                    size      0   flags    0
+   6 _GSFINAL                                   size      0   flags    0
+   7 _INITIALIZER                               size      0   flags    0
+   8 _CABS                                      size      0   flags    8
+

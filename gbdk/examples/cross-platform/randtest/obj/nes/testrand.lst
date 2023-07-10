@@ -1,0 +1,154 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ISO C Compiler 
+                              3 ; Version 4.2.2 #13350 (Mac OS X x86_64)
+                              4 ;--------------------------------------------------------
+                              5 	.module testrand
+                              6 	.optsdcc -mmos6502
+                              7 	
+                              8 	.globl __TEMP
+                              9 	.globl __DPTR
+                             10 	.area ZP      (PAG)
+   0000                      11 __TEMP:	.ds 8
+   0008                      12 __DPTR:	.ds 2
+                             13 ;--------------------------------------------------------
+                             14 ; Public variables in this module
+                             15 ;--------------------------------------------------------
+                             16 	.globl _main
+                             17 	.globl _waitpad
+                             18 	.globl _arand
+                             19 	.globl _initarand
+                             20 	.globl _rand
+                             21 	.globl _puts
+                             22 	.globl _printf
+                             23 ;--------------------------------------------------------
+                             24 ; ZP ram data
+                             25 ;--------------------------------------------------------
+                             26 	.area ZP      (PAG)
+   000A                      27 _main_sloc0_1_0:
+   000A                      28 	.ds 1
+   000B                      29 _main_sloc1_1_0:
+   000B                      30 	.ds 2
+   000D                      31 _main_sloc2_1_0:
+   000D                      32 	.ds 2
+                             33 ;--------------------------------------------------------
+                             34 ; overlayable items in ram
+                             35 ;--------------------------------------------------------
+                             36 ;--------------------------------------------------------
+                             37 ; uninitialized external ram data
+                             38 ;--------------------------------------------------------
+                             39 	.area BSS
+                             40 ;--------------------------------------------------------
+                             41 ; absolute external ram data
+                             42 ;--------------------------------------------------------
+                             43 	.area DABS    (ABS)
+                             44 ;--------------------------------------------------------
+                             45 ; initialized external ram data
+                             46 ;--------------------------------------------------------
+                             47 	.area DATA
+                             48 ;--------------------------------------------------------
+                             49 ; global & static initialisations
+                             50 ;--------------------------------------------------------
+                             51 	.area _CODE
+                             52 	.area GSINIT
+                             53 	.area GSFINAL
+                             54 	.area GSINIT
+                             55 ;--------------------------------------------------------
+                             56 ; Home
+                             57 ;--------------------------------------------------------
+                             58 	.area _CODE
+                             59 	.area _CODE
+                             60 ;--------------------------------------------------------
+                             61 ; code
+                             62 ;--------------------------------------------------------
+                             63 	.area CODE
+                             64 ;------------------------------------------------------------
+                             65 ;Allocation info for local variables in function 'main'
+                             66 ;------------------------------------------------------------
+                             67 ;sloc0                     Allocated with name '_main_sloc0_1_0'
+                             68 ;sloc1                     Allocated with name '_main_sloc1_1_0'
+                             69 ;sloc2                     Allocated with name '_main_sloc2_1_0'
+                             70 ;i                         Allocated to registers 
+                             71 ;------------------------------------------------------------
+                             72 ;	src/testrand.c: 14: void main(void)
+                             73 ;	-----------------------------------------
+                             74 ;	 function main
+                             75 ;	-----------------------------------------
+                             76 ;	Register assignment is optimal.
+                             77 ;	Stack space usage: 0 bytes.
+   0000                      78 _main:
+                             79 ;	src/testrand.c: 16: while(TRUE) {
+   0000                      80 00103$:
+                             81 ;	src/testrand.c: 17: puts("press A...");
+   0000 A2s00         [ 2]   82 	ldx	#>___str_0
+   0002 A9r00         [ 2]   83 	lda	#___str_0
+   0004 20r00r00      [ 6]   84 	jsr	_puts
+                             85 ;	src/testrand.c: 18: waitpad(J_A);
+   0007 A9 01         [ 2]   86 	lda	#0x01
+   0009 20r00r00      [ 6]   87 	jsr	_waitpad
+                             88 ;	src/testrand.c: 19: initarand(sys_time);
+   000C ADr00r00      [ 4]   89 	lda	_sys_time
+   000F AEr01r00      [ 4]   90 	ldx	(_sys_time + 1)
+   0012 20r00r00      [ 6]   91 	jsr	_initarand
+                             92 ;	src/testrand.c: 20: for (uint8_t i = 0; i != 16; i++) 
+   0015 A2 00         [ 2]   93 	ldx	#0x00
+   0017 86*0A         [ 3]   94 	stx	*_main_sloc0_1_0
+   0019                      95 00106$:
+   0019 A5*0A         [ 3]   96 	lda	*_main_sloc0_1_0
+   001B C9 10         [ 2]   97 	cmp	#0x10
+   001D D0 03         [ 4]   98 	bne	00122$
+   001F 4Cr00r00      [ 3]   99 	jmp	00103$
+   0022                     100 00122$:
+                            101 ;	src/testrand.c: 21: printf("rand=%hx arand=%hx\n", (uint8_t)rand(), (uint8_t)arand());
+   0022 20r00r00      [ 6]  102 	jsr	_arand
+   0025 85*0B         [ 3]  103 	sta	*_main_sloc1_1_0
+   0027 A2 00         [ 2]  104 	ldx	#0x00
+   0029 86*0C         [ 3]  105 	stx	*(_main_sloc1_1_0 + 1)
+   002B 20r00r00      [ 6]  106 	jsr	_rand
+   002E 85*0D         [ 3]  107 	sta	*_main_sloc2_1_0
+   0030 A2 00         [ 2]  108 	ldx	#0x00
+   0032 86*0E         [ 3]  109 	stx	*(_main_sloc2_1_0 + 1)
+   0034 A5*0C         [ 3]  110 	lda	*(_main_sloc1_1_0 + 1)
+   0036 48            [ 3]  111 	pha
+   0037 A5*0B         [ 3]  112 	lda	*_main_sloc1_1_0
+   0039 48            [ 3]  113 	pha
+   003A A5*0E         [ 3]  114 	lda	*(_main_sloc2_1_0 + 1)
+   003C 48            [ 3]  115 	pha
+   003D A5*0D         [ 3]  116 	lda	*_main_sloc2_1_0
+   003F 48            [ 3]  117 	pha
+   0040 A9s00         [ 2]  118 	lda	#>___str_1
+   0042 48            [ 3]  119 	pha
+   0043 A9r0B         [ 2]  120 	lda	#___str_1
+   0045 48            [ 3]  121 	pha
+   0046 20r00r00      [ 6]  122 	jsr	_printf
+   0049 85*00         [ 3]  123 	sta	*(__TEMP+0)
+   004B 68            [ 4]  124 	pla
+   004C 68            [ 4]  125 	pla
+   004D 68            [ 4]  126 	pla
+   004E 68            [ 4]  127 	pla
+   004F 68            [ 4]  128 	pla
+   0050 68            [ 4]  129 	pla
+   0051 A5*00         [ 3]  130 	lda	*(__TEMP+0)
+                            131 ;	src/testrand.c: 20: for (uint8_t i = 0; i != 16; i++) 
+   0053 E6*0A         [ 5]  132 	inc	*_main_sloc0_1_0
+   0055 4Cr19r00      [ 3]  133 	jmp	00106$
+   0058                     134 00108$:
+                            135 ;	src/testrand.c: 23: }
+   0058 60            [ 6]  136 	rts
+                            137 	.area CODE
+                            138 	.area RODATA
+                            139 	.area RODATA
+   0000                     140 ___str_0:
+   0000 70 72 65 73 73 20   141 	.ascii "press A..."
+        41 2E 2E 2E
+   000A 00                  142 	.db 0x00
+                            143 	.area CODE
+                            144 	.area RODATA
+   000B                     145 ___str_1:
+   000B 72 61 6E 64 3D 25   146 	.ascii "rand=%hx arand=%hx"
+        68 78 20 61 72 61
+        6E 64 3D 25 68 78
+   001D 0A                  147 	.db 0x0a
+   001E 00                  148 	.db 0x00
+                            149 	.area CODE
+                            150 	.area XINIT
+                            151 	.area CABS    (ABS)

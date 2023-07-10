@@ -1,0 +1,738 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler 
+                                      3 ; Version 4.2.2 #13350 (Mac OS X x86_64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module banks_nonintrinsic
+                                      6 	.optsdcc -msm83
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _main
+                                     12 	.globl _set_RAM_bank2
+                                     13 	.globl _set_RAM_bank1
+                                     14 	.globl _set_ROM_bank2
+                                     15 	.globl _set_ROM_bank1
+                                     16 	.globl _puts
+                                     17 	.globl _printf
+                                     18 	.globl _putchar
+                                     19 	.globl _addendum_ptr
+                                     20 	.globl _hello1
+                                     21 	.globl _hello2
+                                     22 	.globl _addendum1_ram
+                                     23 	.globl _hello1_ram
+                                     24 	.globl _addendum3_ram
+                                     25 	.globl _addendum2_ram
+                                     26 	.globl _hello2_ram
+                                     27 	.globl _addendum0
+                                     28 	.globl _data
+                                     29 	.globl __current_ram_bank
+                                     30 	.globl ___dummy_variable
+                                     31 	.globl _hello0
+                                     32 ;--------------------------------------------------------
+                                     33 ; special function registers
+                                     34 ;--------------------------------------------------------
+                                     35 ;--------------------------------------------------------
+                                     36 ; ram data
+                                     37 ;--------------------------------------------------------
+                                     38 	.area _DATA
+      000000                         39 ___dummy_variable::
+      000000                         40 	.ds 1
+                                     41 ;--------------------------------------------------------
+                                     42 ; ram data
+                                     43 ;--------------------------------------------------------
+                                     44 	.area _INITIALIZED
+      000000                         45 __current_ram_bank::
+      000000                         46 	.ds 1
+      000001                         47 _data::
+      000001                         48 	.ds 20
+      000015                         49 _addendum0::
+      000015                         50 	.ds 2
+                                     51 ;--------------------------------------------------------
+                                     52 ; DATA_1 ram data
+                                     53 ;--------------------------------------------------------
+                                     54 	.area _DATA_1
+      000000                         55 _hello2_ram::
+      000000                         56 	.ds 20
+      000014                         57 _addendum2_ram::
+      000014                         58 	.ds 2
+      000016                         59 _addendum3_ram::
+      000016                         60 	.ds 2
+                                     61 ;--------------------------------------------------------
+                                     62 ; DATA_0 ram data
+                                     63 ;--------------------------------------------------------
+                                     64 	.area _DATA_0
+      000000                         65 _hello1_ram::
+      000000                         66 	.ds 20
+      000014                         67 _addendum1_ram::
+      000014                         68 	.ds 2
+                                     69 ;--------------------------------------------------------
+                                     70 ; CODE_2 rom data
+                                     71 ;--------------------------------------------------------
+                                     72 	.area _CODE_2
+      000000                         73 _hello2:
+      000000 68 65 6C 6C 6F 20 66    74 	.ascii "hello from CODE_2"
+             72 6F 6D 20 43 4F 44
+             45 5F 32
+      000011 0A                      75 	.db 0x0a
+      000012 00                      76 	.db 0x00
+                                     77 ;--------------------------------------------------------
+                                     78 ; CODE_1 rom data
+                                     79 ;--------------------------------------------------------
+                                     80 	.area _CODE_1
+      000000                         81 _hello1:
+      000000 68 65 6C 6C 6F 20 66    82 	.ascii "hello from CODE_1"
+             72 6F 6D 20 43 4F 44
+             45 5F 31
+      000011 0A                      83 	.db 0x0a
+      000012 00                      84 	.db 0x00
+      000013                         85 _addendum_ptr:
+      000013r14r00                   86 	.dw _addendum2_ram
+      000015r16r00                   87 	.dw _addendum3_ram
+                                     88 ;--------------------------------------------------------
+                                     89 ; absolute external ram data
+                                     90 ;--------------------------------------------------------
+                                     91 	.area _DABS (ABS)
+                                     92 ;--------------------------------------------------------
+                                     93 ; global & static initialisations
+                                     94 ;--------------------------------------------------------
+                                     95 	.area _HOME
+                                     96 	.area _GSINIT
+                                     97 	.area _GSFINAL
+                                     98 	.area _GSINIT
+                                     99 ;--------------------------------------------------------
+                                    100 ; Home
+                                    101 ;--------------------------------------------------------
+                                    102 	.area _HOME
+                                    103 ;src/banks_nonintrinsic.c:20: void set_ROM_bank1(void) NONBANKED { SWITCH_ROM(1); }
+                                    104 ;	---------------------------------
+                                    105 ; Function set_ROM_bank1
+                                    106 ; ---------------------------------
+      000000                        107 _set_ROM_bank1::
+      000000 3E 01            [ 8]  108 	ld	a, #0x01
+      000002 E0r00            [12]  109 	ldh	(__current_bank + 0), a
+      000004 21 00 20         [12]  110 	ld	hl, #0x2000
+      000007 36 01            [12]  111 	ld	(hl), #0x01
+      000009 C9               [16]  112 	ret
+      00000A                        113 _hello0:
+      00000A 68 65 6C 6C 6F 20 66   114 	.ascii "hello from CODE"
+             72 6F 6D 20 43 4F 44
+             45
+      000019 0A                     115 	.db 0x0a
+      00001A 00                     116 	.db 0x00
+                                    117 ;src/banks_nonintrinsic.c:21: void set_ROM_bank2(void) NONBANKED { SWITCH_ROM(2); }
+                                    118 ;	---------------------------------
+                                    119 ; Function set_ROM_bank2
+                                    120 ; ---------------------------------
+      00001B                        121 _set_ROM_bank2::
+      00001B 3E 02            [ 8]  122 	ld	a, #0x02
+      00001D E0r00            [12]  123 	ldh	(__current_bank + 0), a
+      00001F 21 00 20         [12]  124 	ld	hl, #0x2000
+      000022 36 02            [12]  125 	ld	(hl), #0x02
+      000024 C9               [16]  126 	ret
+                                    127 ;src/banks_nonintrinsic.c:31: void set_RAM_bank1(void) NONBANKED { SWITCH_RAM_BANK(0); }
+                                    128 ;	---------------------------------
+                                    129 ; Function set_RAM_bank1
+                                    130 ; ---------------------------------
+      000025                        131 _set_RAM_bank1::
+      000025 21 00 40         [12]  132 	ld	hl, #0x4000
+      000028 36 00            [12]  133 	ld	(hl), #0x00
+      00002A 21r00r00         [12]  134 	ld	hl, #__current_ram_bank
+      00002D 36 00            [12]  135 	ld	(hl), #0x00
+      00002F C9               [16]  136 	ret
+                                    137 ;src/banks_nonintrinsic.c:32: void set_RAM_bank2(void) NONBANKED { SWITCH_RAM_BANK(1); }
+                                    138 ;	---------------------------------
+                                    139 ; Function set_RAM_bank2
+                                    140 ; ---------------------------------
+      000030                        141 _set_RAM_bank2::
+      000030 21 00 40         [12]  142 	ld	hl, #0x4000
+      000033 36 01            [12]  143 	ld	(hl), #0x01
+      000035 21r00r00         [12]  144 	ld	hl, #__current_ram_bank
+      000038 36 01            [12]  145 	ld	(hl), #0x01
+      00003A C9               [16]  146 	ret
+                                    147 	.area _HOME
+                                    148 ;--------------------------------------------------------
+                                    149 ; code
+                                    150 ;--------------------------------------------------------
+                                    151 	.area _CODE
+                                    152 ;src/banks_nonintrinsic.c:48: void main() {
+                                    153 ;	---------------------------------
+                                    154 ; Function main
+                                    155 ; ---------------------------------
+      000000                        156 _main::
+                                    157 ;src/banks_nonintrinsic.c:49: ENABLE_RAM;
+      000000 CDr25r00         [24]  158 	call	_set_RAM_bank1
+      000003 21 00 00         [12]  159 	ld	hl, #0x0000
+      000006 36 0A            [12]  160 	ld	(hl), #0x0a
+                                    161 ;src/banks_nonintrinsic.c:51: addendum1_ram = 2;
+      000008 21r14r00         [12]  162 	ld	hl, #_addendum1_ram
+      00000B 3E 02            [ 8]  163 	ld	a, #0x02
+      00000D 22               [ 8]  164 	ld	(hl+), a
+      00000E AF               [ 4]  165 	xor	a, a
+      00000F 77               [ 8]  166 	ld	(hl), a
+                                    167 ;src/banks_nonintrinsic.c:52: addendum2_ram = 4;
+      000010 CDr30r00         [24]  168 	call	_set_RAM_bank2
+      000013 21r14r00         [12]  169 	ld	hl, #_addendum2_ram
+      000016 3E 04            [ 8]  170 	ld	a, #0x04
+      000018 22               [ 8]  171 	ld	(hl+), a
+      000019 AF               [ 4]  172 	xor	a, a
+      00001A 77               [ 8]  173 	ld	(hl), a
+                                    174 ;src/banks_nonintrinsic.c:53: addendum3_ram = 8;
+      00001B 21r16r00         [12]  175 	ld	hl, #_addendum3_ram
+      00001E 3E 08            [ 8]  176 	ld	a, #0x08
+      000020 22               [ 8]  177 	ld	(hl+), a
+      000021 AF               [ 4]  178 	xor	a, a
+      000022 77               [ 8]  179 	ld	(hl), a
+                                    180 ;src/banks_nonintrinsic.c:56: for (int8_t i = 0; (hello0[i]); i++) putchar(hello0[i]);  
+      000023 06 00            [ 8]  181 	ld	b, #0x00
+      000025                        182 00119$:
+      000025 78               [ 4]  183 	ld	a, b
+      000026 5F               [ 4]  184 	ld	e, a
+      000027 07               [ 4]  185 	rlca
+      000028 9F               [ 4]  186 	sbc	a, a
+      000029 57               [ 4]  187 	ld	d, a
+      00002A 21r0Ar00         [12]  188 	ld	hl, #_hello0
+      00002D 19               [ 8]  189 	add	hl, de
+      00002E 7E               [ 8]  190 	ld	a, (hl)
+      00002F B7               [ 4]  191 	or	a, a
+      000030 28 0B            [12]  192 	jr	Z, 00101$
+      000032 C5               [16]  193 	push	bc
+      000033 F5               [16]  194 	push	af
+      000034 33               [ 8]  195 	inc	sp
+      000035 CDr00r00         [24]  196 	call	_putchar
+      000038 33               [ 8]  197 	inc	sp
+      000039 C1               [12]  198 	pop	bc
+      00003A 04               [ 4]  199 	inc	b
+      00003B 18 E8            [12]  200 	jr	00119$
+      00003D                        201 00101$:
+                                    202 ;src/banks_nonintrinsic.c:57: for (int8_t i = 0; (hello1[i]); i++) putchar(hello1[i]);
+      00003D 0E 00            [ 8]  203 	ld	c, #0x00
+      00003F                        204 00122$:
+      00003F 79               [ 4]  205 	ld	a, c
+      000040 5F               [ 4]  206 	ld	e, a
+      000041 07               [ 4]  207 	rlca
+      000042 9F               [ 4]  208 	sbc	a, a
+      000043 57               [ 4]  209 	ld	d, a
+      000044 C5               [16]  210 	push	bc
+      000045 D5               [16]  211 	push	de
+      000046 CDr00r00         [24]  212 	call	_set_ROM_bank1
+      000049 D1               [12]  213 	pop	de
+      00004A C1               [12]  214 	pop	bc
+      00004B 21r00r00         [12]  215 	ld	hl, #_hello1
+      00004E 19               [ 8]  216 	add	hl, de
+      00004F 7E               [ 8]  217 	ld	a, (hl)
+      000050 B7               [ 4]  218 	or	a, a
+      000051 28 0B            [12]  219 	jr	Z, 00102$
+      000053 C5               [16]  220 	push	bc
+      000054 F5               [16]  221 	push	af
+      000055 33               [ 8]  222 	inc	sp
+      000056 CDr00r00         [24]  223 	call	_putchar
+      000059 33               [ 8]  224 	inc	sp
+      00005A C1               [12]  225 	pop	bc
+      00005B 0C               [ 4]  226 	inc	c
+      00005C 18 E1            [12]  227 	jr	00122$
+      00005E                        228 00102$:
+                                    229 ;src/banks_nonintrinsic.c:58: for (int8_t i = 0; (hello2[i]); i++) putchar(hello2[i]);
+      00005E 0E 00            [ 8]  230 	ld	c, #0x00
+      000060                        231 00125$:
+      000060 79               [ 4]  232 	ld	a, c
+      000061 5F               [ 4]  233 	ld	e, a
+      000062 07               [ 4]  234 	rlca
+      000063 9F               [ 4]  235 	sbc	a, a
+      000064 57               [ 4]  236 	ld	d, a
+      000065 C5               [16]  237 	push	bc
+      000066 D5               [16]  238 	push	de
+      000067 CDr1Br00         [24]  239 	call	_set_ROM_bank2
+      00006A D1               [12]  240 	pop	de
+      00006B C1               [12]  241 	pop	bc
+      00006C 21r00r00         [12]  242 	ld	hl, #_hello2
+      00006F 19               [ 8]  243 	add	hl, de
+      000070 7E               [ 8]  244 	ld	a, (hl)
+      000071 B7               [ 4]  245 	or	a, a
+      000072 28 0B            [12]  246 	jr	Z, 00103$
+      000074 C5               [16]  247 	push	bc
+      000075 F5               [16]  248 	push	af
+      000076 33               [ 8]  249 	inc	sp
+      000077 CDr00r00         [24]  250 	call	_putchar
+      00007A 33               [ 8]  251 	inc	sp
+      00007B C1               [12]  252 	pop	bc
+      00007C 0C               [ 4]  253 	inc	c
+      00007D 18 E1            [12]  254 	jr	00125$
+      00007F                        255 00103$:
+                                    256 ;src/banks_nonintrinsic.c:61: for (int8_t i = 0; (i < sizeof(hello1)); i++) hello1_ram[i] = hello1[i];
+      00007F 0E 00            [ 8]  257 	ld	c, #0x00
+      000081                        258 00128$:
+      000081 79               [ 4]  259 	ld	a, c
+      000082 EE 80            [ 8]  260 	xor	a, #0x80
+      000084 D6 93            [ 8]  261 	sub	a, #0x93
+      000086 3E 00            [ 8]  262 	ld	a, #0x00
+      000088 17               [ 4]  263 	rla
+      000089 47               [ 4]  264 	ld	b, a
+      00008A C5               [16]  265 	push	bc
+      00008B CDr00r00         [24]  266 	call	_set_ROM_bank1
+      00008E C1               [12]  267 	pop	bc
+      00008F 78               [ 4]  268 	ld	a, b
+      000090 B7               [ 4]  269 	or	a, a
+      000091 28 1E            [12]  270 	jr	Z, 00104$
+      000093 79               [ 4]  271 	ld	a, c
+      000094 5F               [ 4]  272 	ld	e, a
+      000095 07               [ 4]  273 	rlca
+      000096 9F               [ 4]  274 	sbc	a, a
+      000097 57               [ 4]  275 	ld	d, a
+      000098 21r00r00         [12]  276 	ld	hl, #_hello1_ram
+      00009B 19               [ 8]  277 	add	hl, de
+      00009C 7B               [ 4]  278 	ld	a, e
+      00009D C6r00            [ 8]  279 	add	a, #<(_hello1)
+      00009F 5F               [ 4]  280 	ld	e, a
+      0000A0 7A               [ 4]  281 	ld	a, d
+      0000A1 CEs00            [ 8]  282 	adc	a, #>(_hello1)
+      0000A3 57               [ 4]  283 	ld	d, a
+      0000A4 1A               [ 8]  284 	ld	a, (de)
+      0000A5 47               [ 4]  285 	ld	b, a
+      0000A6 E5               [16]  286 	push	hl
+      0000A7 C5               [16]  287 	push	bc
+      0000A8 CDr25r00         [24]  288 	call	_set_RAM_bank1
+      0000AB C1               [12]  289 	pop	bc
+      0000AC E1               [12]  290 	pop	hl
+      0000AD 70               [ 8]  291 	ld	(hl), b
+      0000AE 0C               [ 4]  292 	inc	c
+      0000AF 18 D0            [12]  293 	jr	00128$
+      0000B1                        294 00104$:
+                                    295 ;src/banks_nonintrinsic.c:62: for (int8_t i = 0; (i < 4); i++) hello1_ram[i + 11] = data[i];
+      0000B1 0E 00            [ 8]  296 	ld	c, #0x00
+      0000B3 C5               [16]  297 	push	bc
+      0000B4 CDr25r00         [24]  298 	call	_set_RAM_bank1
+      0000B7 C1               [12]  299 	pop	bc
+      0000B8                        300 00131$:
+      0000B8 79               [ 4]  301 	ld	a, c
+      0000B9 EE 80            [ 8]  302 	xor	a, #0x80
+      0000BB D6 84            [ 8]  303 	sub	a, #0x84
+      0000BD 30 1D            [12]  304 	jr	NC, 00105$
+      0000BF 79               [ 4]  305 	ld	a, c
+      0000C0 C6 0B            [ 8]  306 	add	a, #0x0b
+      0000C2 5F               [ 4]  307 	ld	e, a
+      0000C3 07               [ 4]  308 	rlca
+      0000C4 9F               [ 4]  309 	sbc	a, a
+      0000C5 57               [ 4]  310 	ld	d, a
+      0000C6 21r00r00         [12]  311 	ld	hl, #_hello1_ram
+      0000C9 19               [ 8]  312 	add	hl, de
+      0000CA 79               [ 4]  313 	ld	a, c
+      0000CB F5               [16]  314 	push	af
+      0000CC 07               [ 4]  315 	rlca
+      0000CD 9F               [ 4]  316 	sbc	a, a
+      0000CE 47               [ 4]  317 	ld	b, a
+      0000CF F1               [12]  318 	pop	af
+      0000D0 C6r01            [ 8]  319 	add	a, #<(_data)
+      0000D2 5F               [ 4]  320 	ld	e, a
+      0000D3 78               [ 4]  321 	ld	a, b
+      0000D4 CEs00            [ 8]  322 	adc	a, #>(_data)
+      0000D6 57               [ 4]  323 	ld	d, a
+      0000D7 1A               [ 8]  324 	ld	a, (de)
+      0000D8 77               [ 8]  325 	ld	(hl), a
+      0000D9 0C               [ 4]  326 	inc	c
+      0000DA 18 DC            [12]  327 	jr	00131$
+      0000DC                        328 00105$:
+                                    329 ;src/banks_nonintrinsic.c:63: for (int8_t i = 0; (hello1_ram[i]); i++) putchar(hello1_ram[i]);
+      0000DC 0E 00            [ 8]  330 	ld	c, #0x00
+      0000DE                        331 00134$:
+      0000DE 79               [ 4]  332 	ld	a, c
+      0000DF 5F               [ 4]  333 	ld	e, a
+      0000E0 07               [ 4]  334 	rlca
+      0000E1 9F               [ 4]  335 	sbc	a, a
+      0000E2 57               [ 4]  336 	ld	d, a
+      0000E3 21r00r00         [12]  337 	ld	hl, #_hello1_ram
+      0000E6 19               [ 8]  338 	add	hl, de
+      0000E7 7E               [ 8]  339 	ld	a, (hl)
+      0000E8 B7               [ 4]  340 	or	a, a
+      0000E9 28 0E            [12]  341 	jr	Z, 00106$
+      0000EB C5               [16]  342 	push	bc
+      0000EC F5               [16]  343 	push	af
+      0000ED 33               [ 8]  344 	inc	sp
+      0000EE CDr00r00         [24]  345 	call	_putchar
+      0000F1 33               [ 8]  346 	inc	sp
+      0000F2 CDr25r00         [24]  347 	call	_set_RAM_bank1
+      0000F5 C1               [12]  348 	pop	bc
+      0000F6 0C               [ 4]  349 	inc	c
+      0000F7 18 E5            [12]  350 	jr	00134$
+      0000F9                        351 00106$:
+                                    352 ;src/banks_nonintrinsic.c:66: for (int8_t i = 0; (i < sizeof(hello2)); i++) hello2_ram[i] = hello2[i];
+      0000F9 0E 00            [ 8]  353 	ld	c, #0x00
+      0000FB                        354 00137$:
+      0000FB 79               [ 4]  355 	ld	a, c
+      0000FC EE 80            [ 8]  356 	xor	a, #0x80
+      0000FE D6 93            [ 8]  357 	sub	a, #0x93
+      000100 3E 00            [ 8]  358 	ld	a, #0x00
+      000102 17               [ 4]  359 	rla
+      000103 47               [ 4]  360 	ld	b, a
+      000104 C5               [16]  361 	push	bc
+      000105 CDr1Br00         [24]  362 	call	_set_ROM_bank2
+      000108 C1               [12]  363 	pop	bc
+      000109 78               [ 4]  364 	ld	a, b
+      00010A B7               [ 4]  365 	or	a, a
+      00010B 28 1E            [12]  366 	jr	Z, 00107$
+      00010D 79               [ 4]  367 	ld	a, c
+      00010E 5F               [ 4]  368 	ld	e, a
+      00010F 07               [ 4]  369 	rlca
+      000110 9F               [ 4]  370 	sbc	a, a
+      000111 57               [ 4]  371 	ld	d, a
+      000112 21r00r00         [12]  372 	ld	hl, #_hello2_ram
+      000115 19               [ 8]  373 	add	hl, de
+      000116 7B               [ 4]  374 	ld	a, e
+      000117 C6r00            [ 8]  375 	add	a, #<(_hello2)
+      000119 5F               [ 4]  376 	ld	e, a
+      00011A 7A               [ 4]  377 	ld	a, d
+      00011B CEs00            [ 8]  378 	adc	a, #>(_hello2)
+      00011D 57               [ 4]  379 	ld	d, a
+      00011E 1A               [ 8]  380 	ld	a, (de)
+      00011F 47               [ 4]  381 	ld	b, a
+      000120 E5               [16]  382 	push	hl
+      000121 C5               [16]  383 	push	bc
+      000122 CDr30r00         [24]  384 	call	_set_RAM_bank2
+      000125 C1               [12]  385 	pop	bc
+      000126 E1               [12]  386 	pop	hl
+      000127 70               [ 8]  387 	ld	(hl), b
+      000128 0C               [ 4]  388 	inc	c
+      000129 18 D0            [12]  389 	jr	00137$
+      00012B                        390 00107$:
+                                    391 ;src/banks_nonintrinsic.c:67: for (int8_t i = 0; (i < 4); i++) hello2_ram[i + 11] = data[i];
+      00012B 0E 00            [ 8]  392 	ld	c, #0x00
+      00012D C5               [16]  393 	push	bc
+      00012E CDr30r00         [24]  394 	call	_set_RAM_bank2
+      000131 C1               [12]  395 	pop	bc
+      000132                        396 00140$:
+      000132 79               [ 4]  397 	ld	a, c
+      000133 EE 80            [ 8]  398 	xor	a, #0x80
+      000135 D6 84            [ 8]  399 	sub	a, #0x84
+      000137 30 1D            [12]  400 	jr	NC, 00108$
+      000139 79               [ 4]  401 	ld	a, c
+      00013A C6 0B            [ 8]  402 	add	a, #0x0b
+      00013C 5F               [ 4]  403 	ld	e, a
+      00013D 07               [ 4]  404 	rlca
+      00013E 9F               [ 4]  405 	sbc	a, a
+      00013F 57               [ 4]  406 	ld	d, a
+      000140 21r00r00         [12]  407 	ld	hl, #_hello2_ram
+      000143 19               [ 8]  408 	add	hl, de
+      000144 79               [ 4]  409 	ld	a, c
+      000145 F5               [16]  410 	push	af
+      000146 07               [ 4]  411 	rlca
+      000147 9F               [ 4]  412 	sbc	a, a
+      000148 47               [ 4]  413 	ld	b, a
+      000149 F1               [12]  414 	pop	af
+      00014A C6r01            [ 8]  415 	add	a, #<(_data)
+      00014C 5F               [ 4]  416 	ld	e, a
+      00014D 78               [ 4]  417 	ld	a, b
+      00014E CEs00            [ 8]  418 	adc	a, #>(_data)
+      000150 57               [ 4]  419 	ld	d, a
+      000151 1A               [ 8]  420 	ld	a, (de)
+      000152 77               [ 8]  421 	ld	(hl), a
+      000153 0C               [ 4]  422 	inc	c
+      000154 18 DC            [12]  423 	jr	00140$
+      000156                        424 00108$:
+                                    425 ;src/banks_nonintrinsic.c:68: for (int8_t i = 0; (hello2_ram[i]); i++) putchar(hello2_ram[i]);
+      000156 0E 00            [ 8]  426 	ld	c, #0x00
+      000158                        427 00143$:
+      000158 79               [ 4]  428 	ld	a, c
+      000159 5F               [ 4]  429 	ld	e, a
+      00015A 07               [ 4]  430 	rlca
+      00015B 9F               [ 4]  431 	sbc	a, a
+      00015C 57               [ 4]  432 	ld	d, a
+      00015D 21r00r00         [12]  433 	ld	hl, #_hello2_ram
+      000160 19               [ 8]  434 	add	hl, de
+      000161 7E               [ 8]  435 	ld	a, (hl)
+      000162 B7               [ 4]  436 	or	a, a
+      000163 28 0E            [12]  437 	jr	Z, 00109$
+      000165 C5               [16]  438 	push	bc
+      000166 F5               [16]  439 	push	af
+      000167 33               [ 8]  440 	inc	sp
+      000168 CDr00r00         [24]  441 	call	_putchar
+      00016B 33               [ 8]  442 	inc	sp
+      00016C CDr30r00         [24]  443 	call	_set_RAM_bank2
+      00016F C1               [12]  444 	pop	bc
+      000170 0C               [ 4]  445 	inc	c
+      000171 18 E5            [12]  446 	jr	00143$
+      000173                        447 00109$:
+                                    448 ;src/banks_nonintrinsic.c:70: printf("once more...\n");
+      000173 11rCFr02         [12]  449 	ld	de, #___str_2
+      000176 CDr00r00         [24]  450 	call	_puts
+                                    451 ;src/banks_nonintrinsic.c:72: for (int8_t i = 0; (hello0[i]); i++) putchar(hello0[i]);  
+      000179 0E 00            [ 8]  452 	ld	c, #0x00
+      00017B                        453 00146$:
+      00017B 79               [ 4]  454 	ld	a, c
+      00017C 5F               [ 4]  455 	ld	e, a
+      00017D 07               [ 4]  456 	rlca
+      00017E 9F               [ 4]  457 	sbc	a, a
+      00017F 57               [ 4]  458 	ld	d, a
+      000180 21r0Ar00         [12]  459 	ld	hl, #_hello0
+      000183 19               [ 8]  460 	add	hl, de
+      000184 7E               [ 8]  461 	ld	a, (hl)
+      000185 B7               [ 4]  462 	or	a, a
+      000186 28 0B            [12]  463 	jr	Z, 00110$
+      000188 C5               [16]  464 	push	bc
+      000189 F5               [16]  465 	push	af
+      00018A 33               [ 8]  466 	inc	sp
+      00018B CDr00r00         [24]  467 	call	_putchar
+      00018E 33               [ 8]  468 	inc	sp
+      00018F C1               [12]  469 	pop	bc
+      000190 0C               [ 4]  470 	inc	c
+      000191 18 E8            [12]  471 	jr	00146$
+      000193                        472 00110$:
+                                    473 ;src/banks_nonintrinsic.c:73: for (int8_t i = 0; (hello1[i]); i++) putchar(hello1[i]);
+      000193 0E 00            [ 8]  474 	ld	c, #0x00
+      000195                        475 00149$:
+      000195 79               [ 4]  476 	ld	a, c
+      000196 5F               [ 4]  477 	ld	e, a
+      000197 07               [ 4]  478 	rlca
+      000198 9F               [ 4]  479 	sbc	a, a
+      000199 57               [ 4]  480 	ld	d, a
+      00019A C5               [16]  481 	push	bc
+      00019B D5               [16]  482 	push	de
+      00019C CDr00r00         [24]  483 	call	_set_ROM_bank1
+      00019F D1               [12]  484 	pop	de
+      0001A0 C1               [12]  485 	pop	bc
+      0001A1 21r00r00         [12]  486 	ld	hl, #_hello1
+      0001A4 19               [ 8]  487 	add	hl, de
+      0001A5 7E               [ 8]  488 	ld	a, (hl)
+      0001A6 B7               [ 4]  489 	or	a, a
+      0001A7 28 0B            [12]  490 	jr	Z, 00111$
+      0001A9 C5               [16]  491 	push	bc
+      0001AA F5               [16]  492 	push	af
+      0001AB 33               [ 8]  493 	inc	sp
+      0001AC CDr00r00         [24]  494 	call	_putchar
+      0001AF 33               [ 8]  495 	inc	sp
+      0001B0 C1               [12]  496 	pop	bc
+      0001B1 0C               [ 4]  497 	inc	c
+      0001B2 18 E1            [12]  498 	jr	00149$
+      0001B4                        499 00111$:
+                                    500 ;src/banks_nonintrinsic.c:74: for (int8_t i = 0; (hello2[i]); i++) putchar(hello2[i]);
+      0001B4 0E 00            [ 8]  501 	ld	c, #0x00
+      0001B6                        502 00152$:
+      0001B6 79               [ 4]  503 	ld	a, c
+      0001B7 5F               [ 4]  504 	ld	e, a
+      0001B8 07               [ 4]  505 	rlca
+      0001B9 9F               [ 4]  506 	sbc	a, a
+      0001BA 57               [ 4]  507 	ld	d, a
+      0001BB C5               [16]  508 	push	bc
+      0001BC D5               [16]  509 	push	de
+      0001BD CDr1Br00         [24]  510 	call	_set_ROM_bank2
+      0001C0 D1               [12]  511 	pop	de
+      0001C1 C1               [12]  512 	pop	bc
+      0001C2 21r00r00         [12]  513 	ld	hl, #_hello2
+      0001C5 19               [ 8]  514 	add	hl, de
+      0001C6 7E               [ 8]  515 	ld	a, (hl)
+      0001C7 B7               [ 4]  516 	or	a, a
+      0001C8 28 0B            [12]  517 	jr	Z, 00112$
+      0001CA C5               [16]  518 	push	bc
+      0001CB F5               [16]  519 	push	af
+      0001CC 33               [ 8]  520 	inc	sp
+      0001CD CDr00r00         [24]  521 	call	_putchar
+      0001D0 33               [ 8]  522 	inc	sp
+      0001D1 C1               [12]  523 	pop	bc
+      0001D2 0C               [ 4]  524 	inc	c
+      0001D3 18 E1            [12]  525 	jr	00152$
+      0001D5                        526 00112$:
+                                    527 ;src/banks_nonintrinsic.c:75: for (int8_t i = 0; (hello1_ram[i]); i++) putchar(hello1_ram[i]);
+      0001D5 0E 00            [ 8]  528 	ld	c, #0x00
+      0001D7                        529 00155$:
+      0001D7 79               [ 4]  530 	ld	a, c
+      0001D8 5F               [ 4]  531 	ld	e, a
+      0001D9 07               [ 4]  532 	rlca
+      0001DA 9F               [ 4]  533 	sbc	a, a
+      0001DB 57               [ 4]  534 	ld	d, a
+      0001DC C5               [16]  535 	push	bc
+      0001DD D5               [16]  536 	push	de
+      0001DE CDr25r00         [24]  537 	call	_set_RAM_bank1
+      0001E1 D1               [12]  538 	pop	de
+      0001E2 C1               [12]  539 	pop	bc
+      0001E3 21r00r00         [12]  540 	ld	hl, #_hello1_ram
+      0001E6 19               [ 8]  541 	add	hl, de
+      0001E7 7E               [ 8]  542 	ld	a, (hl)
+      0001E8 B7               [ 4]  543 	or	a, a
+      0001E9 28 0B            [12]  544 	jr	Z, 00113$
+      0001EB C5               [16]  545 	push	bc
+      0001EC F5               [16]  546 	push	af
+      0001ED 33               [ 8]  547 	inc	sp
+      0001EE CDr00r00         [24]  548 	call	_putchar
+      0001F1 33               [ 8]  549 	inc	sp
+      0001F2 C1               [12]  550 	pop	bc
+      0001F3 0C               [ 4]  551 	inc	c
+      0001F4 18 E1            [12]  552 	jr	00155$
+      0001F6                        553 00113$:
+                                    554 ;src/banks_nonintrinsic.c:76: for (int8_t i = 0; (hello2_ram[i]); i++) putchar(hello2_ram[i]);
+      0001F6 0E 00            [ 8]  555 	ld	c, #0x00
+      0001F8                        556 00158$:
+      0001F8 79               [ 4]  557 	ld	a, c
+      0001F9 5F               [ 4]  558 	ld	e, a
+      0001FA 07               [ 4]  559 	rlca
+      0001FB 9F               [ 4]  560 	sbc	a, a
+      0001FC 57               [ 4]  561 	ld	d, a
+      0001FD C5               [16]  562 	push	bc
+      0001FE D5               [16]  563 	push	de
+      0001FF CDr30r00         [24]  564 	call	_set_RAM_bank2
+      000202 D1               [12]  565 	pop	de
+      000203 C1               [12]  566 	pop	bc
+      000204 21r00r00         [12]  567 	ld	hl, #_hello2_ram
+      000207 19               [ 8]  568 	add	hl, de
+      000208 7E               [ 8]  569 	ld	a, (hl)
+      000209 B7               [ 4]  570 	or	a, a
+      00020A 28 0B            [12]  571 	jr	Z, 00114$
+      00020C C5               [16]  572 	push	bc
+      00020D F5               [16]  573 	push	af
+      00020E 33               [ 8]  574 	inc	sp
+      00020F CDr00r00         [24]  575 	call	_putchar
+      000212 33               [ 8]  576 	inc	sp
+      000213 C1               [12]  577 	pop	bc
+      000214 0C               [ 4]  578 	inc	c
+      000215 18 E1            [12]  579 	jr	00158$
+      000217                        580 00114$:
+                                    581 ;src/banks_nonintrinsic.c:78: printf("once more...\n");
+      000217 11rCFr02         [12]  582 	ld	de, #___str_2
+      00021A CDr00r00         [24]  583 	call	_puts
+                                    584 ;src/banks_nonintrinsic.c:80: printf("%s", hello0);
+      00021D 11r0Ar00         [12]  585 	ld	de, #_hello0
+      000220 D5               [16]  586 	push	de
+      000221 11rDCr02         [12]  587 	ld	de, #___str_4
+      000224 D5               [16]  588 	push	de
+      000225 CDr00r00         [24]  589 	call	_printf
+      000228 E8 04            [16]  590 	add	sp, #4
+                                    591 ;src/banks_nonintrinsic.c:81: printf("%s", switch_to(hello1));    
+      00022A CDr00r00         [24]  592 	call	_set_ROM_bank1
+      00022D FAr00r00         [16]  593 	ld	a, (#_hello1 + 0)
+      000230 EAr00r00         [16]  594 	ld	(#___dummy_variable),a
+      000233 11r00r00         [12]  595 	ld	de, #_hello1
+      000236 D5               [16]  596 	push	de
+      000237 11rDCr02         [12]  597 	ld	de, #___str_4
+      00023A D5               [16]  598 	push	de
+      00023B CDr00r00         [24]  599 	call	_printf
+      00023E E8 04            [16]  600 	add	sp, #4
+                                    601 ;src/banks_nonintrinsic.c:82: printf("%s", switch_to(hello2));
+      000240 CDr1Br00         [24]  602 	call	_set_ROM_bank2
+      000243 FAr00r00         [16]  603 	ld	a, (#_hello2 + 0)
+      000246 EAr00r00         [16]  604 	ld	(#___dummy_variable),a
+      000249 11r00r00         [12]  605 	ld	de, #_hello2
+      00024C D5               [16]  606 	push	de
+      00024D 11rDCr02         [12]  607 	ld	de, #___str_4
+      000250 D5               [16]  608 	push	de
+      000251 CDr00r00         [24]  609 	call	_printf
+      000254 E8 04            [16]  610 	add	sp, #4
+                                    611 ;src/banks_nonintrinsic.c:83: printf("%s", switch_to(hello1_ram));
+      000256 CDr25r00         [24]  612 	call	_set_RAM_bank1
+      000259 FAr00r00         [16]  613 	ld	a, (#_hello1_ram + 0)
+      00025C EAr00r00         [16]  614 	ld	(#___dummy_variable),a
+      00025F 11r00r00         [12]  615 	ld	de, #_hello1_ram
+      000262 D5               [16]  616 	push	de
+      000263 11rDCr02         [12]  617 	ld	de, #___str_4
+      000266 D5               [16]  618 	push	de
+      000267 CDr00r00         [24]  619 	call	_printf
+      00026A E8 04            [16]  620 	add	sp, #4
+                                    621 ;src/banks_nonintrinsic.c:84: printf("%s", switch_to(hello2_ram));
+      00026C CDr30r00         [24]  622 	call	_set_RAM_bank2
+      00026F FAr00r00         [16]  623 	ld	a, (#_hello2_ram + 0)
+      000272 EAr00r00         [16]  624 	ld	(#___dummy_variable),a
+      000275 11r00r00         [12]  625 	ld	de, #_hello2_ram
+      000278 D5               [16]  626 	push	de
+      000279 11rDCr02         [12]  627 	ld	de, #___str_4
+      00027C D5               [16]  628 	push	de
+      00027D CDr00r00         [24]  629 	call	_printf
+      000280 E8 04            [16]  630 	add	sp, #4
+                                    631 ;src/banks_nonintrinsic.c:86: printf("1+2+4+8=0x%x", (int)(addendum0 + addendum1_ram + (*addendum_ptr[0]) + (*addendum_ptr[1])));
+      000282 CDr25r00         [24]  632 	call	_set_RAM_bank1
+      000285 FAr15r00         [16]  633 	ld	a, (#_addendum0)
+      000288 21r14r00         [12]  634 	ld	hl, #_addendum1_ram
+      00028B 86               [ 8]  635 	add	a, (hl)
+      00028C 4F               [ 4]  636 	ld	c, a
+      00028D FAr16r00         [16]  637 	ld	a, (#_addendum0 + 1)
+      000290 21r15r00         [12]  638 	ld	hl, #_addendum1_ram + 1
+      000293 8E               [ 8]  639 	adc	a, (hl)
+      000294 47               [ 4]  640 	ld	b, a
+      000295 C5               [16]  641 	push	bc
+      000296 CDr00r00         [24]  642 	call	_set_ROM_bank1
+      000299 C1               [12]  643 	pop	bc
+      00029A 21r13r00         [12]  644 	ld	hl, #_addendum_ptr
+      00029D 2A               [ 8]  645 	ld	a,	(hl+)
+      00029E 66               [ 8]  646 	ld	h, (hl)
+                                    647 ;	spillPairReg hl
+      00029F 6F               [ 4]  648 	ld	l, a
+                                    649 ;	spillPairReg hl
+                                    650 ;	spillPairReg hl
+      0002A0 E5               [16]  651 	push	hl
+      0002A1 C5               [16]  652 	push	bc
+      0002A2 CDr25r00         [24]  653 	call	_set_RAM_bank1
+      0002A5 C1               [12]  654 	pop	bc
+      0002A6 E1               [12]  655 	pop	hl
+      0002A7 2A               [ 8]  656 	ld	a,	(hl+)
+      0002A8 66               [ 8]  657 	ld	h, (hl)
+                                    658 ;	spillPairReg hl
+      0002A9 6F               [ 4]  659 	ld	l, a
+                                    660 ;	spillPairReg hl
+                                    661 ;	spillPairReg hl
+      0002AA E5               [16]  662 	push	hl
+      0002AB C5               [16]  663 	push	bc
+      0002AC CDr00r00         [24]  664 	call	_set_ROM_bank1
+      0002AF C1               [12]  665 	pop	bc
+      0002B0 E1               [12]  666 	pop	hl
+      0002B1 09               [ 8]  667 	add	hl, bc
+      0002B2 4D               [ 4]  668 	ld	c, l
+      0002B3 44               [ 4]  669 	ld	b, h
+      0002B4 21r15r00         [12]  670 	ld	hl, #(_addendum_ptr + 2)
+      0002B7 2A               [ 8]  671 	ld	a,	(hl+)
+      0002B8 66               [ 8]  672 	ld	h, (hl)
+                                    673 ;	spillPairReg hl
+      0002B9 6F               [ 4]  674 	ld	l, a
+                                    675 ;	spillPairReg hl
+                                    676 ;	spillPairReg hl
+      0002BA E5               [16]  677 	push	hl
+      0002BB C5               [16]  678 	push	bc
+      0002BC CDr25r00         [24]  679 	call	_set_RAM_bank1
+      0002BF C1               [12]  680 	pop	bc
+      0002C0 E1               [12]  681 	pop	hl
+      0002C1 2A               [ 8]  682 	ld	a,	(hl+)
+      0002C2 66               [ 8]  683 	ld	h, (hl)
+                                    684 ;	spillPairReg hl
+      0002C3 6F               [ 4]  685 	ld	l, a
+                                    686 ;	spillPairReg hl
+                                    687 ;	spillPairReg hl
+      0002C4 09               [ 8]  688 	add	hl, bc
+      0002C5 E5               [16]  689 	push	hl
+      0002C6 11rDFr02         [12]  690 	ld	de, #___str_5
+      0002C9 D5               [16]  691 	push	de
+      0002CA CDr00r00         [24]  692 	call	_printf
+                                    693 ;src/banks_nonintrinsic.c:89: while(1);
+      0002CD                        694 00116$:
+                                    695 ;src/banks_nonintrinsic.c:90: }
+      0002CD 18 FE            [12]  696 	jr	00116$
+      0002CF                        697 ___str_2:
+      0002CF 6F 6E 63 65 20 6D 6F   698 	.ascii "once more..."
+             72 65 2E 2E 2E
+      0002DB 00                     699 	.db 0x00
+      0002DC                        700 ___str_4:
+      0002DC 25 73                  701 	.ascii "%s"
+      0002DE 00                     702 	.db 0x00
+      0002DF                        703 ___str_5:
+      0002DF 31 2B 32 2B 34 2B 38   704 	.ascii "1+2+4+8=0x%x"
+             3D 30 78 25 78
+      0002EB 00                     705 	.db 0x00
+                                    706 	.area _CODE
+                                    707 	.area _INITIALIZER
+      000000                        708 __xinit___current_ram_bank:
+      000000 00                     709 	.db #0x00	; 0
+      000001                        710 __xinit__data:
+      000001 44 41 54 41            711 	.ascii "DATA"
+      000005 00                     712 	.db 0x00
+      000006 00                     713 	.db 0x00
+      000007 00                     714 	.db 0x00
+      000008 00                     715 	.db 0x00
+      000009 00                     716 	.db 0x00
+      00000A 00                     717 	.db 0x00
+      00000B 00                     718 	.db 0x00
+      00000C 00                     719 	.db 0x00
+      00000D 00                     720 	.db 0x00
+      00000E 00                     721 	.db 0x00
+      00000F 00                     722 	.db 0x00
+      000010 00                     723 	.db 0x00
+      000011 00                     724 	.db 0x00
+      000012 00                     725 	.db 0x00
+      000013 00                     726 	.db 0x00
+      000014 00                     727 	.db 0x00
+      000015                        728 __xinit__addendum0:
+      000015 01 00                  729 	.dw #0x0001
+                                    730 	.area _CABS (ABS)

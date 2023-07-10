@@ -1,0 +1,74 @@
+XL2
+H B areas 1B global symbols
+M main
+O -mmos6502
+S _set_bkg_attributes_PARM_3 Ref0000
+S _set_bkg_attributes_PARM_4 Ref0000
+S _GBDK_2020_logo_map Ref0000
+S _set_bkg_attributes_PARM_5 Ref0000
+S _fill_bkg_rect_PARM_3 Ref0000
+S _fill_bkg_rect_PARM_4 Ref0000
+S _fill_bkg_rect_PARM_5 Ref0000
+S _set_bkg_palette Ref0000
+S _display_on Ref0000
+S _set_bkg_data_PARM_3 Ref0000
+S .__.ABS. Def0000
+S _set_bkg_tiles_PARM_3 Ref0000
+S _set_bkg_tiles_PARM_4 Ref0000
+S _set_bkg_tiles_PARM_5 Ref0000
+S _set_bkg_attributes Ref0000
+S _shadow_PPUMASK Ref0000
+S _fill_bkg_rect Ref0000
+S _GBDK_2020_logo_tiles Ref0000
+S _GBDK_2020_logo_palettes Ref0000
+S _GBDK_2020_logo_map_attributes Ref0000
+S _set_bkg_palette_PARM_3 Ref0000
+S _display_off Ref0000
+S _set_bkg_data Ref0000
+S _set_bkg_tiles Ref0000
+A _CODE size 0 flags 0 addr 0
+A ZP size A flags 10 addr 0
+S __TEMP Def0000
+S __DPTR Def0008
+A BSS size 0 flags 0 addr 0
+A DABS size 0 flags 8 addr 0
+A DATA size 0 flags 0 addr 0
+A GSINIT size 0 flags 0 addr 0
+A GSFINAL size 0 flags 0 addr 0
+A CODE size 77 flags 0 addr 0
+S _main Def0000
+A RODATA size 0 flags 0 addr 0
+A XINIT size 0 flags 0 addr 0
+A CABS size 0 flags 8 addr 0
+T 00 00
+R 00 00 01 00
+T 08 00
+R 00 00 01 00
+T 00 00
+R 00 00 07 00
+T 00 00 20 00 00 A2 20 8E 00 00 A2 1E 8E 00 00 A2
+R 00 00 07 00 02 03 15 00 02 08 04 00 02 0D 05 00
+T 0E 00 00 8E 00 00 8A 20 00 00 A9 00 00 8D
+R 00 00 07 00 02 04 06 00 02 08 10 00 0B 0B 12 00
+T 19 00 00 00 A9 00 00 8D 01 00 A9 00 A2 03 20
+R 00 00 07 00 02 02 14 00 8B 05 12 00 02 08 14 00
+T 25 00 00 00 A9 00 00 8D 00 00 A9
+R 00 00 07 00 02 02 07 00 0B 05 11 00 02 08 09 00
+T 2D 00 00 00 8D 01 00 A9 00 A2 28 20 00 00 A9
+R 00 00 07 00 8B 02 11 00 02 05 09 00 02 0C 16 00
+T 39 00 00 00 8D 00 00 A9 00 00 8D
+R 00 00 07 00 0B 02 13 00 02 05 03 00 8B 08 13 00
+T 40 00 01 00 A2 0A 8E 00 00 CA 8E 00 00 A9 03 AA
+R 00 00 07 00 02 02 03 00 02 07 00 00 02 0B 01 00
+T 4E 00 20 00 00 A9 00 00 8D 00 00 A9
+R 00 00 07 00 02 03 0E 00 0B 06 02 00 02 09 0D 00
+T 57 00 00 00 8D 01 00 A2 14 8E 00 00 A2 12 8E
+R 00 00 07 00 8B 02 02 00 02 05 0D 00 02 0A 0B 00
+T 63 00 00 00 A9 06 AA 20 00 00 AD 00 00 09 08 8D
+R 00 00 07 00 02 02 0C 00 02 08 17 00 02 0B 0F 00
+T 71 00 00 00 20 00 00
+R 00 00 07 00 02 02 0F 00 02 05 08 00
+T 76 00
+R 00 00 07 00
+T 76 00 60
+R 00 00 07 00

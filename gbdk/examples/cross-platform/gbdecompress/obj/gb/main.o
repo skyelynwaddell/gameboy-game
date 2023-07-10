@@ -1,0 +1,45 @@
+XL3
+H 9 areas A global symbols
+M main
+O -msm83
+S _monalisa_tiles_comp Ref000000
+S .__.ABS. Def000000
+S _monalisa_mapPLN0 Ref000000
+S _LCDC_REG Ref000000
+S _set_bkg_data Ref000000
+S _wait_vbl_done Ref000000
+S _gb_decompress Ref000000
+S _set_bkg_tiles Ref000000
+A _CODE size 45 flags 0 addr 0
+S _main Def000000
+A _DATA size 1000 flags 0 addr 0
+S _buffer Def000000
+A _INITIALIZED size 0 flags 0 addr 0
+A _DABS size 0 flags 8 addr 0
+A _HOME size 0 flags 0 addr 0
+A _GSINIT size 0 flags 0 addr 0
+A _GSFINAL size 0 flags 0 addr 0
+A _INITIALIZER size 0 flags 0 addr 0
+A _CABS size 0 flags 8 addr 0
+T 00 00 00
+R 00 00 01 00
+T 00 00 00
+R 00 00 01 00
+T 00 00 00
+R 00 00 00 00
+T 00 00 00 11 00 00 4B 42 D5 11 00 00 D5 CD 00 00
+R 00 00 00 00 00 04 01 00 02 0A 00 00 02 0E 06 00
+T 0D 00 00 E8 04 CB 3A CB 1B CB 3A CB 1B CB 3A CB
+R 00 00 00 00
+T 1A 00 00 1B CB 3A CB 1B 7B C5 67 2E 00 E5 CD
+R 00 00 00 00
+T 26 00 00 00 00 E8 04 11 00 00 D5 21 14 12 E5 AF
+R 00 00 00 00 02 03 04 00 02 08 02 00
+T 33 00 00 0F F5 CD 00 00 E8 06 F0 00 00 00 F6 01
+R 00 00 00 00 02 06 07 00 0B 0B 03 00
+T 3E 00 00 E0 00 00 00
+R 00 00 00 00 0B 04 03 00
+T 40 00 00
+R 00 00 00 00
+T 40 00 00 CD 00 00 18 FB
+R 00 00 00 00 02 04 05 00

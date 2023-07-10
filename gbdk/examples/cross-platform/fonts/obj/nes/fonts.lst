@@ -1,0 +1,251 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ISO C Compiler 
+                              3 ; Version 4.2.2 #13350 (Mac OS X x86_64)
+                              4 ;--------------------------------------------------------
+                              5 	.module fonts
+                              6 	.optsdcc -mmos6502
+                              7 	
+                              8 	.globl __TEMP
+                              9 	.globl __DPTR
+                             10 	.area ZP      (PAG)
+   0000                      11 __TEMP:	.ds 8
+   0008                      12 __DPTR:	.ds 2
+                             13 ;--------------------------------------------------------
+                             14 ; Public variables in this module
+                             15 ;--------------------------------------------------------
+                             16 	.globl _main
+                             17 	.globl _font_color
+                             18 	.globl _font_set
+                             19 	.globl _font_load
+                             20 	.globl _font_init
+                             21 	.globl _get_mode
+                             22 	.globl _mode
+                             23 	.globl _printf
+                             24 ;--------------------------------------------------------
+                             25 ; ZP ram data
+                             26 ;--------------------------------------------------------
+                             27 	.area ZP      (PAG)
+   000A                      28 _main_sloc0_1_0:
+   000A                      29 	.ds 2
+                             30 ;--------------------------------------------------------
+                             31 ; overlayable items in ram
+                             32 ;--------------------------------------------------------
+                             33 ;--------------------------------------------------------
+                             34 ; uninitialized external ram data
+                             35 ;--------------------------------------------------------
+                             36 	.area BSS
+   0000                      37 _main_ibm_font_65536_74:
+   0000                      38 	.ds 2
+   0002                      39 _main_italic_font_65536_74:
+   0002                      40 	.ds 2
+   0004                      41 _main_min_font_65536_74:
+   0004                      42 	.ds 2
+                             43 ;--------------------------------------------------------
+                             44 ; absolute external ram data
+                             45 ;--------------------------------------------------------
+                             46 	.area DABS    (ABS)
+                             47 ;--------------------------------------------------------
+                             48 ; initialized external ram data
+                             49 ;--------------------------------------------------------
+                             50 	.area DATA
+                             51 ;--------------------------------------------------------
+                             52 ; global & static initialisations
+                             53 ;--------------------------------------------------------
+                             54 	.area _CODE
+                             55 	.area GSINIT
+                             56 	.area GSFINAL
+                             57 	.area GSINIT
+                             58 ;--------------------------------------------------------
+                             59 ; Home
+                             60 ;--------------------------------------------------------
+                             61 	.area _CODE
+                             62 	.area _CODE
+                             63 ;--------------------------------------------------------
+                             64 ; code
+                             65 ;--------------------------------------------------------
+                             66 	.area CODE
+                             67 ;------------------------------------------------------------
+                             68 ;Allocation info for local variables in function 'main'
+                             69 ;------------------------------------------------------------
+                             70 ;sloc0                     Allocated with name '_main_sloc0_1_0'
+                             71 ;ibm_font                  Allocated with name '_main_ibm_font_65536_74'
+                             72 ;italic_font               Allocated with name '_main_italic_font_65536_74'
+                             73 ;min_font                  Allocated with name '_main_min_font_65536_74'
+                             74 ;i                         Allocated to registers 
+                             75 ;------------------------------------------------------------
+                             76 ;	src/fonts.c: 17: void main(void)
+                             77 ;	-----------------------------------------
+                             78 ;	 function main
+                             79 ;	-----------------------------------------
+                             80 ;	Register assignment is optimal.
+                             81 ;	Stack space usage: 0 bytes.
+   0000                      82 _main:
+                             83 ;	src/fonts.c: 23: font_init();
+   0000 20r00r00      [ 6]   84 	jsr	_font_init
+                             85 ;	src/fonts.c: 26: ibm_font = font_load(font_ibm);  /* 96 tiles */
+   0003 A2s00         [ 2]   86 	ldx	#>_font_ibm
+   0005 A9r00         [ 2]   87 	lda	#_font_ibm
+   0007 20r00r00      [ 6]   88 	jsr	_font_load
+   000A 8Dr00r00      [ 4]   89 	sta	_main_ibm_font_65536_74
+   000D 8Er01r00      [ 4]   90 	stx	(_main_ibm_font_65536_74 + 1)
+                             91 ;	src/fonts.c: 27: italic_font = font_load(font_italic);   /* 93 tiles */
+   0010 A2s00         [ 2]   92 	ldx	#>_font_italic
+   0012 A9r00         [ 2]   93 	lda	#_font_italic
+   0014 20r00r00      [ 6]   94 	jsr	_font_load
+   0017 8Dr02r00      [ 4]   95 	sta	_main_italic_font_65536_74
+   001A 8Er03r00      [ 4]   96 	stx	(_main_italic_font_65536_74 + 1)
+                             97 ;	src/fonts.c: 30: font_color(WHITE, DKGREY);
+   001D A9 03         [ 2]   98 	lda	#0x03
+   001F A2 01         [ 2]   99 	ldx	#0x01
+   0021 20r00r00      [ 6]  100 	jsr	_font_color
+                            101 ;	src/fonts.c: 32: min_font = font_load(font_min);
+   0024 A2s00         [ 2]  102 	ldx	#>_font_min
+   0026 A9r00         [ 2]  103 	lda	#_font_min
+   0028 20r00r00      [ 6]  104 	jsr	_font_load
+   002B 8Dr04r00      [ 4]  105 	sta	_main_min_font_65536_74
+   002E 8Er05r00      [ 4]  106 	stx	(_main_min_font_65536_74 + 1)
+                            107 ;	src/fonts.c: 35: mode(get_mode() | M_NO_SCROLL);
+   0031 20r00r00      [ 6]  108 	jsr	_get_mode
+   0034 09 04         [ 2]  109 	ora	#0x04
+   0036 20r00r00      [ 6]  110 	jsr	_mode
+                            111 ;	src/fonts.c: 40: font_set(ibm_font);
+   0039 AEr01r00      [ 4]  112 	ldx	(_main_ibm_font_65536_74 + 1)
+   003C ADr00r00      [ 4]  113 	lda	_main_ibm_font_65536_74
+   003F 20r00r00      [ 6]  114 	jsr	_font_set
+                            115 ;	src/fonts.c: 41: printf("Font demo.\n\n");
+   0042 A9s00         [ 2]  116 	lda	#>___str_0
+   0044 48            [ 3]  117 	pha
+   0045 A9r00         [ 2]  118 	lda	#___str_0
+   0047 48            [ 3]  119 	pha
+   0048 20r00r00      [ 6]  120 	jsr	_printf
+   004B 85*00         [ 3]  121 	sta	*(__TEMP+0)
+   004D 68            [ 4]  122 	pla
+   004E 68            [ 4]  123 	pla
+   004F A5*00         [ 3]  124 	lda	*(__TEMP+0)
+                            125 ;	src/fonts.c: 43: printf("IBM Font #!?123\n");
+   0051 A9s00         [ 2]  126 	lda	#>___str_1
+   0053 48            [ 3]  127 	pha
+   0054 A9r0D         [ 2]  128 	lda	#___str_1
+   0056 48            [ 3]  129 	pha
+   0057 20r00r00      [ 6]  130 	jsr	_printf
+   005A 85*00         [ 3]  131 	sta	*(__TEMP+0)
+   005C 68            [ 4]  132 	pla
+   005D 68            [ 4]  133 	pla
+   005E A5*00         [ 3]  134 	lda	*(__TEMP+0)
+                            135 ;	src/fonts.c: 46: font_set(italic_font);
+   0060 AEr03r00      [ 4]  136 	ldx	(_main_italic_font_65536_74 + 1)
+   0063 ADr02r00      [ 4]  137 	lda	_main_italic_font_65536_74
+   0066 20r00r00      [ 6]  138 	jsr	_font_set
+                            139 ;	src/fonts.c: 47: for (i=1; i!=5; i++) {
+   0069 A2 01         [ 2]  140 	ldx	#0x01
+   006B 86*0A         [ 3]  141 	stx	*_main_sloc0_1_0
+   006D CA            [ 2]  142 	dex
+   006E 86*0B         [ 3]  143 	stx	*(_main_sloc0_1_0 + 1)
+   0070                     144 00102$:
+                            145 ;	src/fonts.c: 48: printf("In italics, line %u\n", i);
+   0070 A5*0B         [ 3]  146 	lda	*(_main_sloc0_1_0 + 1)
+   0072 48            [ 3]  147 	pha
+   0073 A5*0A         [ 3]  148 	lda	*_main_sloc0_1_0
+   0075 48            [ 3]  149 	pha
+   0076 A9s00         [ 2]  150 	lda	#>___str_2
+   0078 48            [ 3]  151 	pha
+   0079 A9r1E         [ 2]  152 	lda	#___str_2
+   007B 48            [ 3]  153 	pha
+   007C 20r00r00      [ 6]  154 	jsr	_printf
+   007F 85*00         [ 3]  155 	sta	*(__TEMP+0)
+   0081 68            [ 4]  156 	pla
+   0082 68            [ 4]  157 	pla
+   0083 68            [ 4]  158 	pla
+   0084 68            [ 4]  159 	pla
+   0085 A5*00         [ 3]  160 	lda	*(__TEMP+0)
+                            161 ;	src/fonts.c: 47: for (i=1; i!=5; i++) {
+   0087 E6*0A         [ 5]  162 	inc	*_main_sloc0_1_0
+   0089 D0 02         [ 4]  163 	bne	00115$
+   008B E6*0B         [ 5]  164 	inc	*(_main_sloc0_1_0 + 1)
+   008D                     165 00115$:
+   008D A5*0A         [ 3]  166 	lda	*_main_sloc0_1_0
+   008F C9 05         [ 2]  167 	cmp	#0x05
+   0091 F0 03         [ 4]  168 	beq	00116$
+   0093 4Cr9Cr00      [ 3]  169 	jmp	00117$
+   0096                     170 00116$:
+   0096 A5*0B         [ 3]  171 	lda	*(_main_sloc0_1_0 + 1)
+   0098 C9 00         [ 2]  172 	cmp	#0x00
+   009A F0 03         [ 4]  173 	beq	00118$
+   009C                     174 00117$:
+   009C 4Cr70r00      [ 3]  175 	jmp	00102$
+   009F                     176 00118$:
+                            177 ;	src/fonts.c: 52: font_set(min_font);
+   009F AEr05r00      [ 4]  178 	ldx	(_main_min_font_65536_74 + 1)
+   00A2 ADr04r00      [ 4]  179 	lda	_main_min_font_65536_74
+   00A5 20r00r00      [ 6]  180 	jsr	_font_set
+                            181 ;	src/fonts.c: 53: printf("Minimal 36 tile font\n");
+   00A8 A9s00         [ 2]  182 	lda	#>___str_3
+   00AA 48            [ 3]  183 	pha
+   00AB A9r33         [ 2]  184 	lda	#___str_3
+   00AD 48            [ 3]  185 	pha
+   00AE 20r00r00      [ 6]  186 	jsr	_printf
+   00B1 85*00         [ 3]  187 	sta	*(__TEMP+0)
+   00B3 68            [ 4]  188 	pla
+   00B4 68            [ 4]  189 	pla
+   00B5 A5*00         [ 3]  190 	lda	*(__TEMP+0)
+                            191 ;	src/fonts.c: 56: font_set(ibm_font);
+   00B7 AEr01r00      [ 4]  192 	ldx	(_main_ibm_font_65536_74 + 1)
+   00BA ADr00r00      [ 4]  193 	lda	_main_ibm_font_65536_74
+   00BD 20r00r00      [ 6]  194 	jsr	_font_set
+                            195 ;	src/fonts.c: 57: printf("\nDone!");
+   00C0 A9s00         [ 2]  196 	lda	#>___str_4
+   00C2 48            [ 3]  197 	pha
+   00C3 A9r49         [ 2]  198 	lda	#___str_4
+   00C5 48            [ 3]  199 	pha
+   00C6 20r00r00      [ 6]  200 	jsr	_printf
+   00C9 85*00         [ 3]  201 	sta	*(__TEMP+0)
+   00CB 68            [ 4]  202 	pla
+   00CC 68            [ 4]  203 	pla
+   00CD A5*00         [ 3]  204 	lda	*(__TEMP+0)
+   00CF                     205 00104$:
+                            206 ;	src/fonts.c: 58: }
+   00CF 60            [ 6]  207 	rts
+                            208 	.area CODE
+                            209 	.area RODATA
+                            210 	.area RODATA
+   0000                     211 ___str_0:
+   0000 46 6F 6E 74 20 64   212 	.ascii "Font demo."
+        65 6D 6F 2E
+   000A 0A                  213 	.db 0x0a
+   000B 0A                  214 	.db 0x0a
+   000C 00                  215 	.db 0x00
+                            216 	.area CODE
+                            217 	.area RODATA
+   000D                     218 ___str_1:
+   000D 49 42 4D 20 46 6F   219 	.ascii "IBM Font #!?123"
+        6E 74 20 23 21 3F
+        31 32 33
+   001C 0A                  220 	.db 0x0a
+   001D 00                  221 	.db 0x00
+                            222 	.area CODE
+                            223 	.area RODATA
+   001E                     224 ___str_2:
+   001E 49 6E 20 69 74 61   225 	.ascii "In italics, line %u"
+        6C 69 63 73 2C 20
+        6C 69 6E 65 20 25
+        75
+   0031 0A                  226 	.db 0x0a
+   0032 00                  227 	.db 0x00
+                            228 	.area CODE
+                            229 	.area RODATA
+   0033                     230 ___str_3:
+   0033 4D 69 6E 69 6D 61   231 	.ascii "Minimal 36 tile font"
+        6C 20 33 36 20 74
+        69 6C 65 20 66 6F
+        6E 74
+   0047 0A                  232 	.db 0x0a
+   0048 00                  233 	.db 0x00
+                            234 	.area CODE
+                            235 	.area RODATA
+   0049                     236 ___str_4:
+   0049 0A                  237 	.db 0x0a
+   004A 44 6F 6E 65 21      238 	.ascii "Done!"
+   004F 00                  239 	.db 0x00
+                            240 	.area CODE
+                            241 	.area XINIT
+                            242 	.area CABS    (ABS)

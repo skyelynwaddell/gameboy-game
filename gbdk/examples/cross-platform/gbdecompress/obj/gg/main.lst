@@ -1,0 +1,114 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler 
+                                      3 ; Version 4.2.2 #13350 (Mac OS X x86_64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module main
+                                      6 	.optsdcc -mz80
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _main
+                                     12 	.globl _gb_decompress
+                                     13 	.globl _set_tile_map_compat
+                                     14 	.globl _set_tile_2bpp_data
+                                     15 	.globl _wait_vbl_done
+                                     16 	.globl _buffer
+                                     17 ;--------------------------------------------------------
+                                     18 ; special function registers
+                                     19 ;--------------------------------------------------------
+                           00003E    20 _MEMORY_CTL	=	0x003e
+                           00003F    21 _JOY_CTL	=	0x003f
+                           00007E    22 _VCOUNTER	=	0x007e
+                           00007F    23 _PSG	=	0x007f
+                           00007F    24 _HCOUNTER	=	0x007f
+                           0000BE    25 _VDP_DATA	=	0x00be
+                           0000BF    26 _VDP_CMD	=	0x00bf
+                           0000BF    27 _VDP_STATUS	=	0x00bf
+                           0000DC    28 _JOY_PORT1	=	0x00dc
+                           0000DD    29 _JOY_PORT2	=	0x00dd
+                           0000F0    30 _FMADDRESS	=	0x00f0
+                           0000F1    31 _FMDATA	=	0x00f1
+                           0000F2    32 _AUDIOCTRL	=	0x00f2
+                                     33 ;--------------------------------------------------------
+                                     34 ; ram data
+                                     35 ;--------------------------------------------------------
+                                     36 	.area _DATA
+                           00FFFC    37 _RAM_CONTROL	=	0xfffc
+                           00FFF8    38 _GLASSES_3D	=	0xfff8
+                           00FFFD    39 _MAP_FRAME0	=	0xfffd
+                           00FFFE    40 _MAP_FRAME1	=	0xfffe
+                           00FFFF    41 _MAP_FRAME2	=	0xffff
+      000000                         42 _buffer::
+      000000                         43 	.ds 4096
+                                     44 ;--------------------------------------------------------
+                                     45 ; ram data
+                                     46 ;--------------------------------------------------------
+                                     47 	.area _INITIALIZED
+                                     48 ;--------------------------------------------------------
+                                     49 ; absolute external ram data
+                                     50 ;--------------------------------------------------------
+                                     51 	.area _DABS (ABS)
+                                     52 ;--------------------------------------------------------
+                                     53 ; global & static initialisations
+                                     54 ;--------------------------------------------------------
+                                     55 	.area _HOME
+                                     56 	.area _GSINIT
+                                     57 	.area _GSFINAL
+                                     58 	.area _GSINIT
+                                     59 ;--------------------------------------------------------
+                                     60 ; Home
+                                     61 ;--------------------------------------------------------
+                                     62 	.area _HOME
+                                     63 	.area _HOME
+                                     64 ;--------------------------------------------------------
+                                     65 ; code
+                                     66 ;--------------------------------------------------------
+                                     67 	.area _CODE
+                                     68 ;src/main.c:16: void main(void)
+                                     69 ;	---------------------------------
+                                     70 ; Function main
+                                     71 ; ---------------------------------
+      000000                         72 _main::
+                                     73 ;src/main.c:25: set_bkg_data(0, gb_decompress(monalisa_tiles_comp, buffer) >> 4, buffer);
+      000000 11r00r00         [10]   74 	ld	de, #_buffer+0
+      000003 4B               [ 4]   75 	ld	c, e
+      000004 42               [ 4]   76 	ld	b, d
+      000005 D5               [11]   77 	push	de
+      000006 21r00r00         [10]   78 	ld	hl, #_monalisa_tiles_comp
+      000009 E5               [11]   79 	push	hl
+      00000A CDr00r00         [17]   80 	call	_gb_decompress
+      00000D EB               [ 4]   81 	ex	de, hl
+      00000E CB 3A            [ 8]   82 	srl	d
+      000010 CB 1B            [ 8]   83 	rr	e
+      000012 CB 3A            [ 8]   84 	srl	d
+      000014 CB 1B            [ 8]   85 	rr	e
+      000016 CB 3A            [ 8]   86 	srl	d
+      000018 CB 1B            [ 8]   87 	rr	e
+      00001A CB 3A            [ 8]   88 	srl	d
+      00001C CB 1B            [ 8]   89 	rr	e
+                                     90 ;../../../include/sms/sms.h:534: set_tile_2bpp_data(start, ntiles, src, _current_2bpp_palette);
+      00001E 2Ar00r00         [16]   91 	ld	hl, (__current_2bpp_palette)
+      000021 E5               [11]   92 	push	hl
+      000022 C5               [11]   93 	push	bc
+      000023 D5               [11]   94 	push	de
+      000024 21 00 00         [10]   95 	ld	hl, #0x0000
+      000027 E5               [11]   96 	push	hl
+      000028 CDr00r00         [17]   97 	call	_set_tile_2bpp_data
+                                     98 ;src/main.c:28: set_bkg_tiles(0,0, monalisa_mapWidth, monalisa_mapHeight, monalisa_mapPLN0);
+      00002B 21r00r00         [10]   99 	ld	hl, #_monalisa_mapPLN0
+      00002E E5               [11]  100 	push	hl
+      00002F 21 14 12         [10]  101 	ld	hl, #0x1214
+      000032 E5               [11]  102 	push	hl
+      000033 21 00 00         [10]  103 	ld	hl, #0x00
+      000036 E5               [11]  104 	push	hl
+      000037 CDr00r00         [17]  105 	call	_set_tile_map_compat
+                                    106 ;src/main.c:32: while(1) {
+      00003A                        107 00102$:
+                                    108 ;src/main.c:37: wait_vbl_done();
+      00003A CDr00r00         [17]  109 	call	_wait_vbl_done
+                                    110 ;src/main.c:39: }
+      00003D 18 FB            [12]  111 	jr	00102$
+                                    112 	.area _CODE
+                                    113 	.area _INITIALIZER
+                                    114 	.area _CABS (ABS)

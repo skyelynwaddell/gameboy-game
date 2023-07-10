@@ -1,0 +1,269 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler 
+                                      3 ; Version 4.2.2 #13350 (Mac OS X x86_64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module banks
+                                      6 	.optsdcc -mz80
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _main
+                                     12 	.globl _print_var
+                                     13 	.globl _bank_fixed
+                                     14 	.globl b_bank_3
+                                     15 	.globl _bank_3
+                                     16 	.globl b_bank_2
+                                     17 	.globl _bank_2
+                                     18 	.globl b_bank_1
+                                     19 	.globl _bank_1
+                                     20 	.globl _puts
+                                     21 	.globl _printf
+                                     22 	.globl _var_internal
+                                     23 ;--------------------------------------------------------
+                                     24 ; special function registers
+                                     25 ;--------------------------------------------------------
+                           00003E    26 _MEMORY_CTL	=	0x003e
+                           00003F    27 _JOY_CTL	=	0x003f
+                           00007E    28 _VCOUNTER	=	0x007e
+                           00007F    29 _PSG	=	0x007f
+                           00007F    30 _HCOUNTER	=	0x007f
+                           0000BE    31 _VDP_DATA	=	0x00be
+                           0000BF    32 _VDP_CMD	=	0x00bf
+                           0000BF    33 _VDP_STATUS	=	0x00bf
+                           0000DC    34 _JOY_PORT1	=	0x00dc
+                           0000DD    35 _JOY_PORT2	=	0x00dd
+                           0000F0    36 _FMADDRESS	=	0x00f0
+                           0000F1    37 _FMDATA	=	0x00f1
+                           0000F2    38 _AUDIOCTRL	=	0x00f2
+                                     39 ;--------------------------------------------------------
+                                     40 ; ram data
+                                     41 ;--------------------------------------------------------
+                                     42 	.area _DATA
+                           00FFFC    43 _RAM_CONTROL	=	0xfffc
+                           00FFF8    44 _GLASSES_3D	=	0xfff8
+                           00FFFD    45 _MAP_FRAME0	=	0xfffd
+                           00FFFE    46 _MAP_FRAME1	=	0xfffe
+                           00FFFF    47 _MAP_FRAME2	=	0xffff
+      000000                         48 _var_internal::
+      000000                         49 	.ds 2
+                                     50 ;--------------------------------------------------------
+                                     51 ; ram data
+                                     52 ;--------------------------------------------------------
+                                     53 	.area _INITIALIZED
+                                     54 ;--------------------------------------------------------
+                                     55 ; absolute external ram data
+                                     56 ;--------------------------------------------------------
+                                     57 	.area _DABS (ABS)
+                                     58 ;--------------------------------------------------------
+                                     59 ; global & static initialisations
+                                     60 ;--------------------------------------------------------
+                                     61 	.area _HOME
+                                     62 	.area _GSINIT
+                                     63 	.area _GSFINAL
+                                     64 	.area _GSINIT
+                                     65 ;--------------------------------------------------------
+                                     66 ; Home
+                                     67 ;--------------------------------------------------------
+                                     68 	.area _HOME
+                                     69 ;src/banks.c:18: void bank_fixed(void) NONBANKED
+                                     70 ;	---------------------------------
+                                     71 ; Function bank_fixed
+                                     72 ; ---------------------------------
+      000000                         73 _bank_fixed::
+                                     74 ;src/banks.c:20: puts("I'm in fixed ROM");
+      000000 21r06r00         [10]   75 	ld	hl, #___str_0
+                                     76 ;src/banks.c:21: }
+      000003 C3r00r00         [10]   77 	jp	_puts
+      000006                         78 ___str_0:
+      000006 49 27 6D 20 69 6E 20    79 	.ascii "I'm in fixed ROM"
+             66 69 78 65 64 20 52
+             4F 4D
+      000016 00                      80 	.db 0x00
+                                     81 	.area _HOME
+                                     82 ;--------------------------------------------------------
+                                     83 ; code
+                                     84 ;--------------------------------------------------------
+                                     85 	.area _CODE
+                                     86 ;src/banks.c:23: void print_var(uint8_t bank)
+                                     87 ;	---------------------------------
+                                     88 ; Function print_var
+                                     89 ; ---------------------------------
+      000000                         90 _print_var::
+                                     91 ;src/banks.c:25: SWITCH_RAM(bank);
+      000000 CB 47            [ 8]   92 	bit	0,a
+      000002 28 07            [12]   93 	jr	Z, 00103$
+      000004 3A FC FF         [13]   94 	ld	a, (_RAM_CONTROL+0)
+      000007 CB D7            [ 8]   95 	set	2, a
+      000009 18 05            [12]   96 	jr	00104$
+      00000B                         97 00103$:
+      00000B 3A FC FF         [13]   98 	ld	a, (_RAM_CONTROL+0)
+      00000E CB 97            [ 8]   99 	res	2, a
+      000010                        100 00104$:
+      000010 32 FC FF         [13]  101 	ld	(_RAM_CONTROL+0), a
+                                    102 ;src/banks.c:26: printf("Var_%u is %u\n");
+      000013 21r1Cr00         [10]  103 	ld	hl, #___str_1
+      000016 E5               [11]  104 	push	hl
+      000017 CDr00r00         [17]  105 	call	_printf
+      00001A F1               [10]  106 	pop	af
+                                    107 ;src/banks.c:27: }
+      00001B C9               [10]  108 	ret
+      00001C                        109 ___str_1:
+      00001C 56 61 72 5F 25 75 20   110 	.ascii "Var_%u is %u"
+             69 73 20 25 75
+      000028 0A                     111 	.db 0x0a
+      000029 00                     112 	.db 0x00
+                                    113 ;src/banks.c:29: void main(void)
+                                    114 ;	---------------------------------
+                                    115 ; Function main
+                                    116 ; ---------------------------------
+      00002A                        117 _main::
+                                    118 ;src/banks.c:31: puts("Program Start...");
+      00002A 21rF4r00         [10]  119 	ld	hl, #___str_2
+      00002D CDr00r00         [17]  120 	call	_puts
+                                    121 ;src/banks.c:33: ENABLE_RAM;
+      000030 3A FC FF         [13]  122 	ld	a, (_RAM_CONTROL+0)
+      000033 F6 08            [ 7]  123 	or	a, #0x08
+      000035 32 FC FF         [13]  124 	ld	(_RAM_CONTROL+0), a
+                                    125 ;src/banks.c:35: var_internal = 1;
+      000038 21 01 00         [10]  126 	ld	hl, #0x0001
+      00003B 22r00r00         [16]  127 	ld	(_var_internal), hl
+                                    128 ;src/banks.c:36: SWITCH_RAM(0);
+      00003E 3A FC FF         [13]  129 	ld	a, (_RAM_CONTROL+0)
+      000041 E6 FB            [ 7]  130 	and	a, #0xfb
+      000043 32 FC FF         [13]  131 	ld	(_RAM_CONTROL+0), a
+                                    132 ;src/banks.c:37: var_0 = 2;
+      000046 2E 02            [ 7]  133 	ld	l, #0x02
+      000048 22r00r00         [16]  134 	ld	(_var_0), hl
+                                    135 ;src/banks.c:38: SWITCH_RAM(1);
+      00004B 3A FC FF         [13]  136 	ld	a, (_RAM_CONTROL+0)
+      00004E F6 04            [ 7]  137 	or	a, #0x04
+      000050 32 FC FF         [13]  138 	ld	(_RAM_CONTROL+0), a
+                                    139 ;src/banks.c:39: var_1 = 3;
+      000053 2E 03            [ 7]  140 	ld	l, #0x03
+      000055 22r00r00         [16]  141 	ld	(_var_1), hl
+                                    142 ;src/banks.c:40: SWITCH_RAM(0);
+      000058 3A FC FF         [13]  143 	ld	a, (_RAM_CONTROL+0)
+      00005B E6 FB            [ 7]  144 	and	a, #0xfb
+      00005D 32 FC FF         [13]  145 	ld	(_RAM_CONTROL+0), a
+                                    146 ;src/banks.c:41: var_2 = 4;
+      000060 2E 04            [ 7]  147 	ld	l, #0x04
+      000062 22r00r00         [16]  148 	ld	(_var_2), hl
+                                    149 ;src/banks.c:42: SWITCH_RAM(1);
+      000065 3A FC FF         [13]  150 	ld	a, (_RAM_CONTROL+0)
+      000068 F6 04            [ 7]  151 	or	a, #0x04
+      00006A 32 FC FF         [13]  152 	ld	(_RAM_CONTROL+0), a
+                                    153 ;src/banks.c:43: var_3 = 5;
+      00006D 2E 05            [ 7]  154 	ld	l, #0x05
+      00006F 22r00r00         [16]  155 	ld	(_var_3), hl
+                                    156 ;src/banks.c:45: bank_fixed();
+      000072 CDr00r00         [17]  157 	call	_bank_fixed
+                                    158 ;src/banks.c:46: bank_1();
+      000075 1Er00            [ 7]  159 	ld	e, #b_bank_1
+      000077 21r00r00         [10]  160 	ld	hl, #_bank_1
+      00007A CDr00r00         [17]  161 	call	___sdcc_bcall_ehl
+                                    162 ;src/banks.c:47: bank_2();
+      00007D 1Er00            [ 7]  163 	ld	e, #b_bank_2
+      00007F 21r00r00         [10]  164 	ld	hl, #_bank_2
+      000082 CDr00r00         [17]  165 	call	___sdcc_bcall_ehl
+                                    166 ;src/banks.c:48: bank_3();
+      000085 1Er00            [ 7]  167 	ld	e, #b_bank_3
+      000087 21r00r00         [10]  168 	ld	hl, #_bank_3
+      00008A CDr00r00         [17]  169 	call	___sdcc_bcall_ehl
+                                    170 ;src/banks.c:50: printf("Var is %u\n", var_internal);
+      00008D 2Ar00r00         [16]  171 	ld	hl, (_var_internal)
+      000090 E5               [11]  172 	push	hl
+      000091 21r05r01         [10]  173 	ld	hl, #___str_3
+      000094 E5               [11]  174 	push	hl
+      000095 CDr00r00         [17]  175 	call	_printf
+      000098 F1               [10]  176 	pop	af
+      000099 F1               [10]  177 	pop	af
+                                    178 ;src/banks.c:51: SWITCH_RAM(0);
+      00009A 3A FC FF         [13]  179 	ld	a, (_RAM_CONTROL+0)
+      00009D E6 FB            [ 7]  180 	and	a, #0xfb
+      00009F 32 FC FF         [13]  181 	ld	(_RAM_CONTROL+0), a
+                                    182 ;src/banks.c:52: printf("Var_0 is %u\n", var_0);
+      0000A2 2Ar00r00         [16]  183 	ld	hl, (_var_0)
+      0000A5 E5               [11]  184 	push	hl
+      0000A6 21r10r01         [10]  185 	ld	hl, #___str_4
+      0000A9 E5               [11]  186 	push	hl
+      0000AA CDr00r00         [17]  187 	call	_printf
+      0000AD F1               [10]  188 	pop	af
+      0000AE F1               [10]  189 	pop	af
+                                    190 ;src/banks.c:53: SWITCH_RAM(1);
+      0000AF 3A FC FF         [13]  191 	ld	a, (_RAM_CONTROL+0)
+      0000B2 F6 04            [ 7]  192 	or	a, #0x04
+      0000B4 32 FC FF         [13]  193 	ld	(_RAM_CONTROL+0), a
+                                    194 ;src/banks.c:54: printf("Var_1 is %u\n", var_1);
+      0000B7 2Ar00r00         [16]  195 	ld	hl, (_var_1)
+      0000BA E5               [11]  196 	push	hl
+      0000BB 21r1Dr01         [10]  197 	ld	hl, #___str_5
+      0000BE E5               [11]  198 	push	hl
+      0000BF CDr00r00         [17]  199 	call	_printf
+      0000C2 F1               [10]  200 	pop	af
+      0000C3 F1               [10]  201 	pop	af
+                                    202 ;src/banks.c:55: SWITCH_RAM(0);
+      0000C4 3A FC FF         [13]  203 	ld	a, (_RAM_CONTROL+0)
+      0000C7 E6 FB            [ 7]  204 	and	a, #0xfb
+      0000C9 32 FC FF         [13]  205 	ld	(_RAM_CONTROL+0), a
+                                    206 ;src/banks.c:56: printf("Var_2 is %u\n", var_2);
+      0000CC 2Ar00r00         [16]  207 	ld	hl, (_var_2)
+      0000CF E5               [11]  208 	push	hl
+      0000D0 21r2Ar01         [10]  209 	ld	hl, #___str_6
+      0000D3 E5               [11]  210 	push	hl
+      0000D4 CDr00r00         [17]  211 	call	_printf
+      0000D7 F1               [10]  212 	pop	af
+      0000D8 F1               [10]  213 	pop	af
+                                    214 ;src/banks.c:57: SWITCH_RAM(1);
+      0000D9 3A FC FF         [13]  215 	ld	a, (_RAM_CONTROL+0)
+      0000DC F6 04            [ 7]  216 	or	a, #0x04
+      0000DE 32 FC FF         [13]  217 	ld	(_RAM_CONTROL+0), a
+                                    218 ;src/banks.c:58: printf("Var_3 is %u\n", var_3);
+      0000E1 2Ar00r00         [16]  219 	ld	hl, (_var_3)
+      0000E4 E5               [11]  220 	push	hl
+      0000E5 21r37r01         [10]  221 	ld	hl, #___str_7
+      0000E8 E5               [11]  222 	push	hl
+      0000E9 CDr00r00         [17]  223 	call	_printf
+      0000EC F1               [10]  224 	pop	af
+      0000ED F1               [10]  225 	pop	af
+                                    226 ;src/banks.c:60: puts("The End...");
+      0000EE 21r44r01         [10]  227 	ld	hl, #___str_8
+                                    228 ;src/banks.c:61: }
+      0000F1 C3r00r00         [10]  229 	jp	_puts
+      0000F4                        230 ___str_2:
+      0000F4 50 72 6F 67 72 61 6D   231 	.ascii "Program Start..."
+             20 53 74 61 72 74 2E
+             2E 2E
+      000104 00                     232 	.db 0x00
+      000105                        233 ___str_3:
+      000105 56 61 72 20 69 73 20   234 	.ascii "Var is %u"
+             25 75
+      00010E 0A                     235 	.db 0x0a
+      00010F 00                     236 	.db 0x00
+      000110                        237 ___str_4:
+      000110 56 61 72 5F 30 20 69   238 	.ascii "Var_0 is %u"
+             73 20 25 75
+      00011B 0A                     239 	.db 0x0a
+      00011C 00                     240 	.db 0x00
+      00011D                        241 ___str_5:
+      00011D 56 61 72 5F 31 20 69   242 	.ascii "Var_1 is %u"
+             73 20 25 75
+      000128 0A                     243 	.db 0x0a
+      000129 00                     244 	.db 0x00
+      00012A                        245 ___str_6:
+      00012A 56 61 72 5F 32 20 69   246 	.ascii "Var_2 is %u"
+             73 20 25 75
+      000135 0A                     247 	.db 0x0a
+      000136 00                     248 	.db 0x00
+      000137                        249 ___str_7:
+      000137 56 61 72 5F 33 20 69   250 	.ascii "Var_3 is %u"
+             73 20 25 75
+      000142 0A                     251 	.db 0x0a
+      000143 00                     252 	.db 0x00
+      000144                        253 ___str_8:
+      000144 54 68 65 20 45 6E 64   254 	.ascii "The End..."
+             2E 2E 2E
+      00014E 00                     255 	.db 0x00
+                                    256 	.area _CODE
+                                    257 	.area _INITIALIZER
+                                    258 	.area _CABS (ABS)

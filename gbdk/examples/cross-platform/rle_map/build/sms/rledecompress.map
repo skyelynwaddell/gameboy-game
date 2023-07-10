@@ -1,0 +1,219 @@
+ASxxxx Linker V03.00 + NoICE + sdld,  page 1.
+Hexadecimal  [32-Bits]
+
+Area                       Addr        Size        Decimal Bytes (Attributes)
+--------------------       ----        ----        ------- ----- ------------
+.  .ABS.               00000000    00000000 =           0. bytes (ABS,CON)
+
+        Value  Global            Value  Global            Value  Global    
+        -----  ------            -----  ------            -----  ------    
+     00000000  .__.ABS.  |    00000000  ___bank_m |    00000000  ___bank_m
+     00000000  l__BASE   |    00000000  l__BSEG   |    00000000  l__BSS   
+     00000000  l__CABS   |    00000000  l__CODE_0 |    00000000  l__DABS  
+     00000000  l__HEADER |    00000000  l__HEAP   |    00000000  l__HEAP_E
+     00000000  l__LIT    |    00000000  s__CABS   |    00000000  s__DABS  
+     00000000  s__HEADER |    00000000  s__HEADER |    00000000  s__HEADER
+     00000000  s__HEADER |    00000000  s__HEADER |    00000000  s__HEADER
+     00000000  s__HEADER |    00000000  s__HEADER |    00000001  l__GSFINA
+     00000001  l__HEADER |    00000003  l__HEADER |    00000003  l__HEADER
+     00000006  l__HEADER |    0000000C  l__GSINIT |    0000000E  l__HEADER
+     0000000E  l__HEADER |    00000018  l__DATA   |    00000021  l__INITIA
+     00000021  l__INITIA |    00000077  l__HEADER |    00000100  s__CODE  
+     000004AC  l__HOME   |    000006C5  ___size_m |    00000780  ___size_m
+     00000FBC  l__CODE   |    000010BC  s__HOME   |    00001568  s__BASE  
+     00001568  s__CODE_0 |    00001568  s__INITIA |    00001568  s__LIT   
+     00001589  s__GSINIT |    00001595  s__GSFINA |    0000C000  _shadow_O
+     0000C0C0  s__DATA   |    0000C0D8  s__INITIA |    0000C0F9  s__BSEG  
+     0000C0F9  s__BSS    |    0000C0F9  s__HEAP   |    0000C0F9  s__HEAP_E
+     0000DFF0  .STACK   
+ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
+Hexadecimal  [32-Bits]
+
+Area                       Addr        Size        Decimal Bytes (Attributes)
+--------------------       ----        ----        ------- ----- ------------
+_CODE                  00000100    00000FBC =        4028. bytes (REL,CON)
+
+        Value  Global            Value  Global            Value  Global    
+        -----  ------            -----  ------            -----  ------    
+     00000100  ___func_m |    00000100  _map_tile |    00000880  ___func_m
+     00000880  _map_comp |    00000F45  _main     |    0000105D  _rle_init
+     0000106A  _rle_deco
+ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
+Hexadecimal  [32-Bits]
+
+Area                       Addr        Size        Decimal Bytes (Attributes)
+--------------------       ----        ----        ------- ----- ------------
+_HEADER0               00000000    00000006 =           6. bytes (ABS,CON)
+
+        Value  Global            Value  Global            Value  Global    
+        -----  ------            -----  ------            -----  ------    
+ASxxxx Linker V03.00 + NoICE + sdld,  page 4.
+Hexadecimal  [32-Bits]
+
+Area                       Addr        Size        Decimal Bytes (Attributes)
+--------------------       ----        ----        ------- ----- ------------
+_HEADER1               00000000    0000000E =          14. bytes (ABS,CON)
+
+        Value  Global            Value  Global            Value  Global    
+        -----  ------            -----  ------            -----  ------    
+     00000010  _WRITE_VD
+ASxxxx Linker V03.00 + NoICE + sdld,  page 5.
+Hexadecimal  [32-Bits]
+
+Area                       Addr        Size        Decimal Bytes (Attributes)
+--------------------       ----        ----        ------- ----- ------------
+_HEADER2               00000000    0000000E =          14. bytes (ABS,CON)
+
+        Value  Global            Value  Global            Value  Global    
+        -----  ------            -----  ------            -----  ------    
+     00000020  _WRITE_VD
+ASxxxx Linker V03.00 + NoICE + sdld,  page 6.
+Hexadecimal  [32-Bits]
+
+Area                       Addr        Size        Decimal Bytes (Attributes)
+--------------------       ----        ----        ------- ----- ------------
+_HEADER3               00000000    00000001 =           1. bytes (ABS,CON)
+
+        Value  Global            Value  Global            Value  Global    
+        -----  ------            -----  ------            -----  ------    
+     00000030  .call_hl 
+ASxxxx Linker V03.00 + NoICE + sdld,  page 7.
+Hexadecimal  [32-Bits]
+
+Area                       Addr        Size        Decimal Bytes (Attributes)
+--------------------       ----        ----        ------- ----- ------------
+_HEADER4               00000000    00000003 =           3. bytes (ABS,CON)
+
+        Value  Global            Value  Global            Value  Global    
+        -----  ------            -----  ------            -----  ------    
+ASxxxx Linker V03.00 + NoICE + sdld,  page 8.
+Hexadecimal  [32-Bits]
+
+Area                       Addr        Size        Decimal Bytes (Attributes)
+--------------------       ----        ----        ------- ----- ------------
+_HEADER5               00000000    00000003 =           3. bytes (ABS,CON)
+
+        Value  Global            Value  Global            Value  Global    
+        -----  ------            -----  ------            -----  ------    
+ASxxxx Linker V03.00 + NoICE + sdld,  page 9.
+Hexadecimal  [32-Bits]
+
+Area                       Addr        Size        Decimal Bytes (Attributes)
+--------------------       ----        ----        ------- ----- ------------
+_HEADER6               00000000    00000077 =         119. bytes (ABS,CON)
+
+        Value  Global            Value  Global            Value  Global    
+        -----  ------            -----  ------            -----  ------    
+     00000080  .init    
+ASxxxx Linker V03.00 + NoICE + sdld,  page 10.
+Hexadecimal  [32-Bits]
+
+Area                       Addr        Size        Decimal Bytes (Attributes)
+--------------------       ----        ----        ------- ----- ------------
+_HOME                  000010BC    000004AC =        1196. bytes (REL,CON)
+
+        Value  Global            Value  Global            Value  Global    
+        -----  ------            -----  ------            -----  ------    
+     000010D3  .memset_s |    000010DC  .memcpy_s |    000010E2  .wait_vbl
+     000010E2  _wait_vbl |    000010F4  _set_tile |    0000119D  _NMI_ISR 
+     0000119F  _INT_ISR  |    00001212  .remove_L |    00001212  _remove_L
+     00001215  .add_LCD  |    00001215  _add_LCD  |    00001219  _add_VBL 
+     0000121B  .add_VBL  |    0000121E  .add_int  |    0000122A  _remove_V
+     0000122C  .remove_V |    0000122F  .remove_i |    0000124B  _add_JOY 
+     0000124B  _add_SIO  |    0000124B  _add_TIM  |    0000124B  _remove_J
+     0000124B  _remove_S |    0000124B  _remove_T |    0000124C  .OUTI128 
+     000012CC  .OUTI64   |    0000130C  .OUTI32   |    0000134C  .OUTI_END
+     0000134D  _set_tile |    000013AB  _set_defa |    000013C2  .set_tile
+     000013C6  .set_tile |    00001463  _set_pale |    00001486  _set_pale
+     000014C0  .CRT_DEFA |    000014D0  .set_tile |    000014D4  .set_tile
+ASxxxx Linker V03.00 + NoICE + sdld,  page 11.
+Hexadecimal  [32-Bits]
+
+Area                       Addr        Size        Decimal Bytes (Attributes)
+--------------------       ----        ----        ------- ----- ------------
+_INITIALIZER           00001568    00000021 =          33. bytes (REL,CON)
+
+        Value  Global            Value  Global            Value  Global    
+        -----  ------            -----  ------            -----  ------    
+ASxxxx Linker V03.00 + NoICE + sdld,  page 12.
+Hexadecimal  [32-Bits]
+
+Area                       Addr        Size        Decimal Bytes (Attributes)
+--------------------       ----        ----        ------- ----- ------------
+_GSINIT                00001589    0000000C =          12. bytes (REL,CON)
+
+        Value  Global            Value  Global            Value  Global    
+        -----  ------            -----  ------            -----  ------    
+     00001589  .gsinit  
+ASxxxx Linker V03.00 + NoICE + sdld,  page 13.
+Hexadecimal  [32-Bits]
+
+Area                       Addr        Size        Decimal Bytes (Attributes)
+--------------------       ----        ----        ------- ----- ------------
+_GSFINAL               00001595    00000001 =           1. bytes (REL,CON)
+
+        Value  Global            Value  Global            Value  Global    
+        -----  ------            -----  ------            -----  ------    
+ASxxxx Linker V03.00 + NoICE + sdld,  page 14.
+Hexadecimal  [32-Bits]
+
+Area                       Addr        Size        Decimal Bytes (Attributes)
+--------------------       ----        ----        ------- ----- ------------
+_DATA                  0000C0C0    00000018 =          24. bytes (REL,CON)
+
+        Value  Global            Value  Global            Value  Global    
+        -----  ------            -----  ------            -----  ------    
+     0000C0C0  __BIOS    |    0000C0C1  __SYSTEM  |    0000C0C2  _data    
+ASxxxx Linker V03.00 + NoICE + sdld,  page 15.
+Hexadecimal  [32-Bits]
+
+Area                       Addr        Size        Decimal Bytes (Attributes)
+--------------------       ----        ----        ------- ----- ------------
+_INITIALIZED           0000C0D8    00000021 =          33. bytes (REL,CON)
+
+        Value  Global            Value  Global            Value  Global    
+        -----  ------            -----  ------            -----  ------    
+     0000C0D8  _shadow_V |    0000C0D9  _shadow_V |    0000C0DA  _shadow_V
+     0000C0DB  _shadow_V |    0000C0DC  _shadow_V |    0000C0DD  _shadow_V
+     0000C0DE  _shadow_V |    0000C0DF  _shadow_V |    0000C0DF  _shadow_V
+     0000C0E0  _shadow_V |    0000C0E0  _shadow_V |    0000C0E1  _shadow_V
+     0000C0E1  _shadow_V |    0000C0E2  _shadow_V |    0000C0E3  .shadow_V
+     0000C0E3  .sys_time |    0000C0E3  _sys_time |    0000C0E5  .vbl_done
+     0000C0E6  .vdp_shif |    0000C0E6  _VDP_ATTR |    0000C0E7  __shadow_
+     0000C0E8  __shadow_ |    0000C0E9  .mode     |    0000C0EA  _scrollpo
+     0000C0EB  _datapos  |    0000C0EC  __current |    0000C0F8  __map_til
+ASxxxx Linker V03.00 + NoICE + sdld,  page 16.
+
+Files Linked                              [ module(s) ]
+
+../../../lib/sms/crt0.o                   [ Runtime ]
+obj/sms/main.o                            [ main ]
+
+
+Libraries Linked                          [ object file ]
+
+../../../lib/sms/sms.lib                  [ sms_set_2bpp_data.o ]
+../../../lib/sms/sms.lib                  [ nmi.o ]
+../../../lib/sms/sms.lib                  [ sms_int.o ]
+../../../lib/sms/sms.lib                  [ outi.o ]
+../../../lib/sms/sms.lib                  [ rle_decompress.o ]
+../../../lib/sms/sms.lib                  [ set_tile_map_compat.o ]
+../../../lib/sms/sms.lib                  [ set_palette.o ]
+../../../lib/sms/sms.lib                  [ set_tile_map_xy_compat.o ]
+../../../lib/sms/sms.lib                  [ palette.o ]
+../../../lib/sms/sms.lib                  [ set_tile_map_xy.o ]
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 17.
+
+User Base Address Definitions
+
+_DATA=0xC0C0
+_CODE=0x0100
+ASxxxx Linker V03.00 + NoICE + sdld,  page 18.
+
+User Global Definitions
+
+_shadow_OAM=0xC000
+.STACK=0xDFF0
+
+

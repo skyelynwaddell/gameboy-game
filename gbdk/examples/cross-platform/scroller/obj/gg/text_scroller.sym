@@ -1,0 +1,66 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180 / ZX-Next / eZ80)                   Page 1
+Hexadecimal [24-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  002710 L
+    .__.ABS.                                                    =  000000 G
+    .__.CPU.                                                    =  000000 L
+    .__.H$L.                                                    =  000000 L
+    _AUDIOCTRL                                                  =  0000F2 
+    _FMADDRESS                                                  =  0000F0 
+    _FMDATA                                                     =  0000F1 
+    _GLASSES_3D                                                 =  00FFF8 
+    _HCOUNTER                                                   =  00007F 
+    _JOY_CTL                                                    =  00003F 
+    _JOY_PORT1                                                  =  0000DC 
+    _JOY_PORT2                                                  =  0000DD 
+    _MAP_FRAME0                                                 =  00FFFD 
+    _MAP_FRAME1                                                 =  00FFFE 
+    _MAP_FRAME2                                                 =  00FFFF 
+    _MEMORY_CTL                                                 =  00003E 
+    _PSG                                                        =  00007F 
+    _RAM_CONTROL                                                =  00FFFC 
+    _VCOUNTER                                                   =  00007E 
+    _VDP_CMD                                                    =  0000BF 
+    _VDP_DATA                                                   =  0000BE 
+    _VDP_STATUS                                                 =  0000BF 
+  0 ___str_0                                                       000291 R
+  7 __xinit__scanline_offsets                                      000000 R
+  7 __xinit__scroller_next_char                                    000003 R
+  7 __xinit__scroller_x                                            000002 R
+    _add_LCD                                                       ****** GX
+  1 _base                                                          000002 GR
+    _get_bkg_xy_addr                                               ****** GX
+  1 _limit                                                         000004 GR
+  0 _main                                                          000037 GR
+    _printf                                                        ****** GX
+  0 _scanline_isr                                                  000000 GR
+  2 _scanline_offsets                                              000000 GR
+  0 _scanline_offsets_tbl                                          000027 GR
+  2 _scroller_next_char                                            000003 GR
+  0 _scroller_text                                                 000128 GR
+  1 _scroller_vram_addr                                            000000 GR
+  2 _scroller_x                                                    000002 GR
+    _set_interrupts                                                ****** GX
+    _set_vram_byte                                                 ****** GX
+    _shadow_VDP_R0                                                 ****** GX
+    _shadow_VDP_R10                                                ****** GX
+    _wait_vbl_done                                                 ****** GX
+
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180 / ZX-Next / eZ80)                   Page 2
+Hexadecimal [24-Bits]
+
+Area Table
+
+   0 _CODE                                      size    2A5   flags    0
+   1 _DATA                                      size      6   flags    0
+   2 _INITIALIZED                               size      5   flags    0
+   3 _DABS                                      size      0   flags    8
+   4 _HOME                                      size      0   flags    0
+   5 _GSINIT                                    size      0   flags    0
+   6 _GSFINAL                                   size      0   flags    0
+   7 _INITIALIZER                               size      5   flags    0
+   8 _CABS                                      size      0   flags    8
+

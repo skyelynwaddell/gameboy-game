@@ -1,0 +1,67 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Rockwell 6502/6510/65C02) Page 1
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  2710 L
+    .__.ABS.                                                    =  0000 G
+    .__.CPU.                                                    =  0000 L
+    .__.H$L.                                                    =  0000 L
+  2 _PosF                                                          000D GR
+  2 _PosX                                                          0005 GR
+  2 _PosY                                                          0007 GR
+  2 _SpdX                                                          0009 GR
+  2 _SpdY                                                          000B GR
+  1 __DPTR                                                         0008 GR
+  1 __TEMP                                                         0000 GR
+    ___current_base_tile                                           **** GX
+    ___current_metasprite                                          **** GX
+    ___hide_metasprite                                             **** GX
+    ___move_metasprite                                             **** GX
+    ___move_metasprite_PARM_3                                      **** GX
+    _display_off                                                   **** GX
+    _display_on                                                    **** GX
+    _fill_bkg_rect                                                 **** GX
+    _fill_bkg_rect_PARM_3                                          **** GX
+    _fill_bkg_rect_PARM_4                                          **** GX
+    _fill_bkg_rect_PARM_5                                          **** GX
+  2 _hide                                                          000E GR
+    _hide_sprites_range                                            **** GX
+  2 _idx                                                           0010 GR
+  2 _jitter                                                        000F GR
+    _joypad_ex                                                     **** GX
+    _joypad_init                                                   **** GX
+    _joypad_init_PARM_2                                            **** GX
+  2 _joypads                                                       0000 GR
+  7 _main                                                          0000 GR
+  2 _main___1966090013_196609_96                                   0012 R
+  2 _main_hiwater_131073_88                                        0011 R
+  8 _pattern                                                       0000 GR
+    _set_bkg_data                                                  **** GX
+    _set_bkg_data_PARM_3                                           **** GX
+    _set_sprite_data                                               **** GX
+    _set_sprite_data_PARM_3                                        **** GX
+    _shadow_PPUCTRL                                                **** GX
+    _shadow_PPUMASK                                                **** GX
+    _sprite_metasprites                                            **** GX
+    _sprite_tiles                                                  **** GX
+    _wait_vbl_done                                                 **** GX
+
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Rockwell 6502/6510/65C02) Page 2
+Hexadecimal [16-Bits]
+
+Area Table
+
+   0 _CODE                                      size    0   flags    0
+   1 ZP                                         size    A   flags   10
+   2 BSS                                        size   13   flags    0
+   3 DABS                                       size    0   flags    8
+   4 DATA                                       size    0   flags    0
+   5 GSINIT                                     size    0   flags    0
+   6 GSFINAL                                    size    0   flags    0
+   7 CODE                                       size  37F   flags    0
+   8 RODATA                                     size   10   flags    0
+   9 XINIT                                      size    0   flags    0
+   A CABS                                       size    0   flags    8
+

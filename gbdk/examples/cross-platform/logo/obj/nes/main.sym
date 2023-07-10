@@ -1,0 +1,53 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Rockwell 6502/6510/65C02) Page 1
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  2710 L
+    .__.ABS.                                                    =  0000 G
+    .__.CPU.                                                    =  0000 L
+    .__.H$L.                                                    =  0000 L
+    _GBDK_2020_logo_map                                            **** GX
+    _GBDK_2020_logo_map_attributes                                 **** GX
+    _GBDK_2020_logo_palettes                                       **** GX
+    _GBDK_2020_logo_tiles                                          **** GX
+  1 __DPTR                                                         0008 GR
+  1 __TEMP                                                         0000 GR
+    _display_off                                                   **** GX
+    _display_on                                                    **** GX
+    _fill_bkg_rect                                                 **** GX
+    _fill_bkg_rect_PARM_3                                          **** GX
+    _fill_bkg_rect_PARM_4                                          **** GX
+    _fill_bkg_rect_PARM_5                                          **** GX
+  7 _main                                                          0000 GR
+    _set_bkg_attributes                                            **** GX
+    _set_bkg_attributes_PARM_3                                     **** GX
+    _set_bkg_attributes_PARM_4                                     **** GX
+    _set_bkg_attributes_PARM_5                                     **** GX
+    _set_bkg_data                                                  **** GX
+    _set_bkg_data_PARM_3                                           **** GX
+    _set_bkg_palette                                               **** GX
+    _set_bkg_palette_PARM_3                                        **** GX
+    _set_bkg_tiles                                                 **** GX
+    _set_bkg_tiles_PARM_3                                          **** GX
+    _set_bkg_tiles_PARM_4                                          **** GX
+    _set_bkg_tiles_PARM_5                                          **** GX
+    _shadow_PPUMASK                                                **** GX
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Rockwell 6502/6510/65C02) Page 2
+Hexadecimal [16-Bits]
+
+Area Table
+
+   0 _CODE                                      size    0   flags    0
+   1 ZP                                         size    A   flags   10
+   2 BSS                                        size    0   flags    0
+   3 DABS                                       size    0   flags    8
+   4 DATA                                       size    0   flags    0
+   5 GSINIT                                     size    0   flags    0
+   6 GSFINAL                                    size    0   flags    0
+   7 CODE                                       size   77   flags    0
+   8 RODATA                                     size    0   flags    0
+   9 XINIT                                      size    0   flags    0
+   A CABS                                       size    0   flags    8
+

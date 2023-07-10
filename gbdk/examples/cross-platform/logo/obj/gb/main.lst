@@ -1,0 +1,98 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler 
+                                      3 ; Version 4.2.2 #13350 (Mac OS X x86_64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module main
+                                      6 	.optsdcc -msm83
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _main
+                                     12 	.globl _fill_bkg_rect
+                                     13 	.globl _set_bkg_tiles
+                                     14 	.globl _set_bkg_data
+                                     15 	.globl _display_off
+                                     16 ;--------------------------------------------------------
+                                     17 ; special function registers
+                                     18 ;--------------------------------------------------------
+                                     19 ;--------------------------------------------------------
+                                     20 ; ram data
+                                     21 ;--------------------------------------------------------
+                                     22 	.area _DATA
+                                     23 ;--------------------------------------------------------
+                                     24 ; ram data
+                                     25 ;--------------------------------------------------------
+                                     26 	.area _INITIALIZED
+                                     27 ;--------------------------------------------------------
+                                     28 ; absolute external ram data
+                                     29 ;--------------------------------------------------------
+                                     30 	.area _DABS (ABS)
+                                     31 ;--------------------------------------------------------
+                                     32 ; global & static initialisations
+                                     33 ;--------------------------------------------------------
+                                     34 	.area _HOME
+                                     35 	.area _GSINIT
+                                     36 	.area _GSFINAL
+                                     37 	.area _GSINIT
+                                     38 ;--------------------------------------------------------
+                                     39 ; Home
+                                     40 ;--------------------------------------------------------
+                                     41 	.area _HOME
+                                     42 	.area _HOME
+                                     43 ;--------------------------------------------------------
+                                     44 ; code
+                                     45 ;--------------------------------------------------------
+                                     46 	.area _CODE
+                                     47 ;src/main.c:5: void main() {
+                                     48 ;	---------------------------------
+                                     49 ; Function main
+                                     50 ; ---------------------------------
+      000000                         51 _main::
+                                     52 ;src/main.c:6: DISPLAY_OFF;
+      000000 CDr00r00         [24]   53 	call	_display_off
+                                     54 ;src/main.c:7: fill_bkg_rect(0, 0, DEVICE_SCREEN_WIDTH, DEVICE_SCREEN_HEIGHT, 0);
+      000003 AF               [ 4]   55 	xor	a, a
+      000004 67               [ 4]   56 	ld	h, a
+      000005 2E 12            [ 8]   57 	ld	l, #0x12
+      000007 E5               [16]   58 	push	hl
+      000008 3E 14            [ 8]   59 	ld	a, #0x14
+      00000A F5               [16]   60 	push	af
+      00000B 33               [ 8]   61 	inc	sp
+      00000C AF               [ 4]   62 	xor	a, a
+      00000D 0F               [ 4]   63 	rrca
+      00000E F5               [16]   64 	push	af
+      00000F CDr00r00         [24]   65 	call	_fill_bkg_rect
+      000012 E8 05            [16]   66 	add	sp, #5
+                                     67 ;src/main.c:17: set_native_tile_data(0, GBDK_2020_logo_TILE_COUNT, GBDK_2020_logo_tiles);
+                                     68 ;../../../include/gb/gb.h:1836: set_bkg_data(first_tile, nb_tiles, data);
+      000014 11r00r00         [12]   69 	ld	de, #_GBDK_2020_logo_tiles
+      000017 D5               [16]   70 	push	de
+      000018 21 00 27         [12]   71 	ld	hl, #0x2700
+      00001B E5               [16]   72 	push	hl
+      00001C CDr00r00         [24]   73 	call	_set_bkg_data
+      00001F E8 04            [16]   74 	add	sp, #4
+                                     75 ;src/main.c:48: GBDK_2020_logo_map);
+                                     76 ;src/main.c:44: set_tile_map((DEVICE_SCREEN_WIDTH - (GBDK_2020_logo_WIDTH >> 3)) >> 1, 
+      000021 11r00r00         [12]   77 	ld	de, #_GBDK_2020_logo_map
+      000024 D5               [16]   78 	push	de
+      000025 21 14 12         [12]   79 	ld	hl, #0x1214
+      000028 E5               [16]   80 	push	hl
+      000029 AF               [ 4]   81 	xor	a, a
+      00002A 0F               [ 4]   82 	rrca
+      00002B F5               [16]   83 	push	af
+      00002C CDr00r00         [24]   84 	call	_set_bkg_tiles
+      00002F E8 06            [16]   85 	add	sp, #6
+                                     86 ;src/main.c:50: SHOW_BKG;
+      000031 F0r00            [12]   87 	ldh	a, (_LCDC_REG + 0)
+      000033 F6 01            [ 8]   88 	or	a, #0x01
+      000035 E0r00            [12]   89 	ldh	(_LCDC_REG + 0), a
+                                     90 ;src/main.c:51: DISPLAY_ON;
+      000037 F0r00            [12]   91 	ldh	a, (_LCDC_REG + 0)
+      000039 F6 80            [ 8]   92 	or	a, #0x80
+      00003B E0r00            [12]   93 	ldh	(_LCDC_REG + 0), a
+                                     94 ;src/main.c:52: }
+      00003D C9               [16]   95 	ret
+                                     96 	.area _CODE
+                                     97 	.area _INITIALIZER
+                                     98 	.area _CABS (ABS)

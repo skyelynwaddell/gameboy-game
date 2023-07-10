@@ -1,0 +1,59 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Rockwell 6502/6510/65C02) Page 1
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  2710 L
+    .__.ABS.                                                    =  0000 G
+    .__.CPU.                                                    =  0000 L
+    .__.H$L.                                                    =  0000 L
+  1 __DPTR                                                         0008 GR
+  1 __TEMP                                                         0000 GR
+    ___bank_blank_tile_data                                     =  0000 G
+    ___bank_logo_map                                            =  0000 G
+    ___bank_logo_tiles_data                                     =  0000 G
+  7 ___func_blank_tile_data                                        0374 GR
+  7 ___func_logo_map                                               0320 GR
+  7 ___func_logo_tiles_data                                        0000 GR
+    ___size_blank_tile_data                                     =  0010 G
+    ___size_logo_map                                            =  0054 G
+    ___size_logo_tiles_data                                     =  0320 G
+  7 _blank_tile_data                                               0374 GR
+    _fill_bkg_rect                                                 **** GX
+    _fill_bkg_rect_PARM_3                                          **** GX
+    _fill_bkg_rect_PARM_4                                          **** GX
+    _fill_bkg_rect_PARM_5                                          **** GX
+  7 _init_gfx                                                      0384 GR
+  7 _logo_map                                                      0320 GR
+  7 _logo_tiles_data                                               0000 GR
+  7 _main                                                          03F2 GR
+    _set_bkg_data                                                  **** GX
+    _set_bkg_data_PARM_3                                           **** GX
+    _set_bkg_tiles                                                 **** GX
+    _set_bkg_tiles_PARM_3                                          **** GX
+    _set_bkg_tiles_PARM_4                                          **** GX
+    _set_bkg_tiles_PARM_5                                          **** GX
+    _shadow_PPUMASK                                                **** GX
+    _wait_vbl_done                                                 **** GX
+    b___func_blank_tile_data                                       **** LX
+    b___func_logo_map                                              **** LX
+    b___func_logo_tiles_data                                       **** LX
+
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Rockwell 6502/6510/65C02) Page 2
+Hexadecimal [16-Bits]
+
+Area Table
+
+   0 _CODE                                      size    0   flags    0
+   1 ZP                                         size    A   flags   10
+   2 BSS                                        size    0   flags    0
+   3 DABS                                       size    0   flags    8
+   4 DATA                                       size    0   flags    0
+   5 GSINIT                                     size    0   flags    0
+   6 GSFINAL                                    size    0   flags    0
+   7 CODE                                       size  3FC   flags    0
+   8 RODATA                                     size    0   flags    0
+   9 XINIT                                      size    0   flags    0
+   A CABS                                       size    0   flags    8
+

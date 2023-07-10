@@ -1,0 +1,134 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler 
+                                      3 ; Version 4.2.2 #13350 (Mac OS X x86_64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module main
+                                      6 	.optsdcc -mz80
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _main
+                                     12 	.globl _fill_rect_compat
+                                     13 	.globl _set_tile_map
+                                     14 	.globl _set_native_tile_data
+                                     15 	.globl _set_palette
+                                     16 ;--------------------------------------------------------
+                                     17 ; special function registers
+                                     18 ;--------------------------------------------------------
+                           00003E    19 _MEMORY_CTL	=	0x003e
+                           00003F    20 _JOY_CTL	=	0x003f
+                           00007E    21 _VCOUNTER	=	0x007e
+                           00007F    22 _PSG	=	0x007f
+                           00007F    23 _HCOUNTER	=	0x007f
+                           0000BE    24 _VDP_DATA	=	0x00be
+                           0000BF    25 _VDP_CMD	=	0x00bf
+                           0000BF    26 _VDP_STATUS	=	0x00bf
+                           0000DC    27 _JOY_PORT1	=	0x00dc
+                           0000DD    28 _JOY_PORT2	=	0x00dd
+                           0000F0    29 _FMADDRESS	=	0x00f0
+                           0000F1    30 _FMDATA	=	0x00f1
+                           0000F2    31 _AUDIOCTRL	=	0x00f2
+                                     32 ;--------------------------------------------------------
+                                     33 ; ram data
+                                     34 ;--------------------------------------------------------
+                                     35 	.area _DATA
+                           00FFFC    36 _RAM_CONTROL	=	0xfffc
+                           00FFF8    37 _GLASSES_3D	=	0xfff8
+                           00FFFD    38 _MAP_FRAME0	=	0xfffd
+                           00FFFE    39 _MAP_FRAME1	=	0xfffe
+                           00FFFF    40 _MAP_FRAME2	=	0xffff
+                                     41 ;--------------------------------------------------------
+                                     42 ; ram data
+                                     43 ;--------------------------------------------------------
+                                     44 	.area _INITIALIZED
+                                     45 ;--------------------------------------------------------
+                                     46 ; absolute external ram data
+                                     47 ;--------------------------------------------------------
+                                     48 	.area _DABS (ABS)
+                                     49 ;--------------------------------------------------------
+                                     50 ; global & static initialisations
+                                     51 ;--------------------------------------------------------
+                                     52 	.area _HOME
+                                     53 	.area _GSINIT
+                                     54 	.area _GSFINAL
+                                     55 	.area _GSINIT
+                                     56 ;--------------------------------------------------------
+                                     57 ; Home
+                                     58 ;--------------------------------------------------------
+                                     59 	.area _HOME
+                                     60 	.area _HOME
+                                     61 ;--------------------------------------------------------
+                                     62 ; code
+                                     63 ;--------------------------------------------------------
+                                     64 	.area _CODE
+                                     65 ;src/main.c:5: void main() {
+                                     66 ;	---------------------------------
+                                     67 ; Function main
+                                     68 ; ---------------------------------
+      000000                         69 _main::
+                                     70 ;../../../include/sms/sms.h:222: __WRITE_VDP_REG(VDP_R1, __READ_VDP_REG(VDP_R1) &= (~R1_DISP_ON));
+      000000 3Ar00r00         [13]   71 	ld	a, (_shadow_VDP_R1+0)
+      000003 E6 BF            [ 7]   72 	and	a, #0xbf
+      000005 32r00r00         [13]   73 	ld	(_shadow_VDP_R1+0), a
+      000008 ED 57            [ 9]   74 	ld	a,i
+      00000A F3               [ 4]   75 	di
+      00000B F5               [11]   76 	push	af
+      00000C 3Ar00r00         [13]   77 	ld	a, (_shadow_VDP_R1+0)
+      00000F D3 BF            [11]   78 	out	(_VDP_CMD), a
+      000011 3E 81            [ 7]   79 	ld	a, #0x81
+      000013 D3 BF            [11]   80 	out	(_VDP_CMD), a
+      000015 F1               [10]   81 	pop	af
+      000016 E2r1Ar00         [10]   82 	jp	PO, 00105$
+      000019 FB               [ 4]   83 	ei
+      00001A                         84 00105$:
+                                     85 ;src/main.c:7: fill_bkg_rect(0, 0, DEVICE_SCREEN_WIDTH, DEVICE_SCREEN_HEIGHT, 0);
+      00001A 21 00 00         [10]   86 	ld	hl, #0x0000
+      00001D E5               [11]   87 	push	hl
+      00001E 21 20 18         [10]   88 	ld	hl, #0x1820
+      000021 E5               [11]   89 	push	hl
+      000022 21 00 00         [10]   90 	ld	hl, #0x00
+      000025 E5               [11]   91 	push	hl
+      000026 CDr00r00         [17]   92 	call	_fill_rect_compat
+                                     93 ;src/main.c:9: set_palette(0, GBDK_2020_logo_PALETTE_COUNT, GBDK_2020_logo_palettes);
+      000029 21r00r00         [10]   94 	ld	hl, #_GBDK_2020_logo_palettes
+      00002C E5               [11]   95 	push	hl
+      00002D 21 00 01         [10]   96 	ld	hl, #0x100
+      000030 E5               [11]   97 	push	hl
+      000031 CDr00r00         [17]   98 	call	_set_palette
+                                     99 ;src/main.c:17: set_native_tile_data(0, GBDK_2020_logo_TILE_COUNT, GBDK_2020_logo_tiles);
+      000034 21r00r00         [10]  100 	ld	hl, #_GBDK_2020_logo_tiles
+      000037 E5               [11]  101 	push	hl
+      000038 21 29 00         [10]  102 	ld	hl, #0x0029
+      00003B E5               [11]  103 	push	hl
+      00003C 6C               [ 4]  104 	ld	l, h
+      00003D E5               [11]  105 	push	hl
+      00003E CDr00r00         [17]  106 	call	_set_native_tile_data
+                                    107 ;src/main.c:48: GBDK_2020_logo_map);
+                                    108 ;src/main.c:44: set_tile_map((DEVICE_SCREEN_WIDTH - (GBDK_2020_logo_WIDTH >> 3)) >> 1, 
+      000041 21r00r00         [10]  109 	ld	hl, #_GBDK_2020_logo_map
+      000044 E5               [11]  110 	push	hl
+      000045 21 14 12         [10]  111 	ld	hl, #0x1214
+      000048 E5               [11]  112 	push	hl
+      000049 21 06 03         [10]  113 	ld	hl, #0x306
+      00004C E5               [11]  114 	push	hl
+      00004D CDr00r00         [17]  115 	call	_set_tile_map
+                                    116 ;src/main.c:51: DISPLAY_ON;
+      000050 3Ar00r00         [13]  117 	ld	a, (_shadow_VDP_R1+0)
+      000053 F6 40            [ 7]  118 	or	a, #0x40
+      000055 32r00r00         [13]  119 	ld	(_shadow_VDP_R1+0), a
+      000058 ED 57            [ 9]  120 	ld	a,i
+      00005A F3               [ 4]  121 	di
+      00005B F5               [11]  122 	push	af
+      00005C 3Ar00r00         [13]  123 	ld	a, (_shadow_VDP_R1+0)
+      00005F D3 BF            [11]  124 	out	(_VDP_CMD), a
+      000061 3E 81            [ 7]  125 	ld	a, #0x81
+      000063 D3 BF            [11]  126 	out	(_VDP_CMD), a
+      000065 F1               [10]  127 	pop	af
+      000066 E0               [11]  128 	ret	PO
+      000067 FB               [ 4]  129 	ei
+                                    130 ;src/main.c:52: }
+      000068 C9               [10]  131 	ret
+                                    132 	.area _CODE
+                                    133 	.area _INITIALIZER
+                                    134 	.area _CABS (ABS)

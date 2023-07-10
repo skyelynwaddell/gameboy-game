@@ -1,0 +1,37 @@
+XL2
+H B areas 6 global symbols
+M smoketest
+O -mmos6502
+S _display_on Ref0000
+S .__.ABS. Def0000
+S _wait_vbl_done Ref0000
+A _CODE size 0 flags 0 addr 0
+A ZP size A flags 10 addr 0
+S __TEMP Def0000
+S __DPTR Def0008
+A BSS size 0 flags 0 addr 0
+A DABS size 0 flags 8 addr 0
+A DATA size 0 flags 0 addr 0
+A GSINIT size 0 flags 0 addr 0
+A GSFINAL size 0 flags 0 addr 0
+A CODE size A flags 0 addr 0
+S _main Def0000
+A RODATA size 0 flags 0 addr 0
+A XINIT size 0 flags 0 addr 0
+A CABS size 0 flags 8 addr 0
+T 00 00
+R 00 00 01 00
+T 08 00
+R 00 00 01 00
+T 00 00
+R 00 00 07 00
+T 00 00 20 00 00
+R 00 00 07 00 02 03 00 00
+T 03 00
+R 00 00 07 00
+T 03 00 20 00 00 4C 03 00
+R 00 00 07 00 02 03 02 00 00 06 07 00
+T 09 00
+R 00 00 07 00
+T 09 00 60
+R 00 00 07 00

@@ -1,0 +1,35 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Rockwell 6502/6510/65C02) Page 1
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  2710 L
+    .__.ABS.                                                    =  0000 G
+    .__.CPU.                                                    =  0000 L
+    .__.H$L.                                                    =  0000 L
+  8 _sprite_metasprite0                                            03C4 GR
+  8 _sprite_metasprite1                                            0414 GR
+  8 _sprite_metasprite2                                            0468 GR
+  8 _sprite_metasprite3                                            04BC GR
+  8 _sprite_metasprite4                                            0510 GR
+  8 _sprite_metasprites                                            0564 GR
+  8 _sprite_palettes                                               0000 GR
+  8 _sprite_tiles                                                  0004 GR
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Rockwell 6502/6510/65C02) Page 2
+Hexadecimal [16-Bits]
+
+Area Table
+
+   0 _CODE                                      size    0   flags    0
+   1 ZP                                         size    0   flags   10
+   2 BSS                                        size    0   flags    0
+   3 DABS                                       size    0   flags    8
+   4 DATA                                       size    0   flags    0
+   5 GSINIT                                     size    0   flags    0
+   6 GSFINAL                                    size    0   flags    0
+   7 CODE                                       size    0   flags    0
+   8 RODATA                                     size  56E   flags    0
+   9 XINIT                                      size    0   flags    0
+   A CABS                                       size    0   flags    8
+

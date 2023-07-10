@@ -1,0 +1,50 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Rockwell 6502/6510/65C02) Page 1
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  2710 L
+    .__.ABS.                                                    =  0000 G
+    .__.CPU.                                                    =  0000 L
+    .__.H$L.                                                    =  0000 L
+  1 __DPTR                                                         0008 GR
+  1 __TEMP                                                         0000 GR
+  8 ___str_0                                                       0000 R
+  8 ___str_1                                                       000D R
+  8 ___str_2                                                       001E R
+  8 ___str_3                                                       0033 R
+  8 ___str_4                                                       0049 R
+    _font_color                                                    **** GX
+    _font_ibm                                                      **** GX
+    _font_init                                                     **** GX
+    _font_italic                                                   **** GX
+    _font_load                                                     **** GX
+    _font_min                                                      **** GX
+    _font_set                                                      **** GX
+    _get_mode                                                      **** GX
+  7 _main                                                          0000 GR
+  2 _main_ibm_font_65536_74                                        0000 R
+  2 _main_italic_font_65536_74                                     0002 R
+  2 _main_min_font_65536_74                                        0004 R
+  1 _main_sloc0_1_0                                                000A R
+    _mode                                                          **** GX
+    _printf                                                        **** GX
+
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Rockwell 6502/6510/65C02) Page 2
+Hexadecimal [16-Bits]
+
+Area Table
+
+   0 _CODE                                      size    0   flags    0
+   1 ZP                                         size    C   flags   10
+   2 BSS                                        size    6   flags    0
+   3 DABS                                       size    0   flags    8
+   4 DATA                                       size    0   flags    0
+   5 GSINIT                                     size    0   flags    0
+   6 GSFINAL                                    size    0   flags    0
+   7 CODE                                       size   D0   flags    0
+   8 RODATA                                     size   50   flags    0
+   9 XINIT                                      size    0   flags    0
+   A CABS                                       size    0   flags    8
+

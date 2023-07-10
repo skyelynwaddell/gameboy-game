@@ -1,0 +1,166 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler 
+                                      3 ; Version 4.2.2 #13350 (Mac OS X x86_64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module bank2code
+                                      6 	.optsdcc -mz80
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl b_some_bank2_proc1
+                                     12 	.globl _some_bank2_proc1
+                                     13 	.globl b___func_some_bank2_proc1
+                                     14 	.globl ___func_some_bank2_proc1
+                                     15 	.globl b_some_bank2_proc0
+                                     16 	.globl _some_bank2_proc0
+                                     17 	.globl b___func_some_bank2_proc0
+                                     18 	.globl ___func_some_bank2_proc0
+                                     19 	.globl _puts
+                                     20 	.globl _printf
+                                     21 ;--------------------------------------------------------
+                                     22 ; special function registers
+                                     23 ;--------------------------------------------------------
+                           00003E    24 _MEMORY_CTL	=	0x003e
+                           00003F    25 _JOY_CTL	=	0x003f
+                           00007E    26 _VCOUNTER	=	0x007e
+                           00007F    27 _PSG	=	0x007f
+                           00007F    28 _HCOUNTER	=	0x007f
+                           0000BE    29 _VDP_DATA	=	0x00be
+                           0000BF    30 _VDP_CMD	=	0x00bf
+                           0000BF    31 _VDP_STATUS	=	0x00bf
+                           0000DC    32 _JOY_PORT1	=	0x00dc
+                           0000DD    33 _JOY_PORT2	=	0x00dd
+                           0000F0    34 _FMADDRESS	=	0x00f0
+                           0000F1    35 _FMDATA	=	0x00f1
+                           0000F2    36 _AUDIOCTRL	=	0x00f2
+                                     37 ;--------------------------------------------------------
+                                     38 ; ram data
+                                     39 ;--------------------------------------------------------
+                                     40 	.area _DATA
+                           00FFFC    41 _RAM_CONTROL	=	0xfffc
+                           00FFF8    42 _GLASSES_3D	=	0xfff8
+                           00FFFD    43 _MAP_FRAME0	=	0xfffd
+                           00FFFE    44 _MAP_FRAME1	=	0xfffe
+                           00FFFF    45 _MAP_FRAME2	=	0xffff
+                                     46 ;--------------------------------------------------------
+                                     47 ; ram data
+                                     48 ;--------------------------------------------------------
+                                     49 	.area _INITIALIZED
+                                     50 ;--------------------------------------------------------
+                                     51 ; absolute external ram data
+                                     52 ;--------------------------------------------------------
+                                     53 	.area _DABS (ABS)
+                                     54 ;--------------------------------------------------------
+                                     55 ; global & static initialisations
+                                     56 ;--------------------------------------------------------
+                                     57 	.area _HOME
+                                     58 	.area _GSINIT
+                                     59 	.area _GSFINAL
+                                     60 	.area _GSINIT
+                                     61 ;--------------------------------------------------------
+                                     62 ; Home
+                                     63 ;--------------------------------------------------------
+                                     64 	.area _HOME
+                                     65 	.area _HOME
+                                     66 ;--------------------------------------------------------
+                                     67 ; code
+                                     68 ;--------------------------------------------------------
+                                     69 	.area _CODE_2
+                                     70 ;src/bank2code.c:7: static int local_bank2_proc(int param1, int param2) {
+                                     71 ;	---------------------------------
+                                     72 ; Function local_bank2_proc
+                                     73 ; ---------------------------------
+      000000                         74 _local_bank2_proc:
+                                     75 ;src/bank2code.c:8: printf("  sum: %d (bank=%d)\n", param1 + param2, (int)CURRENT_BANK);
+      000000 3A FE FF         [13]   76 	ld	a, (_MAP_FRAME1+0)
+      000003 4F               [ 4]   77 	ld	c, a
+      000004 06 00            [ 7]   78 	ld	b, #0x00
+      000006 19               [11]   79 	add	hl, de
+      000007 11r18r00         [10]   80 	ld	de, #___str_0+0
+      00000A E5               [11]   81 	push	hl
+      00000B C5               [11]   82 	push	bc
+      00000C E5               [11]   83 	push	hl
+      00000D D5               [11]   84 	push	de
+      00000E CDr00r00         [17]   85 	call	_printf
+      000011 F1               [10]   86 	pop	af
+      000012 F1               [10]   87 	pop	af
+      000013 F1               [10]   88 	pop	af
+      000014 E1               [10]   89 	pop	hl
+                                     90 ;src/bank2code.c:9: return (param1 + param2) << 1;
+      000015 29               [11]   91 	add	hl, hl
+      000016 EB               [ 4]   92 	ex	de, hl
+                                     93 ;src/bank2code.c:10: }
+      000017 C9               [10]   94 	ret
+      000018                         95 ___str_0:
+      000018 20 20 73 75 6D 3A 20    96 	.ascii "  sum: %d (bank=%d)"
+             25 64 20 28 62 61 6E
+             6B 3D 25 64 29
+      00002B 0A                      97 	.db 0x0a
+      00002C 00                      98 	.db 0x00
+                                     99 ;src/bank2code.c:12: BANKREF(some_bank2_proc0)
+                                    100 ;	---------------------------------
+                                    101 ; Function __func_some_bank2_proc0
+                                    102 ; ---------------------------------
+                           000002   103 	b___func_some_bank2_proc0	= 2
+      00002D                        104 ___func_some_bank2_proc0::
+                                    105 	.local b___func_some_bank2_proc0 
+                           000002   106 	___bank_some_bank2_proc0 = b___func_some_bank2_proc0 
+                                    107 	.globl ___bank_some_bank2_proc0 
+                                    108 ;src/bank2code.c:13: void some_bank2_proc0() __banked {
+                                    109 ;	---------------------------------
+                                    110 ; Function some_bank2_proc0
+                                    111 ; ---------------------------------
+                           000002   112 	b_some_bank2_proc0	= 2
+      00002D                        113 _some_bank2_proc0::
+                                    114 ;src/bank2code.c:14: printf("some_bank2_proc0\n");
+      00002D 21r33r00         [10]  115 	ld	hl, #___str_2
+                                    116 ;src/bank2code.c:15: }
+      000030 C3r00r00         [10]  117 	jp	_puts
+      000033                        118 ___str_2:
+      000033 73 6F 6D 65 5F 62 61   119 	.ascii "some_bank2_proc0"
+             6E 6B 32 5F 70 72 6F
+             63 30
+      000043 00                     120 	.db 0x00
+                                    121 ;src/bank2code.c:17: BANKREF(some_bank2_proc1)
+                                    122 ;	---------------------------------
+                                    123 ; Function __func_some_bank2_proc1
+                                    124 ; ---------------------------------
+                           000002   125 	b___func_some_bank2_proc1	= 2
+      000044                        126 ___func_some_bank2_proc1::
+                                    127 	.local b___func_some_bank2_proc1 
+                           000002   128 	___bank_some_bank2_proc1 = b___func_some_bank2_proc1 
+                                    129 	.globl ___bank_some_bank2_proc1 
+                                    130 ;src/bank2code.c:18: int some_bank2_proc1(int param1, int param2) __banked {
+                                    131 ;	---------------------------------
+                                    132 ; Function some_bank2_proc1
+                                    133 ; ---------------------------------
+                           000002   134 	b_some_bank2_proc1	= 2
+      000044                        135 _some_bank2_proc1::
+                                    136 ;src/bank2code.c:19: printf("some_bank2_proc1\n");
+      000044 21r64r00         [10]  137 	ld	hl, #___str_4
+      000047 CDr00r00         [17]  138 	call	_puts
+                                    139 ;src/bank2code.c:20: return local_bank2_proc(param1, param2);
+      00004A FD 21 07 00      [14]  140 	ld	iy, #7
+      00004E FD 39            [15]  141 	add	iy, sp
+      000050 FD 5E 00         [19]  142 	ld	e, 0 (iy)
+      000053 FD 56 01         [19]  143 	ld	d, 1 (iy)
+      000056 FD 7E FE         [19]  144 	ld	a, -2 (iy)
+      000059 FD 66 FF         [19]  145 	ld	h, -1 (iy)
+      00005C FD 2B            [10]  146 	dec	iy
+      00005E FD 2B            [10]  147 	dec	iy
+                                    148 ;	spillPairReg hl
+                                    149 ;	spillPairReg hl
+      000060 6F               [ 4]  150 	ld	l, a
+                                    151 ;	spillPairReg hl
+                                    152 ;	spillPairReg hl
+                                    153 ;src/bank2code.c:21: }
+      000061 C3r00r00         [10]  154 	jp	_local_bank2_proc
+      000064                        155 ___str_4:
+      000064 73 6F 6D 65 5F 62 61   156 	.ascii "some_bank2_proc1"
+             6E 6B 32 5F 70 72 6F
+             63 31
+      000074 00                     157 	.db 0x00
+                                    158 	.area _CODE_2
+                                    159 	.area _INITIALIZER
+                                    160 	.area _CABS (ABS)

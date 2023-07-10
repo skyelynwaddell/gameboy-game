@@ -1,0 +1,571 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler 
+                                      3 ; Version 4.2.2 #13350 (Mac OS X x86_64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module metasprites
+                                      6 	.optsdcc -mz80
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _main
+                                     12 	.globl _hide_sprites_range
+                                     13 	.globl _fill_rect_compat
+                                     14 	.globl _set_tile_2bpp_data
+                                     15 	.globl _joypad_ex
+                                     16 	.globl _joypad_init
+                                     17 	.globl _wait_vbl_done
+                                     18 	.globl _idx
+                                     19 	.globl _jitter
+                                     20 	.globl _hide
+                                     21 	.globl _PosF
+                                     22 	.globl _SpdY
+                                     23 	.globl _SpdX
+                                     24 	.globl _PosY
+                                     25 	.globl _PosX
+                                     26 	.globl _joypads
+                                     27 	.globl _pattern
+                                     28 ;--------------------------------------------------------
+                                     29 ; special function registers
+                                     30 ;--------------------------------------------------------
+                           00003E    31 _MEMORY_CTL	=	0x003e
+                           00003F    32 _JOY_CTL	=	0x003f
+                           00007E    33 _VCOUNTER	=	0x007e
+                           00007F    34 _PSG	=	0x007f
+                           00007F    35 _HCOUNTER	=	0x007f
+                           0000BE    36 _VDP_DATA	=	0x00be
+                           0000BF    37 _VDP_CMD	=	0x00bf
+                           0000BF    38 _VDP_STATUS	=	0x00bf
+                           0000DC    39 _JOY_PORT1	=	0x00dc
+                           0000DD    40 _JOY_PORT2	=	0x00dd
+                           0000F0    41 _FMADDRESS	=	0x00f0
+                           0000F1    42 _FMDATA	=	0x00f1
+                           0000F2    43 _AUDIOCTRL	=	0x00f2
+                                     44 ;--------------------------------------------------------
+                                     45 ; ram data
+                                     46 ;--------------------------------------------------------
+                                     47 	.area _DATA
+                           00FFFC    48 _RAM_CONTROL	=	0xfffc
+                           00FFF8    49 _GLASSES_3D	=	0xfff8
+                           00FFFD    50 _MAP_FRAME0	=	0xfffd
+                           00FFFE    51 _MAP_FRAME1	=	0xfffe
+                           00FFFF    52 _MAP_FRAME2	=	0xffff
+      000000                         53 _joypads::
+      000000                         54 	.ds 5
+      000005                         55 _PosX::
+      000005                         56 	.ds 2
+      000007                         57 _PosY::
+      000007                         58 	.ds 2
+      000009                         59 _SpdX::
+      000009                         60 	.ds 2
+      00000B                         61 _SpdY::
+      00000B                         62 	.ds 2
+      00000D                         63 _PosF::
+      00000D                         64 	.ds 1
+      00000E                         65 _hide::
+      00000E                         66 	.ds 1
+      00000F                         67 _jitter::
+      00000F                         68 	.ds 1
+      000010                         69 _idx::
+      000010                         70 	.ds 1
+                                     71 ;--------------------------------------------------------
+                                     72 ; ram data
+                                     73 ;--------------------------------------------------------
+                                     74 	.area _INITIALIZED
+                                     75 ;--------------------------------------------------------
+                                     76 ; absolute external ram data
+                                     77 ;--------------------------------------------------------
+                                     78 	.area _DABS (ABS)
+                                     79 ;--------------------------------------------------------
+                                     80 ; global & static initialisations
+                                     81 ;--------------------------------------------------------
+                                     82 	.area _HOME
+                                     83 	.area _GSINIT
+                                     84 	.area _GSFINAL
+                                     85 	.area _GSINIT
+                                     86 ;--------------------------------------------------------
+                                     87 ; Home
+                                     88 ;--------------------------------------------------------
+                                     89 	.area _HOME
+                                     90 	.area _HOME
+                                     91 ;--------------------------------------------------------
+                                     92 ; code
+                                     93 ;--------------------------------------------------------
+                                     94 	.area _CODE
+                                     95 ;src/metasprites.c:32: void main(void) {
+                                     96 ;	---------------------------------
+                                     97 ; Function main
+                                     98 ; ---------------------------------
+      000000                         99 _main::
+      000000 DD E5            [15]  100 	push	ix
+      000002 DD 21 00 00      [14]  101 	ld	ix,#0
+      000006 DD 39            [15]  102 	add	ix,sp
+      000008 21 FB FF         [10]  103 	ld	hl, #-5
+      00000B 39               [11]  104 	add	hl, sp
+      00000C F9               [ 6]  105 	ld	sp, hl
+                                    106 ;../../../include/sms/sms.h:222: __WRITE_VDP_REG(VDP_R1, __READ_VDP_REG(VDP_R1) &= (~R1_DISP_ON));
+      00000D 3Ar00r00         [13]  107 	ld	a, (_shadow_VDP_R1+0)
+      000010 E6 BF            [ 7]  108 	and	a, #0xbf
+      000012 32r00r00         [13]  109 	ld	(_shadow_VDP_R1+0), a
+      000015 ED 57            [ 9]  110 	ld	a,i
+      000017 F3               [ 4]  111 	di
+      000018 F5               [11]  112 	push	af
+      000019 3Ar00r00         [13]  113 	ld	a, (_shadow_VDP_R1+0)
+      00001C D3 BF            [11]  114 	out	(_VDP_CMD), a
+      00001E 3E 81            [ 7]  115 	ld	a, #0x81
+      000020 D3 BF            [11]  116 	out	(_VDP_CMD), a
+      000022 F1               [10]  117 	pop	af
+      000023 E2r27r00         [10]  118 	jp	PO, 00273$
+      000026 FB               [ 4]  119 	ei
+      000027                        120 00273$:
+                                    121 ;src/metasprites.c:36: fill_bkg_rect(0, 0, DEVICE_SCREEN_WIDTH, DEVICE_SCREEN_HEIGHT, 0);
+      000027 21 00 00         [10]  122 	ld	hl, #0x0000
+      00002A E5               [11]  123 	push	hl
+      00002B 21 14 12         [10]  124 	ld	hl, #0x1214
+      00002E E5               [11]  125 	push	hl
+      00002F 21 00 00         [10]  126 	ld	hl, #0x00
+      000032 E5               [11]  127 	push	hl
+      000033 CDr00r00         [17]  128 	call	_fill_rect_compat
+                                    129 ;src/metasprites.c:39: set_bkg_data(0, 1, pattern);
+                                    130 ;../../../include/sms/sms.h:534: set_tile_2bpp_data(start, ntiles, src, _current_2bpp_palette);
+      000036 2Ar00r00         [16]  131 	ld	hl, (__current_2bpp_palette)
+      000039 E5               [11]  132 	push	hl
+      00003A 21rF2r02         [10]  133 	ld	hl, #_pattern
+      00003D E5               [11]  134 	push	hl
+      00003E 21 01 00         [10]  135 	ld	hl, #0x0001
+      000041 E5               [11]  136 	push	hl
+      000042 6C               [ 4]  137 	ld	l, h
+      000043 E5               [11]  138 	push	hl
+      000044 CDr00r00         [17]  139 	call	_set_tile_2bpp_data
+                                    140 ;src/metasprites.c:42: set_sprite_data(TILE_NUM_START, sizeof(sprite_tiles) >> 4, sprite_tiles);
+                                    141 ;../../../include/sms/sms.h:537: set_tile_2bpp_data((uint8_t)(start) + 0x100u, ntiles, src, _current_2bpp_palette);
+      000047 2Ar00r00         [16]  142 	ld	hl, (__current_2bpp_palette)
+      00004A E5               [11]  143 	push	hl
+      00004B 21r00r00         [10]  144 	ld	hl, #_sprite_tiles
+      00004E E5               [11]  145 	push	hl
+      00004F 21 3C 00         [10]  146 	ld	hl, #0x003c
+      000052 E5               [11]  147 	push	hl
+      000053 21 00 01         [10]  148 	ld	hl, #0x0100
+      000056 E5               [11]  149 	push	hl
+      000057 CDr00r00         [17]  150 	call	_set_tile_2bpp_data
+                                    151 ;src/metasprites.c:49: SPRITES_8x16;
+      00005A 3Ar00r00         [13]  152 	ld	a, (_shadow_VDP_R1+0)
+      00005D F6 02            [ 7]  153 	or	a, #0x02
+      00005F 32r00r00         [13]  154 	ld	(_shadow_VDP_R1+0), a
+      000062 ED 57            [ 9]  155 	ld	a,i
+      000064 F3               [ 4]  156 	di
+      000065 F5               [11]  157 	push	af
+      000066 3Ar00r00         [13]  158 	ld	a, (_shadow_VDP_R1+0)
+      000069 D3 BF            [11]  159 	out	(_VDP_CMD), a
+      00006B 3E 81            [ 7]  160 	ld	a, #0x81
+      00006D D3 BF            [11]  161 	out	(_VDP_CMD), a
+      00006F F1               [10]  162 	pop	af
+      000070 E2r74r00         [10]  163 	jp	PO, 00275$
+      000073 FB               [ 4]  164 	ei
+      000074                        165 00275$:
+                                    166 ;src/metasprites.c:53: DISPLAY_ON;
+      000074 3Ar00r00         [13]  167 	ld	a, (_shadow_VDP_R1+0)
+      000077 F6 40            [ 7]  168 	or	a, #0x40
+      000079 32r00r00         [13]  169 	ld	(_shadow_VDP_R1+0), a
+      00007C ED 57            [ 9]  170 	ld	a,i
+      00007E F3               [ 4]  171 	di
+      00007F F5               [11]  172 	push	af
+      000080 3Ar00r00         [13]  173 	ld	a, (_shadow_VDP_R1+0)
+      000083 D3 BF            [11]  174 	out	(_VDP_CMD), a
+      000085 3E 81            [ 7]  175 	ld	a, #0x81
+      000087 D3 BF            [11]  176 	out	(_VDP_CMD), a
+      000089 F1               [10]  177 	pop	af
+      00008A E2r8Er00         [10]  178 	jp	PO, 00277$
+      00008D FB               [ 4]  179 	ei
+      00008E                        180 00277$:
+                                    181 ;src/metasprites.c:56: joypad_init(1, &joypads);
+      00008E 21r00r00         [10]  182 	ld	hl, #_joypads
+      000091 E5               [11]  183 	push	hl
+      000092 3E 01            [ 7]  184 	ld	a, #0x01
+      000094 F5               [11]  185 	push	af
+      000095 33               [ 6]  186 	inc	sp
+      000096 CDr00r00         [17]  187 	call	_joypad_init
+                                    188 ;src/metasprites.c:59: PosX = PosY = 96 << 4;
+      000099 21 00 06         [10]  189 	ld	hl, #0x0600
+      00009C 22r07r00         [16]  190 	ld	(_PosY), hl
+      00009F 22r05r00         [16]  191 	ld	(_PosX), hl
+                                    192 ;src/metasprites.c:60: SpdX = SpdY = 0;
+      0000A2 65               [ 4]  193 	ld	h, l
+      0000A3 22r0Br00         [16]  194 	ld	(_SpdY), hl
+      0000A6 22r09r00         [16]  195 	ld	(_SpdX), hl
+                                    196 ;src/metasprites.c:62: hide = 0; jitter = 0; idx = 0;
+      0000A9 21r0Er00         [10]  197 	ld	hl, #_hide
+      0000AC 36 00            [10]  198 	ld	(hl), #0x00
+      0000AE 21r0Fr00         [10]  199 	ld	hl, #_jitter
+      0000B1 36 00            [10]  200 	ld	(hl), #0x00
+      0000B3 21r10r00         [10]  201 	ld	hl, #_idx
+      0000B6 36 00            [10]  202 	ld	(hl), #0x00
+                                    203 ;src/metasprites.c:64: while(1) {        
+      0000B8                        204 00148$:
+                                    205 ;src/metasprites.c:66: joypad_ex(&joypads);
+      0000B8 21r00r00         [10]  206 	ld	hl, #_joypads
+      0000BB CDr00r00         [17]  207 	call	_joypad_ex
+                                    208 ;src/metasprites.c:68: PosF = 0;
+      0000BE 21r0Dr00         [10]  209 	ld	hl, #_PosF
+      0000C1 36 00            [10]  210 	ld	(hl), #0x00
+                                    211 ;src/metasprites.c:70: if (joypads.joy0 & J_UP) {
+      0000C3 3Ar01r00         [13]  212 	ld	a, (#(_joypads + 1) + 0)
+      0000C6 DD 77 FF         [19]  213 	ld	-1 (ix), a
+                                    214 ;src/metasprites.c:71: SpdY -= 2;
+      0000C9 2Ar0Br00         [16]  215 	ld	hl, (_SpdY)
+      0000CC E3               [19]  216 	ex	(sp), hl
+                                    217 ;src/metasprites.c:73: PosF |= ACC_Y;
+      0000CD 3Ar0Dr00         [13]  218 	ld	a, (_PosF+0)
+      0000D0 F6 02            [ 7]  219 	or	a, #0x02
+      0000D2 DD 77 FD         [19]  220 	ld	-3 (ix), a
+                                    221 ;src/metasprites.c:70: if (joypads.joy0 & J_UP) {
+      0000D5 DD CB FF 46      [20]  222 	bit	0, -1 (ix)
+      0000D9 28 24            [12]  223 	jr	Z, 00108$
+                                    224 ;src/metasprites.c:71: SpdY -= 2;
+      0000DB E1               [10]  225 	pop	hl
+      0000DC E5               [11]  226 	push	hl
+      0000DD 2B               [ 6]  227 	dec	hl
+      0000DE 2B               [ 6]  228 	dec	hl
+      0000DF 22r0Br00         [16]  229 	ld	(_SpdY), hl
+                                    230 ;src/metasprites.c:72: if (SpdY < -32) SpdY = -32;
+      0000E2 3Ar0Br00         [13]  231 	ld	a, (_SpdY+0)
+      0000E5 D6 E0            [ 7]  232 	sub	a, #0xe0
+      0000E7 3Ar0Cr00         [13]  233 	ld	a, (_SpdY+1)
+      0000EA 17               [ 4]  234 	rla
+      0000EB 3F               [ 4]  235 	ccf
+      0000EC 1F               [ 4]  236 	rra
+      0000ED DE 7F            [ 7]  237 	sbc	a, #0x7f
+      0000EF 30 06            [12]  238 	jr	NC, 00102$
+      0000F1 21 E0 FF         [10]  239 	ld	hl, #0xffe0
+      0000F4 22r0Br00         [16]  240 	ld	(_SpdY), hl
+      0000F7                        241 00102$:
+                                    242 ;src/metasprites.c:73: PosF |= ACC_Y;
+      0000F7 DD 7E FD         [19]  243 	ld	a, -3 (ix)
+      0000FA 32r0Dr00         [13]  244 	ld	(_PosF+0), a
+      0000FD 18 46            [12]  245 	jr	00109$
+      0000FF                        246 00108$:
+                                    247 ;src/metasprites.c:74: } else if (joypads.joy0 & J_DOWN) {
+      0000FF DD CB FF 4E      [20]  248 	bit	1, -1 (ix)
+      000103 28 40            [12]  249 	jr	Z, 00109$
+                                    250 ;src/metasprites.c:75: SpdY += 2;
+      000105 DD 7E FB         [19]  251 	ld	a, -5 (ix)
+      000108 C6 02            [ 7]  252 	add	a, #0x02
+      00010A DD 77 FE         [19]  253 	ld	-2 (ix), a
+      00010D DD 7E FC         [19]  254 	ld	a, -4 (ix)
+      000110 CE 00            [ 7]  255 	adc	a, #0x00
+      000112 DD 77 FF         [19]  256 	ld	-1 (ix), a
+      000115 DD 6E FE         [19]  257 	ld	l, -2 (ix)
+      000118 DD 66 FF         [19]  258 	ld	h, -1 (ix)
+      00011B 22r0Br00         [16]  259 	ld	(_SpdY), hl
+                                    260 ;src/metasprites.c:76: if (SpdY > 32) SpdY = 32;
+      00011E 2Ar0Br00         [16]  261 	ld	hl, (_SpdY)
+      000121 DD 75 FE         [19]  262 	ld	-2 (ix), l
+      000124 DD 74 FF         [19]  263 	ld	-1 (ix), h
+      000127 3E 20            [ 7]  264 	ld	a, #0x20
+      000129 DD BE FE         [19]  265 	cp	a, -2 (ix)
+      00012C 3E 00            [ 7]  266 	ld	a, #0x00
+      00012E DD 9E FF         [19]  267 	sbc	a, -1 (ix)
+      000131 E2r36r01         [10]  268 	jp	PO, 00280$
+      000134 EE 80            [ 7]  269 	xor	a, #0x80
+      000136                        270 00280$:
+      000136 F2r3Fr01         [10]  271 	jp	P, 00104$
+      000139 21 20 00         [10]  272 	ld	hl, #0x0020
+      00013C 22r0Br00         [16]  273 	ld	(_SpdY), hl
+      00013F                        274 00104$:
+                                    275 ;src/metasprites.c:77: PosF |= ACC_Y;
+      00013F DD 7E FD         [19]  276 	ld	a, -3 (ix)
+      000142 32r0Dr00         [13]  277 	ld	(_PosF+0), a
+      000145                        278 00109$:
+                                    279 ;src/metasprites.c:80: if (joypads.joy0 & J_LEFT) {
+      000145 21r01r00         [10]  280 	ld	hl, #(_joypads + 1)
+      000148 4E               [ 7]  281 	ld	c, (hl)
+                                    282 ;src/metasprites.c:81: SpdX -= 2;
+      000149 2Ar09r00         [16]  283 	ld	hl, (_SpdX)
+      00014C DD 75 FE         [19]  284 	ld	-2 (ix), l
+      00014F DD 74 FF         [19]  285 	ld	-1 (ix), h
+                                    286 ;src/metasprites.c:83: PosF |= ACC_X;
+      000152 3Ar0Dr00         [13]  287 	ld	a, (_PosF+0)
+      000155 5F               [ 4]  288 	ld	e, a
+      000156 CB C3            [ 8]  289 	set	0, e
+                                    290 ;src/metasprites.c:80: if (joypads.joy0 & J_LEFT) {
+      000158 CB 51            [ 8]  291 	bit	2, c
+      00015A 28 26            [12]  292 	jr	Z, 00117$
+                                    293 ;src/metasprites.c:81: SpdX -= 2;
+      00015C DD 6E FE         [19]  294 	ld	l, -2 (ix)
+      00015F DD 66 FF         [19]  295 	ld	h, -1 (ix)
+      000162 2B               [ 6]  296 	dec	hl
+      000163 2B               [ 6]  297 	dec	hl
+      000164 22r09r00         [16]  298 	ld	(_SpdX), hl
+                                    299 ;src/metasprites.c:82: if (SpdX < -32) SpdX = -32;
+      000167 3Ar09r00         [13]  300 	ld	a, (_SpdX+0)
+      00016A D6 E0            [ 7]  301 	sub	a, #0xe0
+      00016C 3Ar0Ar00         [13]  302 	ld	a, (_SpdX+1)
+      00016F 17               [ 4]  303 	rla
+      000170 3F               [ 4]  304 	ccf
+      000171 1F               [ 4]  305 	rra
+      000172 DE 7F            [ 7]  306 	sbc	a, #0x7f
+      000174 30 06            [12]  307 	jr	NC, 00111$
+      000176 21 E0 FF         [10]  308 	ld	hl, #0xffe0
+      000179 22r09r00         [16]  309 	ld	(_SpdX), hl
+      00017C                        310 00111$:
+                                    311 ;src/metasprites.c:83: PosF |= ACC_X;
+      00017C 7B               [ 4]  312 	ld	a, e
+      00017D 32r0Dr00         [13]  313 	ld	(#_PosF), a
+      000180 18 2B            [12]  314 	jr	00118$
+      000182                        315 00117$:
+                                    316 ;src/metasprites.c:84: } else if (joypads.joy0 & J_RIGHT) {
+      000182 CB 59            [ 8]  317 	bit	3, c
+      000184 28 27            [12]  318 	jr	Z, 00118$
+                                    319 ;src/metasprites.c:85: SpdX += 2;
+      000186 DD 4E FE         [19]  320 	ld	c, -2 (ix)
+      000189 DD 46 FF         [19]  321 	ld	b, -1 (ix)
+      00018C 03               [ 6]  322 	inc	bc
+      00018D 03               [ 6]  323 	inc	bc
+      00018E ED 43r09r00      [20]  324 	ld	(_SpdX), bc
+                                    325 ;src/metasprites.c:86: if (SpdX > 32) SpdX = 32;
+      000192 2Ar09r00         [16]  326 	ld	hl, (_SpdX)
+      000195 3E 20            [ 7]  327 	ld	a, #0x20
+      000197 BD               [ 4]  328 	cp	a, l
+      000198 3E 00            [ 7]  329 	ld	a, #0x00
+      00019A 9C               [ 4]  330 	sbc	a, h
+      00019B E2rA0r01         [10]  331 	jp	PO, 00283$
+      00019E EE 80            [ 7]  332 	xor	a, #0x80
+      0001A0                        333 00283$:
+      0001A0 F2rA9r01         [10]  334 	jp	P, 00113$
+      0001A3 21 20 00         [10]  335 	ld	hl, #0x0020
+      0001A6 22r09r00         [16]  336 	ld	(_SpdX), hl
+      0001A9                        337 00113$:
+                                    338 ;src/metasprites.c:87: PosF |= ACC_X;
+      0001A9 7B               [ 4]  339 	ld	a, e
+      0001AA 32r0Dr00         [13]  340 	ld	(#_PosF), a
+      0001AD                        341 00118$:
+                                    342 ;src/metasprites.c:92: if ((joypads.joy0 & J_A) && (!jitter)) {
+      0001AD 3Ar01r00         [13]  343 	ld	a, (#(_joypads + 1) + 0)
+      0001B0 CB 67            [ 8]  344 	bit	4, a
+      0001B2 28 16            [12]  345 	jr	Z, 00120$
+      0001B4 3Ar0Fr00         [13]  346 	ld	a, (_jitter+0)
+      0001B7 B7               [ 4]  347 	or	a, a
+      0001B8 20 10            [12]  348 	jr	NZ, 00120$
+                                    349 ;src/metasprites.c:93: hide = (!hide);
+      0001BA 3Ar0Er00         [13]  350 	ld	a, (_hide+0)
+      0001BD D6 01            [ 7]  351 	sub	a,#0x01
+      0001BF 3E 00            [ 7]  352 	ld	a, #0x00
+      0001C1 17               [ 4]  353 	rla
+      0001C2 32r0Er00         [13]  354 	ld	(_hide+0), a
+                                    355 ;src/metasprites.c:94: jitter = 20;
+      0001C5 21r0Fr00         [10]  356 	ld	hl, #_jitter
+      0001C8 36 14            [10]  357 	ld	(hl), #0x14
+      0001CA                        358 00120$:
+                                    359 ;src/metasprites.c:98: if ((joypads.joy0 & J_B) && (!jitter) && (!hide)) {
+      0001CA 3Ar01r00         [13]  360 	ld	a, (#(_joypads + 1) + 0)
+      0001CD CB 6F            [ 8]  361 	bit	5, a
+      0001CF 28 23            [12]  362 	jr	Z, 00125$
+      0001D1 3Ar0Fr00         [13]  363 	ld	a, (_jitter+0)
+      0001D4 B7               [ 4]  364 	or	a, a
+      0001D5 20 1D            [12]  365 	jr	NZ, 00125$
+      0001D7 3Ar0Er00         [13]  366 	ld	a, (_hide+0)
+      0001DA B7               [ 4]  367 	or	a, a
+      0001DB 20 17            [12]  368 	jr	NZ, 00125$
+                                    369 ;src/metasprites.c:99: idx++; if (idx >= (sizeof(sprite_metasprites) >> 1)) idx = 0;
+      0001DD FD 21r10r00      [14]  370 	ld	iy, #_idx
+      0001E1 FD 34 00         [23]  371 	inc	0 (iy)
+      0001E4 3Ar10r00         [13]  372 	ld	a, (_idx+0)
+      0001E7 D6 05            [ 7]  373 	sub	a, #0x05
+      0001E9 38 04            [12]  374 	jr	C, 00123$
+      0001EB FD 36 00 00      [19]  375 	ld	0 (iy), #0x00
+      0001EF                        376 00123$:
+                                    377 ;src/metasprites.c:100: jitter = 10;
+      0001EF 21r0Fr00         [10]  378 	ld	hl, #_jitter
+      0001F2 36 0A            [10]  379 	ld	(hl), #0x0a
+      0001F4                        380 00125$:
+                                    381 ;src/metasprites.c:104: if (jitter) jitter--;
+      0001F4 3Ar0Fr00         [13]  382 	ld	a, (_jitter+0)
+      0001F7 B7               [ 4]  383 	or	a, a
+      0001F8 28 04            [12]  384 	jr	Z, 00129$
+      0001FA 21r0Fr00         [10]  385 	ld	hl, #_jitter
+      0001FD 35               [11]  386 	dec	(hl)
+      0001FE                        387 00129$:
+                                    388 ;src/metasprites.c:106: PosX += SpdX, PosY += SpdY; 
+      0001FE ED 4Br09r00      [20]  389 	ld	bc, (_SpdX)
+      000202 79               [ 4]  390 	ld	a, c
+      000203 FD 21r05r00      [14]  391 	ld	iy, #_PosX
+      000207 FD 86 00         [19]  392 	add	a, 0 (iy)
+      00020A 32r05r00         [13]  393 	ld	(_PosX+0), a
+      00020D 78               [ 4]  394 	ld	a, b
+      00020E FD 8E 01         [19]  395 	adc	a, 1 (iy)
+      000211 32r06r00         [13]  396 	ld	(_PosX+1), a
+      000214 ED 4Br0Br00      [20]  397 	ld	bc, (_SpdY)
+      000218 79               [ 4]  398 	ld	a, c
+      000219 FD 21r07r00      [14]  399 	ld	iy, #_PosY
+      00021D FD 86 00         [19]  400 	add	a, 0 (iy)
+      000220 32r07r00         [13]  401 	ld	(_PosY+0), a
+      000223 78               [ 4]  402 	ld	a, b
+      000224 FD 8E 01         [19]  403 	adc	a, 1 (iy)
+      000227 32r08r00         [13]  404 	ld	(_PosY+1), a
+                                    405 ;src/metasprites.c:108: uint8_t hiwater = 0;
+      00022A 06 00            [ 7]  406 	ld	b, #0x00
+                                    407 ;src/metasprites.c:112: hide_metasprite(sprite_metasprites[idx], SPR_NUM_START);
+      00022C 3Ar10r00         [13]  408 	ld	a, (_idx+0)
+      00022F 6F               [ 4]  409 	ld	l, a
+                                    410 ;	spillPairReg hl
+                                    411 ;	spillPairReg hl
+      000230 26 00            [ 7]  412 	ld	h, #0x00
+                                    413 ;	spillPairReg hl
+                                    414 ;	spillPairReg hl
+      000232 29               [11]  415 	add	hl, hl
+      000233 4D               [ 4]  416 	ld	c, l
+      000234 5C               [ 4]  417 	ld	e, h
+                                    418 ;src/metasprites.c:111: if (hide)
+      000235 3Ar0Er00         [13]  419 	ld	a, (_hide+0)
+      000238 B7               [ 4]  420 	or	a, a
+      000239 28 17            [12]  421 	jr	Z, 00131$
+                                    422 ;src/metasprites.c:112: hide_metasprite(sprite_metasprites[idx], SPR_NUM_START);
+      00023B 21r00r00         [10]  423 	ld	hl, #_sprite_metasprites+0
+      00023E 79               [ 4]  424 	ld	a, c
+      00023F 53               [ 4]  425 	ld	d, e
+      000240 5F               [ 4]  426 	ld	e, a
+      000241 19               [11]  427 	add	hl, de
+      000242 5E               [ 7]  428 	ld	e, (hl)
+      000243 23               [ 6]  429 	inc	hl
+      000244 56               [ 7]  430 	ld	d, (hl)
+      000245 ED 53r00r00      [20]  431 	ld	(___current_metasprite), de
+                                    432 ;../../../include/sms/metasprites.h:113: __hide_metasprite(base_sprite);
+      000249 C5               [11]  433 	push	bc
+      00024A 2E 00            [ 7]  434 	ld	l, #0x00
+                                    435 ;	spillPairReg hl
+                                    436 ;	spillPairReg hl
+      00024C CDr00r00         [17]  437 	call	___hide_metasprite
+      00024F C1               [10]  438 	pop	bc
+                                    439 ;src/metasprites.c:112: hide_metasprite(sprite_metasprites[idx], SPR_NUM_START);
+      000250 18 45            [12]  440 	jr	00132$
+      000252                        441 00131$:
+                                    442 ;src/metasprites.c:114: hiwater = move_metasprite(sprite_metasprites[idx], TILE_NUM_START, SPR_NUM_START, (PosX >> 4), (PosY >> 4));
+      000252 2Ar07r00         [16]  443 	ld	hl, (_PosY)
+      000255 CB 3C            [ 8]  444 	srl	h
+      000257 CB 1D            [ 8]  445 	rr	l
+      000259 CB 3C            [ 8]  446 	srl	h
+      00025B CB 1D            [ 8]  447 	rr	l
+      00025D CB 3C            [ 8]  448 	srl	h
+      00025F CB 1D            [ 8]  449 	rr	l
+      000261 CB 3C            [ 8]  450 	srl	h
+      000263 CB 1D            [ 8]  451 	rr	l
+      000265 55               [ 4]  452 	ld	d, l
+      000266 2Ar05r00         [16]  453 	ld	hl, (_PosX)
+      000269 CB 3C            [ 8]  454 	srl	h
+      00026B CB 1D            [ 8]  455 	rr	l
+      00026D CB 3C            [ 8]  456 	srl	h
+      00026F CB 1D            [ 8]  457 	rr	l
+      000271 CB 3C            [ 8]  458 	srl	h
+      000273 CB 1D            [ 8]  459 	rr	l
+      000275 CB 3C            [ 8]  460 	srl	h
+      000277 CB 1D            [ 8]  461 	rr	l
+      000279 45               [ 4]  462 	ld	b, l
+      00027A 3Er00            [ 7]  463 	ld	a, #<(_sprite_metasprites)
+      00027C 81               [ 4]  464 	add	a, c
+      00027D 6F               [ 4]  465 	ld	l, a
+                                    466 ;	spillPairReg hl
+                                    467 ;	spillPairReg hl
+      00027E 3Es00            [ 7]  468 	ld	a, #>(_sprite_metasprites)
+      000280 8B               [ 4]  469 	adc	a, e
+      000281 67               [ 4]  470 	ld	h, a
+                                    471 ;	spillPairReg hl
+                                    472 ;	spillPairReg hl
+      000282 7E               [ 7]  473 	ld	a, (hl)
+      000283 23               [ 6]  474 	inc	hl
+      000284 66               [ 7]  475 	ld	h, (hl)
+                                    476 ;	spillPairReg hl
+      000285 6F               [ 4]  477 	ld	l, a
+                                    478 ;	spillPairReg hl
+                                    479 ;	spillPairReg hl
+                                    480 ;../../../include/sms/metasprites.h:97: __current_metasprite = metasprite; 
+      000286 22r00r00         [16]  481 	ld	(___current_metasprite), hl
+                                    482 ;../../../include/sms/metasprites.h:98: __current_base_tile = base_tile;
+      000289 21r00r00         [10]  483 	ld	hl, #___current_base_tile
+      00028C 36 00            [10]  484 	ld	(hl), #0x00
+                                    485 ;../../../include/sms/metasprites.h:99: return __move_metasprite(base_sprite, x, y); 
+      00028E 58               [ 4]  486 	ld	e, b
+      00028F D5               [11]  487 	push	de
+      000290 AF               [ 4]  488 	xor	a, a
+      000291 F5               [11]  489 	push	af
+      000292 33               [ 6]  490 	inc	sp
+      000293 CDr00r00         [17]  491 	call	___move_metasprite
+      000296 45               [ 4]  492 	ld	b, l
+                                    493 ;src/metasprites.c:114: hiwater = move_metasprite(sprite_metasprites[idx], TILE_NUM_START, SPR_NUM_START, (PosX >> 4), (PosY >> 4));
+      000297                        494 00132$:
+                                    495 ;src/metasprites.c:117: hide_sprites_range(hiwater, MAX_HARDWARE_SPRITES);        
+      000297 3E 40            [ 7]  496 	ld	a, #0x40
+      000299 F5               [11]  497 	push	af
+      00029A 33               [ 6]  498 	inc	sp
+      00029B C5               [11]  499 	push	bc
+      00029C 33               [ 6]  500 	inc	sp
+      00029D CDr00r00         [17]  501 	call	_hide_sprites_range
+                                    502 ;src/metasprites.c:120: if (!(PosF & ACC_Y)) {
+      0002A0 3Ar0Dr00         [13]  503 	ld	a, (_PosF+0)
+      0002A3 5F               [ 4]  504 	ld	e, a
+      0002A4 CB 4B            [ 8]  505 	bit	1, e
+      0002A6 20 20            [12]  506 	jr	NZ, 00139$
+                                    507 ;src/metasprites.c:121: if (SpdY != 0) {
+      0002A8 3Ar0Cr00         [13]  508 	ld	a, (_SpdY+1)
+      0002AB 21r0Br00         [10]  509 	ld	hl, #_SpdY
+      0002AE B6               [ 7]  510 	or	a, (hl)
+      0002AF 28 17            [12]  511 	jr	Z, 00139$
+                                    512 ;src/metasprites.c:122: if (SpdY < 0) SpdY++;
+      0002B1 2Ar0Br00         [16]  513 	ld	hl, (_SpdY)
+      0002B4 CB 7C            [ 8]  514 	bit	7, h
+      0002B6 28 09            [12]  515 	jr	Z, 00134$
+      0002B8 2Ar0Br00         [16]  516 	ld	hl, (_SpdY)
+      0002BB 23               [ 6]  517 	inc	hl
+      0002BC 22r0Br00         [16]  518 	ld	(_SpdY), hl
+      0002BF 18 07            [12]  519 	jr	00139$
+      0002C1                        520 00134$:
+                                    521 ;src/metasprites.c:123: else SpdY --;
+      0002C1 2Ar0Br00         [16]  522 	ld	hl, (_SpdY)
+      0002C4 2B               [ 6]  523 	dec	hl
+      0002C5 22r0Br00         [16]  524 	ld	(_SpdY), hl
+      0002C8                        525 00139$:
+                                    526 ;src/metasprites.c:128: if (!(PosF & ACC_X)) {
+      0002C8 CB 43            [ 8]  527 	bit	0, e
+      0002CA 20 20            [12]  528 	jr	NZ, 00146$
+                                    529 ;src/metasprites.c:129: if (SpdX != 0) {
+      0002CC 3Ar0Ar00         [13]  530 	ld	a, (_SpdX+1)
+      0002CF 21r09r00         [10]  531 	ld	hl, #_SpdX
+      0002D2 B6               [ 7]  532 	or	a, (hl)
+      0002D3 28 17            [12]  533 	jr	Z, 00146$
+                                    534 ;src/metasprites.c:130: if (SpdX < 0) SpdX++;
+      0002D5 2Ar09r00         [16]  535 	ld	hl, (_SpdX)
+      0002D8 CB 7C            [ 8]  536 	bit	7, h
+      0002DA 28 09            [12]  537 	jr	Z, 00141$
+      0002DC 2Ar09r00         [16]  538 	ld	hl, (_SpdX)
+      0002DF 23               [ 6]  539 	inc	hl
+      0002E0 22r09r00         [16]  540 	ld	(_SpdX), hl
+      0002E3 18 07            [12]  541 	jr	00146$
+      0002E5                        542 00141$:
+                                    543 ;src/metasprites.c:131: else SpdX --;
+      0002E5 2Ar09r00         [16]  544 	ld	hl, (_SpdX)
+      0002E8 2B               [ 6]  545 	dec	hl
+      0002E9 22r09r00         [16]  546 	ld	(_SpdX), hl
+      0002EC                        547 00146$:
+                                    548 ;src/metasprites.c:136: wait_vbl_done();
+      0002EC CDr00r00         [17]  549 	call	_wait_vbl_done
+                                    550 ;src/metasprites.c:138: }
+      0002EF C3rB8r00         [10]  551 	jp	00148$
+      0002F2                        552 _pattern:
+      0002F2 80                     553 	.db #0x80	; 128
+      0002F3 80                     554 	.db #0x80	; 128
+      0002F4 40                     555 	.db #0x40	; 64
+      0002F5 40                     556 	.db #0x40	; 64
+      0002F6 20                     557 	.db #0x20	; 32
+      0002F7 20                     558 	.db #0x20	; 32
+      0002F8 10                     559 	.db #0x10	; 16
+      0002F9 10                     560 	.db #0x10	; 16
+      0002FA 08                     561 	.db #0x08	; 8
+      0002FB 08                     562 	.db #0x08	; 8
+      0002FC 04                     563 	.db #0x04	; 4
+      0002FD 04                     564 	.db #0x04	; 4
+      0002FE 02                     565 	.db #0x02	; 2
+      0002FF 02                     566 	.db #0x02	; 2
+      000300 01                     567 	.db #0x01	; 1
+      000301 01                     568 	.db #0x01	; 1
+                                    569 	.area _CODE
+                                    570 	.area _INITIALIZER
+                                    571 	.area _CABS (ABS)

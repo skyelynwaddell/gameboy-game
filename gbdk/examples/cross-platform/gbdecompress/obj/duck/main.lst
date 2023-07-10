@@ -1,0 +1,101 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler 
+                                      3 ; Version 4.2.2 #13350 (Mac OS X x86_64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module main
+                                      6 	.optsdcc -msm83
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _main
+                                     12 	.globl _gb_decompress
+                                     13 	.globl _set_bkg_tiles
+                                     14 	.globl _set_bkg_data
+                                     15 	.globl _wait_vbl_done
+                                     16 	.globl _buffer
+                                     17 ;--------------------------------------------------------
+                                     18 ; special function registers
+                                     19 ;--------------------------------------------------------
+                                     20 ;--------------------------------------------------------
+                                     21 ; ram data
+                                     22 ;--------------------------------------------------------
+                                     23 	.area _DATA
+      000000                         24 _buffer::
+      000000                         25 	.ds 4096
+                                     26 ;--------------------------------------------------------
+                                     27 ; ram data
+                                     28 ;--------------------------------------------------------
+                                     29 	.area _INITIALIZED
+                                     30 ;--------------------------------------------------------
+                                     31 ; absolute external ram data
+                                     32 ;--------------------------------------------------------
+                                     33 	.area _DABS (ABS)
+                                     34 ;--------------------------------------------------------
+                                     35 ; global & static initialisations
+                                     36 ;--------------------------------------------------------
+                                     37 	.area _HOME
+                                     38 	.area _GSINIT
+                                     39 	.area _GSFINAL
+                                     40 	.area _GSINIT
+                                     41 ;--------------------------------------------------------
+                                     42 ; Home
+                                     43 ;--------------------------------------------------------
+                                     44 	.area _HOME
+                                     45 	.area _HOME
+                                     46 ;--------------------------------------------------------
+                                     47 ; code
+                                     48 ;--------------------------------------------------------
+                                     49 	.area _CODE
+                                     50 ;src/main.c:16: void main(void)
+                                     51 ;	---------------------------------
+                                     52 ; Function main
+                                     53 ; ---------------------------------
+      000000                         54 _main::
+                                     55 ;src/main.c:25: set_bkg_data(0, gb_decompress(monalisa_tiles_comp, buffer) >> 4, buffer);
+      000000 11r00r00         [12]   56 	ld	de, #_buffer+0
+      000003 4B               [ 4]   57 	ld	c, e
+      000004 42               [ 4]   58 	ld	b, d
+      000005 D5               [16]   59 	push	de
+      000006 11r00r00         [12]   60 	ld	de, #_monalisa_tiles_comp
+      000009 D5               [16]   61 	push	de
+      00000A CDr00r00         [24]   62 	call	_gb_decompress
+      00000D E8 04            [16]   63 	add	sp, #4
+      00000F CB 3A            [ 8]   64 	srl	d
+      000011 CB 1B            [ 8]   65 	rr	e
+      000013 CB 3A            [ 8]   66 	srl	d
+      000015 CB 1B            [ 8]   67 	rr	e
+      000017 CB 3A            [ 8]   68 	srl	d
+      000019 CB 1B            [ 8]   69 	rr	e
+      00001B CB 3A            [ 8]   70 	srl	d
+      00001D CB 1B            [ 8]   71 	rr	e
+      00001F 7B               [ 4]   72 	ld	a, e
+      000020 C5               [16]   73 	push	bc
+      000021 67               [ 4]   74 	ld	h, a
+      000022 2E 00            [ 8]   75 	ld	l, #0x00
+      000024 E5               [16]   76 	push	hl
+      000025 CDr00r00         [24]   77 	call	_set_bkg_data
+      000028 E8 04            [16]   78 	add	sp, #4
+                                     79 ;src/main.c:28: set_bkg_tiles(0,0, monalisa_mapWidth, monalisa_mapHeight, monalisa_mapPLN0);
+      00002A 11r00r00         [12]   80 	ld	de, #_monalisa_mapPLN0
+      00002D D5               [16]   81 	push	de
+      00002E 21 14 12         [12]   82 	ld	hl, #0x1214
+      000031 E5               [16]   83 	push	hl
+      000032 AF               [ 4]   84 	xor	a, a
+      000033 0F               [ 4]   85 	rrca
+      000034 F5               [16]   86 	push	af
+      000035 CDr00r00         [24]   87 	call	_set_bkg_tiles
+      000038 E8 06            [16]   88 	add	sp, #6
+                                     89 ;src/main.c:29: SHOW_BKG;
+      00003A F0r00            [12]   90 	ldh	a, (_LCDC_REG + 0)
+      00003C F6 40            [ 8]   91 	or	a, #0x40
+      00003E E0r00            [12]   92 	ldh	(_LCDC_REG + 0), a
+                                     93 ;src/main.c:32: while(1) {
+      000040                         94 00102$:
+                                     95 ;src/main.c:37: wait_vbl_done();
+      000040 CDr00r00         [24]   96 	call	_wait_vbl_done
+                                     97 ;src/main.c:39: }
+      000043 18 FB            [12]   98 	jr	00102$
+                                     99 	.area _CODE
+                                    100 	.area _INITIALIZER
+                                    101 	.area _CABS (ABS)

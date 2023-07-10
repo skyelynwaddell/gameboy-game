@@ -1,0 +1,201 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler 
+                                      3 ; Version 4.2.2 #13350 (Mac OS X x86_64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module fonts
+                                      6 	.optsdcc -mz80
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _main
+                                     12 	.globl _font_color
+                                     13 	.globl _font_set
+                                     14 	.globl _font_load
+                                     15 	.globl _font_init
+                                     16 	.globl _get_mode
+                                     17 	.globl _mode
+                                     18 	.globl _puts
+                                     19 	.globl _printf
+                                     20 ;--------------------------------------------------------
+                                     21 ; special function registers
+                                     22 ;--------------------------------------------------------
+                           00003E    23 _MEMORY_CTL	=	0x003e
+                           00003F    24 _JOY_CTL	=	0x003f
+                           00007E    25 _VCOUNTER	=	0x007e
+                           00007F    26 _PSG	=	0x007f
+                           00007F    27 _HCOUNTER	=	0x007f
+                           0000BE    28 _VDP_DATA	=	0x00be
+                           0000BF    29 _VDP_CMD	=	0x00bf
+                           0000BF    30 _VDP_STATUS	=	0x00bf
+                           0000DC    31 _JOY_PORT1	=	0x00dc
+                           0000DD    32 _JOY_PORT2	=	0x00dd
+                           0000F0    33 _FMADDRESS	=	0x00f0
+                           0000F1    34 _FMDATA	=	0x00f1
+                           0000F2    35 _AUDIOCTRL	=	0x00f2
+                                     36 ;--------------------------------------------------------
+                                     37 ; ram data
+                                     38 ;--------------------------------------------------------
+                                     39 	.area _DATA
+                           00FFFC    40 _RAM_CONTROL	=	0xfffc
+                           00FFF8    41 _GLASSES_3D	=	0xfff8
+                           00FFFD    42 _MAP_FRAME0	=	0xfffd
+                           00FFFE    43 _MAP_FRAME1	=	0xfffe
+                           00FFFF    44 _MAP_FRAME2	=	0xffff
+                                     45 ;--------------------------------------------------------
+                                     46 ; ram data
+                                     47 ;--------------------------------------------------------
+                                     48 	.area _INITIALIZED
+                                     49 ;--------------------------------------------------------
+                                     50 ; absolute external ram data
+                                     51 ;--------------------------------------------------------
+                                     52 	.area _DABS (ABS)
+                                     53 ;--------------------------------------------------------
+                                     54 ; global & static initialisations
+                                     55 ;--------------------------------------------------------
+                                     56 	.area _HOME
+                                     57 	.area _GSINIT
+                                     58 	.area _GSFINAL
+                                     59 	.area _GSINIT
+                                     60 ;--------------------------------------------------------
+                                     61 ; Home
+                                     62 ;--------------------------------------------------------
+                                     63 	.area _HOME
+                                     64 	.area _HOME
+                                     65 ;--------------------------------------------------------
+                                     66 ; code
+                                     67 ;--------------------------------------------------------
+                                     68 	.area _CODE
+                                     69 ;src/fonts.c:17: void main(void)
+                                     70 ;	---------------------------------
+                                     71 ; Function main
+                                     72 ; ---------------------------------
+      000000                         73 _main::
+      000000 DD E5            [15]   74 	push	ix
+      000002 DD 21 00 00      [14]   75 	ld	ix,#0
+      000006 DD 39            [15]   76 	add	ix,sp
+      000008 21 FA FF         [10]   77 	ld	hl, #-6
+      00000B 39               [11]   78 	add	hl, sp
+      00000C F9               [ 6]   79 	ld	sp, hl
+                                     80 ;src/fonts.c:23: font_init();
+      00000D CDr00r00         [17]   81 	call	_font_init
+                                     82 ;src/fonts.c:26: ibm_font = font_load(font_ibm);  /* 96 tiles */
+      000010 21r00r00         [10]   83 	ld	hl, #_font_ibm
+      000013 E5               [11]   84 	push	hl
+      000014 CDr00r00         [17]   85 	call	_font_load
+      000017 F1               [10]   86 	pop	af
+      000018 E3               [19]   87 	ex	(sp), hl
+                                     88 ;src/fonts.c:27: italic_font = font_load(font_italic);   /* 93 tiles */
+      000019 21r00r00         [10]   89 	ld	hl, #_font_italic
+      00001C E5               [11]   90 	push	hl
+      00001D CDr00r00         [17]   91 	call	_font_load
+      000020 F1               [10]   92 	pop	af
+      000021 DD 75 FC         [19]   93 	ld	-4 (ix), l
+      000024 DD 74 FD         [19]   94 	ld	-3 (ix), h
+                                     95 ;src/fonts.c:30: font_color(WHITE, DKGREY);
+      000027 21 03 01         [10]   96 	ld	hl, #0x103
+      00002A E5               [11]   97 	push	hl
+      00002B CDr00r00         [17]   98 	call	_font_color
+                                     99 ;src/fonts.c:32: min_font = font_load(font_min);
+      00002E 21r00r00         [10]  100 	ld	hl, #_font_min
+      000031 E3               [19]  101 	ex	(sp),hl
+      000032 CDr00r00         [17]  102 	call	_font_load
+      000035 F1               [10]  103 	pop	af
+      000036 DD 75 FE         [19]  104 	ld	-2 (ix), l
+      000039 DD 74 FF         [19]  105 	ld	-1 (ix), h
+                                    106 ;src/fonts.c:35: mode(get_mode() | M_NO_SCROLL);
+      00003C CDr00r00         [17]  107 	call	_get_mode
+      00003F 7D               [ 4]  108 	ld	a, l
+      000040 CB D7            [ 8]  109 	set	2, a
+      000042 F5               [11]  110 	push	af
+      000043 33               [ 6]  111 	inc	sp
+      000044 CDr00r00         [17]  112 	call	_mode
+      000047 33               [ 6]  113 	inc	sp
+                                    114 ;src/fonts.c:40: font_set(ibm_font);
+      000048 E1               [10]  115 	pop	hl
+      000049 E5               [11]  116 	push	hl
+      00004A E5               [11]  117 	push	hl
+      00004B CDr00r00         [17]  118 	call	_font_set
+      00004E F1               [10]  119 	pop	af
+                                    120 ;src/fonts.c:43: printf("IBM Font #!?123\n");
+      00004F 21rC8r00         [10]  121 	ld	hl, #___str_8
+      000052 CDr00r00         [17]  122 	call	_puts
+                                    123 ;src/fonts.c:46: font_set(italic_font);
+      000055 D1               [10]  124 	pop	de
+      000056 E1               [10]  125 	pop	hl
+      000057 E5               [11]  126 	push	hl
+      000058 D5               [11]  127 	push	de
+      000059 E5               [11]  128 	push	hl
+      00005A CDr00r00         [17]  129 	call	_font_set
+      00005D F1               [10]  130 	pop	af
+                                    131 ;src/fonts.c:47: for (i=1; i!=5; i++) {
+      00005E 01 01 00         [10]  132 	ld	bc, #0x0001
+      000061                        133 00102$:
+                                    134 ;src/fonts.c:48: printf("In italics, line %u\n", i);
+      000061 C5               [11]  135 	push	bc
+      000062 C5               [11]  136 	push	bc
+      000063 21r97r00         [10]  137 	ld	hl, #___str_4
+      000066 E5               [11]  138 	push	hl
+      000067 CDr00r00         [17]  139 	call	_printf
+      00006A F1               [10]  140 	pop	af
+      00006B F1               [10]  141 	pop	af
+      00006C C1               [10]  142 	pop	bc
+                                    143 ;src/fonts.c:47: for (i=1; i!=5; i++) {
+      00006D 03               [ 6]  144 	inc	bc
+      00006E 79               [ 4]  145 	ld	a, c
+      00006F D6 05            [ 7]  146 	sub	a, #0x05
+      000071 B0               [ 4]  147 	or	a, b
+      000072 20 ED            [12]  148 	jr	NZ, 00102$
+                                    149 ;src/fonts.c:52: font_set(min_font);
+      000074 DD 6E FE         [19]  150 	ld	l, -2 (ix)
+                                    151 ;	spillPairReg hl
+                                    152 ;	spillPairReg hl
+      000077 DD 66 FF         [19]  153 	ld	h, -1 (ix)
+                                    154 ;	spillPairReg hl
+                                    155 ;	spillPairReg hl
+      00007A E5               [11]  156 	push	hl
+      00007B CDr00r00         [17]  157 	call	_font_set
+      00007E F1               [10]  158 	pop	af
+                                    159 ;src/fonts.c:53: printf("Minimal 36 tile font\n");
+      00007F 21rACr00         [10]  160 	ld	hl, #___str_6
+      000082 CDr00r00         [17]  161 	call	_puts
+                                    162 ;src/fonts.c:56: font_set(ibm_font);
+      000085 E1               [10]  163 	pop	hl
+      000086 E5               [11]  164 	push	hl
+      000087 E5               [11]  165 	push	hl
+      000088 CDr00r00         [17]  166 	call	_font_set
+                                    167 ;src/fonts.c:57: printf("\nDone!");
+      00008B 21rC1r00         [10]  168 	ld	hl, #___str_7
+      00008E E3               [19]  169 	ex	(sp),hl
+      00008F CDr00r00         [17]  170 	call	_printf
+                                    171 ;src/fonts.c:58: }
+      000092 DD F9            [10]  172 	ld	sp,ix
+      000094 DD E1            [14]  173 	pop	ix
+      000096 C9               [10]  174 	ret
+      000097                        175 ___str_4:
+      000097 49 6E 20 69 74 61 6C   176 	.ascii "In italics, line %u"
+             69 63 73 2C 20 6C 69
+             6E 65 20 25 75
+      0000AA 0A                     177 	.db 0x0a
+      0000AB 00                     178 	.db 0x00
+      0000AC                        179 ___str_6:
+      0000AC 4D 69 6E 69 6D 61 6C   180 	.ascii "Minimal 36 tile font"
+             20 33 36 20 74 69 6C
+             65 20 66 6F 6E 74
+      0000C0 00                     181 	.db 0x00
+      0000C1                        182 ___str_7:
+      0000C1 0A                     183 	.db 0x0a
+      0000C2 44 6F 6E 65 21         184 	.ascii "Done!"
+      0000C7 00                     185 	.db 0x00
+      0000C8                        186 ___str_8:
+      0000C8 46 6F 6E 74 20 64 65   187 	.ascii "Font demo."
+             6D 6F 2E
+      0000D2 0A                     188 	.db 0x0a
+      0000D3 0A                     189 	.db 0x0a
+      0000D4 49 42 4D 20 46 6F 6E   190 	.ascii "IBM Font #!?123"
+             74 20 23 21 3F 31 32
+             33
+      0000E3 00                     191 	.db 0x00
+                                    192 	.area _CODE
+                                    193 	.area _INITIALIZER
+                                    194 	.area _CABS (ABS)

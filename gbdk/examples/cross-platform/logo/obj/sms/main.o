@@ -1,0 +1,45 @@
+XL3
+H 9 areas A global symbols
+M main
+O -mz80
+S _GBDK_2020_logo_map Ref000000
+S _shadow_VDP_R1 Ref000000
+S _set_tile_map Ref000000
+S _set_native_tile_data Ref000000
+S .__.ABS. Def000000
+S _GBDK_2020_logo_tiles Ref000000
+S _GBDK_2020_logo_palettes Ref000000
+S _fill_rect_compat Ref000000
+S _set_palette Ref000000
+A _CODE size 69 flags 0 addr 0
+S _main Def000000
+A _DATA size 0 flags 0 addr 0
+A _INITIALIZED size 0 flags 0 addr 0
+A _DABS size 0 flags 8 addr 0
+A _HOME size 0 flags 0 addr 0
+A _GSINIT size 0 flags 0 addr 0
+A _GSFINAL size 0 flags 0 addr 0
+A _INITIALIZER size 0 flags 0 addr 0
+A _CABS size 0 flags 8 addr 0
+T 00 00 00
+R 00 00 00 00
+T 00 00 00 3A 00 00 E6 BF 32 00 00 ED 57 F3 F5 3A
+R 00 00 00 00 02 04 01 00 02 09 01 00
+T 0D 00 00 00 00 D3 BF 3E 81 D3 BF F1 E2 1A 00 FB
+R 00 00 00 00 02 03 01 00 00 0D 00 00
+T 1A 00 00
+R 00 00 00 00
+T 1A 00 00 21 00 00 E5 21 20 18 E5 21 00 00 E5 CD
+R 00 00 00 00
+T 27 00 00 00 00 21 00 00 E5 21 00 01 E5 CD 00 00
+R 00 00 00 00 02 03 07 00 02 06 06 00 02 0E 08 00
+T 34 00 00 21 00 00 E5 21 29 00 E5 6C E5 CD 00 00
+R 00 00 00 00 02 04 05 00 02 0E 03 00
+T 41 00 00 21 00 00 E5 21 14 12 E5 21 06 03 E5 CD
+R 00 00 00 00 02 04 00 00
+T 4E 00 00 00 00 3A 00 00 F6 40 32 00 00 ED 57 F3
+R 00 00 00 00 02 03 02 00 02 06 01 00 02 0B 01 00
+T 5B 00 00 F5 3A 00 00 D3 BF 3E 81 D3 BF F1 E0 FB
+R 00 00 00 00 02 05 01 00
+T 68 00 00 C9
+R 00 00 00 00

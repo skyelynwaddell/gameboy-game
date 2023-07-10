@@ -1,0 +1,355 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler 
+                                      3 ; Version 4.2.2 #13350 (Mac OS X x86_64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module text_scroller
+                                      6 	.optsdcc -mz80
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _main
+                                     12 	.globl _scanline_isr
+                                     13 	.globl _printf
+                                     14 	.globl _get_bkg_xy_addr
+                                     15 	.globl _set_vram_byte
+                                     16 	.globl _wait_vbl_done
+                                     17 	.globl _add_LCD
+                                     18 	.globl _set_interrupts
+                                     19 	.globl _scroller_next_char
+                                     20 	.globl _scroller_x
+                                     21 	.globl _scanline_offsets
+                                     22 	.globl _limit
+                                     23 	.globl _base
+                                     24 	.globl _scroller_vram_addr
+                                     25 	.globl _scroller_text
+                                     26 	.globl _scanline_offsets_tbl
+                                     27 ;--------------------------------------------------------
+                                     28 ; special function registers
+                                     29 ;--------------------------------------------------------
+                           00003E    30 _MEMORY_CTL	=	0x003e
+                           00003F    31 _JOY_CTL	=	0x003f
+                           00007E    32 _VCOUNTER	=	0x007e
+                           00007F    33 _PSG	=	0x007f
+                           00007F    34 _HCOUNTER	=	0x007f
+                           0000BE    35 _VDP_DATA	=	0x00be
+                           0000BF    36 _VDP_CMD	=	0x00bf
+                           0000BF    37 _VDP_STATUS	=	0x00bf
+                           0000DC    38 _JOY_PORT1	=	0x00dc
+                           0000DD    39 _JOY_PORT2	=	0x00dd
+                           0000F0    40 _FMADDRESS	=	0x00f0
+                           0000F1    41 _FMDATA	=	0x00f1
+                           0000F2    42 _AUDIOCTRL	=	0x00f2
+                                     43 ;--------------------------------------------------------
+                                     44 ; ram data
+                                     45 ;--------------------------------------------------------
+                                     46 	.area _DATA
+                           00FFFC    47 _RAM_CONTROL	=	0xfffc
+                           00FFF8    48 _GLASSES_3D	=	0xfff8
+                           00FFFD    49 _MAP_FRAME0	=	0xfffd
+                           00FFFE    50 _MAP_FRAME1	=	0xfffe
+                           00FFFF    51 _MAP_FRAME2	=	0xffff
+      000000                         52 _scroller_vram_addr::
+      000000                         53 	.ds 2
+      000002                         54 _base::
+      000002                         55 	.ds 2
+      000004                         56 _limit::
+      000004                         57 	.ds 2
+                                     58 ;--------------------------------------------------------
+                                     59 ; ram data
+                                     60 ;--------------------------------------------------------
+                                     61 	.area _INITIALIZED
+      000000                         62 _scanline_offsets::
+      000000                         63 	.ds 2
+      000002                         64 _scroller_x::
+      000002                         65 	.ds 1
+      000003                         66 _scroller_next_char::
+      000003                         67 	.ds 2
+                                     68 ;--------------------------------------------------------
+                                     69 ; absolute external ram data
+                                     70 ;--------------------------------------------------------
+                                     71 	.area _DABS (ABS)
+                                     72 ;--------------------------------------------------------
+                                     73 ; global & static initialisations
+                                     74 ;--------------------------------------------------------
+                                     75 	.area _HOME
+                                     76 	.area _GSINIT
+                                     77 	.area _GSFINAL
+                                     78 	.area _GSINIT
+                                     79 ;--------------------------------------------------------
+                                     80 ; Home
+                                     81 ;--------------------------------------------------------
+                                     82 	.area _HOME
+                                     83 	.area _HOME
+                                     84 ;--------------------------------------------------------
+                                     85 ; code
+                                     86 ;--------------------------------------------------------
+                                     87 	.area _CODE
+                                     88 ;src/text_scroller.c:13: void scanline_isr() {
+                                     89 ;	---------------------------------
+                                     90 ; Function scanline_isr
+                                     91 ; ---------------------------------
+      000000                         92 _scanline_isr::
+                                     93 ;src/text_scroller.c:29: if (VCOUNTER == (SCROLL_POS_PIX_START - 8)) {
+      000000 DB 7E            [11]   94 	in	a, (_VCOUNTER)
+      000002 D6 6F            [ 7]   95 	sub	a, #0x6f
+      000004 20 18            [12]   96 	jr	NZ, 00108$
+                                     97 ;src/text_scroller.c:30: while (VCOUNTER != SCROLL_POS_PIX_START);
+      000006                         98 00101$:
+      000006 DB 7E            [11]   99 	in	a, (_VCOUNTER)
+      000008 D6 77            [ 7]  100 	sub	a, #0x77
+      00000A 20 FA            [12]  101 	jr	NZ, 00101$
+                                    102 ;src/text_scroller.c:31: VDP_CMD = -scroller_x; VDP_CMD = VDP_RSCX;
+      00000C 21r02r00         [10]  103 	ld	hl, #_scroller_x
+      00000F AF               [ 4]  104 	xor	a, a
+      000010 96               [ 7]  105 	sub	a, (hl)
+      000011 D3 BF            [11]  106 	out	(_VDP_CMD), a
+      000013 3E 88            [ 7]  107 	ld	a, #0x88
+      000015 D3 BF            [11]  108 	out	(_VDP_CMD), a
+                                    109 ;src/text_scroller.c:32: while (VCOUNTER != SCROLL_POS_PIX_START + 8);
+      000017                        110 00104$:
+      000017 DB 7E            [11]  111 	in	a, (_VCOUNTER)
+      000019 D6 7F            [ 7]  112 	sub	a, #0x7f
+      00001B C8               [11]  113 	ret	Z
+      00001C 18 F9            [12]  114 	jr	00104$
+      00001E                        115 00108$:
+                                    116 ;src/text_scroller.c:34: VDP_CMD = 0; VDP_CMD = VDP_RSCX;
+      00001E 3E 00            [ 7]  117 	ld	a, #0x00
+      000020 D3 BF            [11]  118 	out	(_VDP_CMD), a
+      000022 3E 88            [ 7]  119 	ld	a, #0x88
+      000024 D3 BF            [11]  120 	out	(_VDP_CMD), a
+                                    121 ;src/text_scroller.c:37: }
+      000026 C9               [10]  122 	ret
+      000027                        123 _scanline_offsets_tbl:
+      000027 00                     124 	.db #0x00	; 0
+      000028 01                     125 	.db #0x01	; 1
+      000029 02                     126 	.db #0x02	; 2
+      00002A 03                     127 	.db #0x03	; 3
+      00002B 03                     128 	.db #0x03	; 3
+      00002C 02                     129 	.db #0x02	; 2
+      00002D 01                     130 	.db #0x01	; 1
+      00002E 00                     131 	.db #0x00	; 0
+      00002F 00                     132 	.db #0x00	; 0
+      000030 01                     133 	.db #0x01	; 1
+      000031 02                     134 	.db #0x02	; 2
+      000032 03                     135 	.db #0x03	; 3
+      000033 03                     136 	.db #0x03	; 3
+      000034 02                     137 	.db #0x02	; 2
+      000035 01                     138 	.db #0x01	; 1
+      000036 00                     139 	.db #0x00	; 0
+                                    140 ;src/text_scroller.c:48: void main() {
+                                    141 ;	---------------------------------
+                                    142 ; Function main
+                                    143 ; ---------------------------------
+      000037                        144 _main::
+                                    145 ;src/text_scroller.c:49: printf(" Scrolling %d chars", sizeof(scroller_text) - 1);
+      000037 21 68 01         [10]  146 	ld	hl, #0x0168
+      00003A E5               [11]  147 	push	hl
+      00003B 21r7Er02         [10]  148 	ld	hl, #___str_0
+      00003E E5               [11]  149 	push	hl
+      00003F CDr00r00         [17]  150 	call	_printf
+      000042 F1               [10]  151 	pop	af
+      000043 F1               [10]  152 	pop	af
+                                    153 ;src/text_scroller.c:56: }
+      000044 ED 57            [ 9]  154 	ld	a,i
+      000046 F3               [ 4]  155 	di
+      000047 F5               [11]  156 	push	af
+                                    157 ;src/text_scroller.c:52: add_LCD(scanline_isr);
+      000048 21r00r00         [10]  158 	ld	hl, #_scanline_isr
+      00004B CDr00r00         [17]  159 	call	_add_LCD
+      00004E F1               [10]  160 	pop	af
+      00004F E2r53r00         [10]  161 	jp	PO, 00140$
+      000052 FB               [ 4]  162 	ei
+      000053                        163 00140$:
+                                    164 ;src/text_scroller.c:58: __WRITE_VDP_REG(VDP_R10, 0x07);
+      000053 21r00r00         [10]  165 	ld	hl, #_shadow_VDP_R10
+      000056 36 07            [10]  166 	ld	(hl), #0x07
+      000058 ED 57            [ 9]  167 	ld	a,i
+      00005A F3               [ 4]  168 	di
+      00005B F5               [11]  169 	push	af
+      00005C 3E 07            [ 7]  170 	ld	a, #0x07
+      00005E D3 BF            [11]  171 	out	(_VDP_CMD), a
+      000060 3E 8A            [ 7]  172 	ld	a, #0x8a
+      000062 D3 BF            [11]  173 	out	(_VDP_CMD), a
+      000064 F1               [10]  174 	pop	af
+      000065 E2r69r00         [10]  175 	jp	PO, 00142$
+      000068 FB               [ 4]  176 	ei
+      000069                        177 00142$:
+                                    178 ;src/text_scroller.c:60: set_interrupts(VBL_IFLAG | LCD_IFLAG);
+      000069 2E 03            [ 7]  179 	ld	l, #0x03
+                                    180 ;	spillPairReg hl
+                                    181 ;	spillPairReg hl
+      00006B CDr00r00         [17]  182 	call	_set_interrupts
+                                    183 ;src/text_scroller.c:62: HIDE_LEFT_COLUMN;    
+      00006E 3Ar00r00         [13]  184 	ld	a, (_shadow_VDP_R0+0)
+      000071 F6 20            [ 7]  185 	or	a, #0x20
+      000073 32r00r00         [13]  186 	ld	(_shadow_VDP_R0+0), a
+      000076 ED 57            [ 9]  187 	ld	a,i
+      000078 F3               [ 4]  188 	di
+      000079 F5               [11]  189 	push	af
+      00007A 3Ar00r00         [13]  190 	ld	a, (_shadow_VDP_R0+0)
+      00007D D3 BF            [11]  191 	out	(_VDP_CMD), a
+      00007F 3E 80            [ 7]  192 	ld	a, #0x80
+      000081 D3 BF            [11]  193 	out	(_VDP_CMD), a
+      000083 F1               [10]  194 	pop	af
+      000084 E2r88r00         [10]  195 	jp	PO, 00144$
+      000087 FB               [ 4]  196 	ei
+      000088                        197 00144$:
+                                    198 ;src/text_scroller.c:63: base = (uint8_t *)((uint16_t)get_bkg_xy_addr(0, SCROLL_POS) & (DEVICE_SCREEN_MAP_ENTRY_SIZE==1?0xffe0:0xffc0));
+      000088 21 00 0F         [10]  199 	ld	hl, #0xf00
+      00008B E5               [11]  200 	push	hl
+      00008C CDr00r00         [17]  201 	call	_get_bkg_xy_addr
+      00008F 7D               [ 4]  202 	ld	a, l
+      000090 E6 C0            [ 7]  203 	and	a, #0xc0
+      000092 6F               [ 4]  204 	ld	l, a
+                                    205 ;	spillPairReg hl
+                                    206 ;	spillPairReg hl
+      000093 22r02r00         [16]  207 	ld	(_base), hl
+                                    208 ;src/text_scroller.c:64: limit = base + (DEVICE_SCREEN_BUFFER_WIDTH * DEVICE_SCREEN_MAP_ENTRY_SIZE);
+      000096 2Ar02r00         [16]  209 	ld	hl, (_base)
+      000099 11 40 00         [10]  210 	ld	de, #0x0040
+      00009C 19               [11]  211 	add	hl, de
+      00009D 22r04r00         [16]  212 	ld	(_limit), hl
+                                    213 ;src/text_scroller.c:66: scroller_vram_addr = base + ((DEVICE_SCREEN_X_OFFSET + DEVICE_SCREEN_WIDTH) * DEVICE_SCREEN_MAP_ENTRY_SIZE);
+      0000A0 22r00r00         [16]  214 	ld	(_scroller_vram_addr), hl
+                                    215 ;src/text_scroller.c:67: if (scroller_vram_addr >= limit) scroller_vram_addr = base;
+      0000A3 21r04r00         [10]  216 	ld	hl, #_limit
+      0000A6 3Ar00r00         [13]  217 	ld	a, (_scroller_vram_addr+0)
+      0000A9 96               [ 7]  218 	sub	a, (hl)
+      0000AA 23               [ 6]  219 	inc	hl
+      0000AB 3Ar01r00         [13]  220 	ld	a, (_scroller_vram_addr+1)
+      0000AE 9E               [ 7]  221 	sbc	a, (hl)
+      0000AF 38 06            [12]  222 	jr	C, 00102$
+      0000B1 2Ar02r00         [16]  223 	ld	hl, (_base)
+      0000B4 22r00r00         [16]  224 	ld	(_scroller_vram_addr), hl
+      0000B7                        225 00102$:
+                                    226 ;src/text_scroller.c:69: set_vram_byte(scroller_vram_addr, *scroller_next_char - 0x20);
+      0000B7 2Ar03r00         [16]  227 	ld	hl, (_scroller_next_char)
+      0000BA 7E               [ 7]  228 	ld	a, (hl)
+      0000BB C6 E0            [ 7]  229 	add	a, #0xe0
+      0000BD F5               [11]  230 	push	af
+      0000BE 33               [ 6]  231 	inc	sp
+      0000BF 2Ar00r00         [16]  232 	ld	hl, (_scroller_vram_addr)
+      0000C2 E5               [11]  233 	push	hl
+      0000C3 CDr00r00         [17]  234 	call	_set_vram_byte
+                                    235 ;src/text_scroller.c:71: while (1) {
+      0000C6                        236 00110$:
+                                    237 ;src/text_scroller.c:72: scroller_x++;
+      0000C6 21r02r00         [10]  238 	ld	hl, #_scroller_x
+      0000C9 34               [11]  239 	inc	(hl)
+                                    240 ;src/text_scroller.c:73: if ((scroller_x & 0x07) == 0) {
+      0000CA 3Ar02r00         [13]  241 	ld	a, (_scroller_x+0)
+      0000CD E6 07            [ 7]  242 	and	a, #0x07
+      0000CF 20 3F            [12]  243 	jr	NZ, 00108$
+                                    244 ;src/text_scroller.c:75: scroller_next_char++;
+      0000D1 2Ar03r00         [16]  245 	ld	hl, (_scroller_next_char)
+      0000D4 23               [ 6]  246 	inc	hl
+      0000D5 22r03r00         [16]  247 	ld	(_scroller_next_char), hl
+                                    248 ;src/text_scroller.c:76: if (*scroller_next_char == 0) scroller_next_char = scroller_text;
+      0000D8 2Ar03r00         [16]  249 	ld	hl, (_scroller_next_char)
+      0000DB 7E               [ 7]  250 	ld	a, (hl)
+      0000DC B7               [ 4]  251 	or	a, a
+      0000DD 20 06            [12]  252 	jr	NZ, 00104$
+      0000DF 21r15r01         [10]  253 	ld	hl, #_scroller_text+0
+      0000E2 22r03r00         [16]  254 	ld	(_scroller_next_char), hl
+      0000E5                        255 00104$:
+                                    256 ;src/text_scroller.c:79: scroller_vram_addr += DEVICE_SCREEN_MAP_ENTRY_SIZE;
+      0000E5 2Ar00r00         [16]  257 	ld	hl, (_scroller_vram_addr)
+      0000E8 23               [ 6]  258 	inc	hl
+      0000E9 23               [ 6]  259 	inc	hl
+      0000EA 22r00r00         [16]  260 	ld	(_scroller_vram_addr), hl
+                                    261 ;src/text_scroller.c:80: if (scroller_vram_addr >= limit) scroller_vram_addr = base;
+      0000ED 21r04r00         [10]  262 	ld	hl, #_limit
+      0000F0 3Ar00r00         [13]  263 	ld	a, (_scroller_vram_addr+0)
+      0000F3 96               [ 7]  264 	sub	a, (hl)
+      0000F4 23               [ 6]  265 	inc	hl
+      0000F5 3Ar01r00         [13]  266 	ld	a, (_scroller_vram_addr+1)
+      0000F8 9E               [ 7]  267 	sbc	a, (hl)
+      0000F9 38 06            [12]  268 	jr	C, 00106$
+      0000FB 2Ar02r00         [16]  269 	ld	hl, (_base)
+      0000FE 22r00r00         [16]  270 	ld	(_scroller_vram_addr), hl
+      000101                        271 00106$:
+                                    272 ;src/text_scroller.c:83: set_vram_byte(scroller_vram_addr, *scroller_next_char - 0x20);
+      000101 2Ar03r00         [16]  273 	ld	hl, (_scroller_next_char)
+      000104 7E               [ 7]  274 	ld	a, (hl)
+      000105 C6 E0            [ 7]  275 	add	a, #0xe0
+      000107 F5               [11]  276 	push	af
+      000108 33               [ 6]  277 	inc	sp
+      000109 2Ar00r00         [16]  278 	ld	hl, (_scroller_vram_addr)
+      00010C E5               [11]  279 	push	hl
+      00010D CDr00r00         [17]  280 	call	_set_vram_byte
+      000110                        281 00108$:
+                                    282 ;src/text_scroller.c:85: wait_vbl_done();        
+      000110 CDr00r00         [17]  283 	call	_wait_vbl_done
+                                    284 ;src/text_scroller.c:87: }
+      000113 18 B1            [12]  285 	jr	00110$
+      000115                        286 _scroller_text:
+      000115 54 68 69 73 20 69 73   287 	.ascii "This is a text scroller demo for GBDK-2020. You can use idea"
+             20 61 20 74 65 78 74
+             20 73 63 72 6F 6C 6C
+             65 72 20 64 65 6D 6F
+             20 66 6F 72 20 47 42
+             44 4B 2D 32 30 32 30
+             2E 20 59 6F 75 20 63
+             61 6E 20 75 73 65 20
+             69 64 65 61
+      000151 73 2C 20 74 68 61 74   288 	.ascii "s, that are shown in this demo, to make different parallax e"
+             20 61 72 65 20 73 68
+             6F 77 6E 20 69 6E 20
+             74 68 69 73 20 64 65
+             6D 6F 2C 20 74 6F 20
+             6D 61 6B 65 20 64 69
+             66 66 65 72 65 6E 74
+             20 70 61 72 61 6C 6C
+             61 78 20 65
+      00018D 66 66 65 63 74 73 2C   289 	.ascii "ffects, scrolling of tilemaps which are larger than 32x32 ti"
+             20 73 63 72 6F 6C 6C
+             69 6E 67 20 6F 66 20
+             74 69 6C 65 6D 61 70
+             73 20 77 68 69 63 68
+             20 61 72 65 20 6C 61
+             72 67 65 72 20 74 68
+             61 6E 20 33 32 78 33
+             32 20 74 69
+      0001C9 6C 65 73 20 61 6E 64   290 	.ascii "les and TEXT SCROLLERS, of course! Need to write something e"
+             20 54 45 58 54 20 53
+             43 52 4F 4C 4C 45 52
+             53 2C 20 6F 66 20 63
+             6F 75 72 73 65 21 20
+             4E 65 65 64 20 74 6F
+             20 77 72 69 74 65 20
+             73 6F 6D 65 74 68 69
+             6E 67 20 65
+      000205 6C 73 65 20 74 6F 20   291 	.ascii "lse to make this text longer than 256 characters. The quick "
+             6D 61 6B 65 20 74 68
+             69 73 20 74 65 78 74
+             20 6C 6F 6E 67 65 72
+             20 74 68 61 6E 20 32
+             35 36 20 63 68 61 72
+             61 63 74 65 72 73 2E
+             20 54 68 65 20 71 75
+             69 63 6B 20
+      000241 72 65 64 20 66 6F 78   292 	.ascii "red fox jumps over the lazy brown dog. 0123456789.          "
+             20 6A 75 6D 70 73 20
+             6F 76 65 72 20 74 68
+             65 20 6C 61 7A 79 20
+             62 72 6F 77 6E 20 64
+             6F 67 2E 20 30 31 32
+             33 34 35 36 37 38 39
+             2E 20 20 20 20 20 20
+             20 20 20 20
+      00027D 00                     293 	.db 0x00
+      00027E                        294 ___str_0:
+      00027E 20 53 63 72 6F 6C 6C   295 	.ascii " Scrolling %d chars"
+             69 6E 67 20 25 64 20
+             63 68 61 72 73
+      000291 00                     296 	.db 0x00
+                                    297 	.area _CODE
+                                    298 	.area _INITIALIZER
+      000000                        299 __xinit__scanline_offsets:
+      000000r27r00                  300 	.dw _scanline_offsets_tbl
+      000002                        301 __xinit__scroller_x:
+      000002 00                     302 	.db #0x00	; 0
+      000003                        303 __xinit__scroller_next_char:
+      000003r15r01                  304 	.dw _scroller_text
+                                    305 	.area _CABS (ABS)

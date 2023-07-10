@@ -1,0 +1,272 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler 
+                                      3 ; Version 4.2.2 #13350 (Mac OS X x86_64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module banks
+                                      6 	.optsdcc -mz80
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _main
+                                     12 	.globl _bank_fixed
+                                     13 	.globl b_func_4
+                                     14 	.globl _func_4
+                                     15 	.globl b_func_3
+                                     16 	.globl _func_3
+                                     17 	.globl b_func_2
+                                     18 	.globl _func_2
+                                     19 	.globl b_func_1
+                                     20 	.globl _func_1
+                                     21 	.globl _puts
+                                     22 	.globl _printf
+                                     23 	.globl _set_default_palette
+                                     24 	.globl _wait_vbl_done
+                                     25 	.globl _some_const_var_0
+                                     26 ;--------------------------------------------------------
+                                     27 ; special function registers
+                                     28 ;--------------------------------------------------------
+                           00003E    29 _MEMORY_CTL	=	0x003e
+                           00003F    30 _JOY_CTL	=	0x003f
+                           00007E    31 _VCOUNTER	=	0x007e
+                           00007F    32 _PSG	=	0x007f
+                           00007F    33 _HCOUNTER	=	0x007f
+                           0000BE    34 _VDP_DATA	=	0x00be
+                           0000BF    35 _VDP_CMD	=	0x00bf
+                           0000BF    36 _VDP_STATUS	=	0x00bf
+                           0000DC    37 _JOY_PORT1	=	0x00dc
+                           0000DD    38 _JOY_PORT2	=	0x00dd
+                           0000F0    39 _FMADDRESS	=	0x00f0
+                           0000F1    40 _FMDATA	=	0x00f1
+                           0000F2    41 _AUDIOCTRL	=	0x00f2
+                                     42 ;--------------------------------------------------------
+                                     43 ; ram data
+                                     44 ;--------------------------------------------------------
+                                     45 	.area _DATA
+                           00FFFC    46 _RAM_CONTROL	=	0xfffc
+                           00FFF8    47 _GLASSES_3D	=	0xfff8
+                           00FFFD    48 _MAP_FRAME0	=	0xfffd
+                           00FFFE    49 _MAP_FRAME1	=	0xfffe
+                           00FFFF    50 _MAP_FRAME2	=	0xffff
+                                     51 ;--------------------------------------------------------
+                                     52 ; ram data
+                                     53 ;--------------------------------------------------------
+                                     54 	.area _INITIALIZED
+                                     55 ;--------------------------------------------------------
+                                     56 ; absolute external ram data
+                                     57 ;--------------------------------------------------------
+                                     58 	.area _DABS (ABS)
+                                     59 ;--------------------------------------------------------
+                                     60 ; global & static initialisations
+                                     61 ;--------------------------------------------------------
+                                     62 	.area _HOME
+                                     63 	.area _GSINIT
+                                     64 	.area _GSFINAL
+                                     65 	.area _GSINIT
+                                     66 ;--------------------------------------------------------
+                                     67 ; Home
+                                     68 ;--------------------------------------------------------
+                                     69 	.area _HOME
+                                     70 ;src/banks.c:17: void bank_fixed(void) NONBANKED
+                                     71 ;	---------------------------------
+                                     72 ; Function bank_fixed
+                                     73 ; ---------------------------------
+      000000                         74 _bank_fixed::
+                                     75 ;src/banks.c:19: puts("I'm in fixed ROM");
+      000000 21r07r00         [10]   76 	ld	hl, #___str_0
+                                     77 ;src/banks.c:20: }
+      000003 C3r00r00         [10]   78 	jp	_puts
+      000006                         79 _some_const_var_0:
+      000006 00                      80 	.db #0x00	; 0
+      000007                         81 ___str_0:
+      000007 49 27 6D 20 69 6E 20    82 	.ascii "I'm in fixed ROM"
+             66 69 78 65 64 20 52
+             4F 4D
+      000017 00                      83 	.db 0x00
+                                     84 	.area _HOME
+                                     85 ;--------------------------------------------------------
+                                     86 ; code
+                                     87 ;--------------------------------------------------------
+                                     88 	.area _CODE
+                                     89 ;src/banks.c:22: void main(void)
+                                     90 ;	---------------------------------
+                                     91 ; Function main
+                                     92 ; ---------------------------------
+      000000                         93 _main::
+      000000 DD E5            [15]   94 	push	ix
+      000002 DD 21 00 00      [14]   95 	ld	ix,#0
+      000006 DD 39            [15]   96 	add	ix,sp
+      000008 3B               [ 6]   97 	dec	sp
+                                     98 ;src/banks.c:27: set_default_palette();
+      000009 CDr00r00         [17]   99 	call	_set_default_palette
+                                    100 ;src/banks.c:29: printf("Program Start...\n\n");
+      00000C 21rCFr00         [10]  101 	ld	hl, #___str_2
+      00000F CDr00r00         [17]  102 	call	_puts
+                                    103 ;src/banks.c:32: bank_fixed();
+      000012 CDr00r00         [17]  104 	call	_bank_fixed
+                                    105 ;src/banks.c:34: func_1();
+      000015 1Er00            [ 7]  106 	ld	e, #b_func_1
+      000017 21r00r00         [10]  107 	ld	hl, #_func_1
+      00001A CDr00r00         [17]  108 	call	___sdcc_bcall_ehl
+                                    109 ;src/banks.c:35: func_2();
+      00001D 1Er00            [ 7]  110 	ld	e, #b_func_2
+      00001F 21r00r00         [10]  111 	ld	hl, #_func_2
+      000022 CDr00r00         [17]  112 	call	___sdcc_bcall_ehl
+                                    113 ;src/banks.c:36: func_3();
+      000025 1Er00            [ 7]  114 	ld	e, #b_func_3
+      000027 21r00r00         [10]  115 	ld	hl, #_func_3
+      00002A CDr00r00         [17]  116 	call	___sdcc_bcall_ehl
+                                    117 ;src/banks.c:37: func_4();
+      00002D 1Er00            [ 7]  118 	ld	e, #b_func_4
+      00002F 21r00r00         [10]  119 	ld	hl, #_func_4
+      000032 CDr00r00         [17]  120 	call	___sdcc_bcall_ehl
+                                    121 ;src/banks.c:39: printf("\n");
+      000035 21rE1r00         [10]  122 	ld	hl, #___str_4
+      000038 CDr00r00         [17]  123 	call	_puts
+                                    124 ;src/banks.c:43: printf("Const0= %u nonbanked\n", some_const_var_0);
+      00003B 3Ar06r00         [13]  125 	ld	a, (_some_const_var_0+0)
+      00003E 4F               [ 4]  126 	ld	c, a
+      00003F 06 00            [ 7]  127 	ld	b, #0x00
+      000041 C5               [11]  128 	push	bc
+      000042 21rE2r00         [10]  129 	ld	hl, #___str_5
+      000045 E5               [11]  130 	push	hl
+      000046 CDr00r00         [17]  131 	call	_printf
+      000049 F1               [10]  132 	pop	af
+      00004A F1               [10]  133 	pop	af
+                                    134 ;src/banks.c:45: SWITCH_ROM(BANK(some_const_var_1));
+      00004B 21 FE FF         [10]  135 	ld	hl, #_MAP_FRAME1
+      00004E 36r00            [10]  136 	ld	(hl), #<(___bank_some_const_var_1)
+                                    137 ;src/banks.c:46: printf("Const1= %u in bank %hu\n", some_const_var_1, BANK(some_const_var_1));
+      000050 16r00            [ 7]  138 	ld	d, #<(___bank_some_const_var_1)
+      000052 3Ar00r00         [13]  139 	ld	a, (_some_const_var_1+0)
+      000055 4F               [ 4]  140 	ld	c, a
+      000056 06 00            [ 7]  141 	ld	b, #0x00
+      000058 D5               [11]  142 	push	de
+      000059 33               [ 6]  143 	inc	sp
+      00005A C5               [11]  144 	push	bc
+      00005B 21rF8r00         [10]  145 	ld	hl, #___str_6
+      00005E E5               [11]  146 	push	hl
+      00005F CDr00r00         [17]  147 	call	_printf
+      000062 F1               [10]  148 	pop	af
+      000063 F1               [10]  149 	pop	af
+      000064 33               [ 6]  150 	inc	sp
+                                    151 ;src/banks.c:47: SWITCH_ROM(BANK(some_const_var_2));
+      000065 21 FE FF         [10]  152 	ld	hl, #_MAP_FRAME1
+      000068 36r00            [10]  153 	ld	(hl), #<(___bank_some_const_var_2)
+                                    154 ;src/banks.c:48: printf("Const2= %u in bank %hu\n", some_const_var_2, BANK(some_const_var_2));
+      00006A 16r00            [ 7]  155 	ld	d, #<(___bank_some_const_var_2)
+      00006C 3Ar00r00         [13]  156 	ld	a, (_some_const_var_2+0)
+      00006F 4F               [ 4]  157 	ld	c, a
+      000070 06 00            [ 7]  158 	ld	b, #0x00
+      000072 D5               [11]  159 	push	de
+      000073 33               [ 6]  160 	inc	sp
+      000074 C5               [11]  161 	push	bc
+      000075 21r10r01         [10]  162 	ld	hl, #___str_7
+      000078 E5               [11]  163 	push	hl
+      000079 CDr00r00         [17]  164 	call	_printf
+      00007C F1               [10]  165 	pop	af
+      00007D F1               [10]  166 	pop	af
+      00007E 33               [ 6]  167 	inc	sp
+                                    168 ;src/banks.c:49: SWITCH_ROM(BANK(some_const_var_3));
+      00007F 21 FE FF         [10]  169 	ld	hl, #_MAP_FRAME1
+      000082 36r00            [10]  170 	ld	(hl), #<(___bank_some_const_var_3)
+                                    171 ;src/banks.c:50: printf("Const3= %u in bank %hu\n", some_const_var_3, BANK(some_const_var_3));
+      000084 16r00            [ 7]  172 	ld	d, #<(___bank_some_const_var_3)
+      000086 3Ar00r00         [13]  173 	ld	a, (_some_const_var_3+0)
+      000089 4F               [ 4]  174 	ld	c, a
+      00008A 06 00            [ 7]  175 	ld	b, #0x00
+      00008C D5               [11]  176 	push	de
+      00008D 33               [ 6]  177 	inc	sp
+      00008E C5               [11]  178 	push	bc
+      00008F 21r28r01         [10]  179 	ld	hl, #___str_8
+      000092 E5               [11]  180 	push	hl
+      000093 CDr00r00         [17]  181 	call	_printf
+      000096 F1               [10]  182 	pop	af
+      000097 F1               [10]  183 	pop	af
+      000098 33               [ 6]  184 	inc	sp
+                                    185 ;src/banks.c:56: _saved_bank = _current_bank;
+      000099 3A FE FF         [13]  186 	ld	a, (_MAP_FRAME1+0)
+      00009C DD 77 FF         [19]  187 	ld	-1 (ix), a
+                                    188 ;src/banks.c:59: SWITCH_ROM(BANK(some_const_var_4));
+      00009F 11r00r00         [10]  189 	ld	de, #___bank_some_const_var_4+0
+      0000A2 21 FE FF         [10]  190 	ld	hl, #_MAP_FRAME1
+      0000A5 73               [ 7]  191 	ld	(hl), e
+                                    192 ;src/banks.c:60: printf("Const4= %u in bank %hu\n", some_const_var_4, BANK(some_const_var_4));
+      0000A6 3Ar00r00         [13]  193 	ld	a, (_some_const_var_4+0)
+      0000A9 4F               [ 4]  194 	ld	c, a
+      0000AA 06 00            [ 7]  195 	ld	b, #0x00
+      0000AC 7B               [ 4]  196 	ld	a, e
+      0000AD F5               [11]  197 	push	af
+      0000AE 33               [ 6]  198 	inc	sp
+      0000AF C5               [11]  199 	push	bc
+      0000B0 21r40r01         [10]  200 	ld	hl, #___str_9
+      0000B3 E5               [11]  201 	push	hl
+      0000B4 CDr00r00         [17]  202 	call	_printf
+      0000B7 F1               [10]  203 	pop	af
+      0000B8 F1               [10]  204 	pop	af
+      0000B9 33               [ 6]  205 	inc	sp
+                                    206 ;src/banks.c:63: SWITCH_ROM(_saved_bank);
+      0000BA DD 7E FF         [19]  207 	ld	a, -1 (ix)
+      0000BD 32 FE FF         [13]  208 	ld	(_MAP_FRAME1+0), a
+                                    209 ;src/banks.c:68: puts("The End...");
+      0000C0 21r58r01         [10]  210 	ld	hl, #___str_12
+      0000C3 CDr00r00         [17]  211 	call	_puts
+                                    212 ;src/banks.c:71: while(1) {
+      0000C6                        213 00102$:
+                                    214 ;src/banks.c:74: wait_vbl_done();
+      0000C6 CDr00r00         [17]  215 	call	_wait_vbl_done
+      0000C9 18 FB            [12]  216 	jr	00102$
+                                    217 ;src/banks.c:76: }
+      0000CB 33               [ 6]  218 	inc	sp
+      0000CC DD E1            [14]  219 	pop	ix
+      0000CE C9               [10]  220 	ret
+      0000CF                        221 ___str_2:
+      0000CF 50 72 6F 67 72 61 6D   222 	.ascii "Program Start..."
+             20 53 74 61 72 74 2E
+             2E 2E
+      0000DF 0A                     223 	.db 0x0a
+      0000E0 00                     224 	.db 0x00
+      0000E1                        225 ___str_4:
+      0000E1 00                     226 	.db 0x00
+      0000E2                        227 ___str_5:
+      0000E2 43 6F 6E 73 74 30 3D   228 	.ascii "Const0= %u nonbanked"
+             20 25 75 20 6E 6F 6E
+             62 61 6E 6B 65 64
+      0000F6 0A                     229 	.db 0x0a
+      0000F7 00                     230 	.db 0x00
+      0000F8                        231 ___str_6:
+      0000F8 43 6F 6E 73 74 31 3D   232 	.ascii "Const1= %u in bank %hu"
+             20 25 75 20 69 6E 20
+             62 61 6E 6B 20 25 68
+             75
+      00010E 0A                     233 	.db 0x0a
+      00010F 00                     234 	.db 0x00
+      000110                        235 ___str_7:
+      000110 43 6F 6E 73 74 32 3D   236 	.ascii "Const2= %u in bank %hu"
+             20 25 75 20 69 6E 20
+             62 61 6E 6B 20 25 68
+             75
+      000126 0A                     237 	.db 0x0a
+      000127 00                     238 	.db 0x00
+      000128                        239 ___str_8:
+      000128 43 6F 6E 73 74 33 3D   240 	.ascii "Const3= %u in bank %hu"
+             20 25 75 20 69 6E 20
+             62 61 6E 6B 20 25 68
+             75
+      00013E 0A                     241 	.db 0x0a
+      00013F 00                     242 	.db 0x00
+      000140                        243 ___str_9:
+      000140 43 6F 6E 73 74 34 3D   244 	.ascii "Const4= %u in bank %hu"
+             20 25 75 20 69 6E 20
+             62 61 6E 6B 20 25 68
+             75
+      000156 0A                     245 	.db 0x0a
+      000157 00                     246 	.db 0x00
+      000158                        247 ___str_12:
+      000158 0A                     248 	.db 0x0a
+      000159 54 68 65 20 45 6E 64   249 	.ascii "The End..."
+             2E 2E 2E
+      000163 00                     250 	.db 0x00
+                                    251 	.area _CODE
+                                    252 	.area _INITIALIZER
+                                    253 	.area _CABS (ABS)

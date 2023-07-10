@@ -1,0 +1,43 @@
+XL3
+H 9 areas A global symbols
+M main
+O -mz80
+S _monalisa_tiles_comp Ref000000
+S _set_tile_2bpp_data Ref000000
+S .__.ABS. Def000000
+S __current_2bpp_palette Ref000000
+S _monalisa_mapPLN0 Ref000000
+S _set_tile_map_compat Ref000000
+S _wait_vbl_done Ref000000
+S _gb_decompress Ref000000
+A _CODE size 3F flags 0 addr 0
+S _main Def000000
+A _DATA size 1000 flags 0 addr 0
+S _buffer Def000000
+A _INITIALIZED size 0 flags 0 addr 0
+A _DABS size 0 flags 8 addr 0
+A _HOME size 0 flags 0 addr 0
+A _GSINIT size 0 flags 0 addr 0
+A _GSFINAL size 0 flags 0 addr 0
+A _INITIALIZER size 0 flags 0 addr 0
+A _CABS size 0 flags 8 addr 0
+T 00 00 00
+R 00 00 01 00
+T 00 00 00
+R 00 00 01 00
+T 00 00 00
+R 00 00 00 00
+T 00 00 00 11 00 00 4B 42 D5 21 00 00 E5 CD 00 00
+R 00 00 00 00 00 04 01 00 02 0A 00 00 02 0E 07 00
+T 0D 00 00 EB CB 3A CB 1B CB 3A CB 1B CB 3A CB 1B
+R 00 00 00 00
+T 1A 00 00 CB 3A CB 1B 2A 00 00 E5 C5 D5 21 00 00
+R 00 00 00 00 02 08 03 00
+T 27 00 00 E5 CD 00 00 21 00 00 E5 21 14 12 E5 21
+R 00 00 00 00 02 05 01 00 02 08 04 00
+T 34 00 00 00 00 E5 CD 00 00
+R 00 00 00 00 02 07 05 00
+T 3A 00 00
+R 00 00 00 00
+T 3A 00 00 CD 00 00 18 FB
+R 00 00 00 00 02 04 06 00
