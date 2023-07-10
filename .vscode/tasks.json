@@ -4,8 +4,7 @@
         {
             "label": "Build ROM",
             "type": "shell",
-            "command": "../gbdk/bin/lcc -o game.gb main.c",
-            "problemMatcher": ["$msCompile","$gcc"],
+            "command": "gbdk/bin/lcc -o game.gb main.c",
             "group": {
                 "kind": "build",
                 "isDefault": true
