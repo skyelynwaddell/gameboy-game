@@ -8,7 +8,7 @@
    Section       : 
    Bank          : 0
    Map size      : 32 x 32
-   Tile set      : Z:\Users\skyewaddell\Documents\github\gameboy-games\test game\maps\home_town.gbr
+   Tile set      : home_town.gbr
    Plane count   : 1 plane (8 bits)
    Plane order   : Tiles are continues
    Tile offset   : 0

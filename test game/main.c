@@ -17,8 +17,8 @@ uint8_t bkgSpeed = 8; //background scroll speed
 uint8_t state = 3; //spawn in DOWN state
 
 //player variables
-uint8_t player_x = 80;
-uint8_t player_y = 70;
+uint8_t player_x = 80-8;
+uint8_t player_y = 80-1;
 uint8_t player_size = 8;
 uint8_t player_flip = FALSE;
 uint8_t player_speed = 1;
@@ -31,7 +31,7 @@ uint8_t animation_timer_max = 25;
 //main game function
 void main()
 {
-    set_bkg_data(0,12,homeTownTiles); //set bg to memory
+    set_bkg_data(0,24,homeTownTiles); //set bg to memory
     set_bkg_tiles(0,0,32,32,homeTownMap); //set bg tiles
 
     //set player sprites into memory
@@ -165,7 +165,7 @@ void main()
         if (player_move)
         {
             if (state == 0)
-            scroll_bkg(-1,0);
+                scroll_bkg(-1,0);
             if (state == 1)
                 scroll_bkg(1,0);
             if (state == 2)
