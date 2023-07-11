@@ -31,7 +31,7 @@ uint8_t animation_timer_max = 25;
 //main game function
 void main()
 {
-    set_bkg_data(0,24,homeTownTiles); //set bg to memory
+    set_bkg_data(0,87,homeTownTiles); //set bg to memory
     set_bkg_tiles(0,0,32,32,homeTownMap); //set bg tiles
 
     //set player sprites into memory
