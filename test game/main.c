@@ -1,105 +1,193 @@
 //gameboy game by skye waddell <3
 #include <gb/gb.h>
-#include <stdio.h>
-#include "./sprites/player.c"
+#include <gb/cgb.h>
+#include <gb/metasprites.h>
+#include <stdint.h>
+#include "./sprites/playerSprites.c"
 #include "./maps/home_town_tiles.c"
 #include "./maps/home_town.c"
 
+//game variables
+uint8_t mButtons; //gamepad buttons
+uint8_t bkgSpeed = 8; //background scroll speed
+
+//states
+//LEFT = 0 //RIGHT = 1
+//UP = 2   //DOWN = 3
+uint8_t state = 3; //spawn in DOWN state
+
+//player variables
+uint8_t player_x = 80;
+uint8_t player_y = 70;
+uint8_t player_size = 8;
+uint8_t player_flip = FALSE;
+uint8_t player_speed = 1;
+uint8_t animation_delay = 10;
+uint8_t player_move = FALSE;
+uint8_t move_timer = 0;
+uint8_t animation_timer = 0;
+uint8_t animation_timer_max = 25;
+
+//main game function
 void main()
 {
-    //game variables
-    uint8_t bkgSpeed = 1;
-    uint8_t playerSpeed = 0.1;
-    uint8_t spriteIndex = 0;
-    uint8_t playerX = 80;
-    uint8_t playerY = 70;
-    uint8_t mButtons;
+    set_bkg_data(0,12,homeTownTiles); //set bg to memory
+    set_bkg_tiles(0,0,32,32,homeTownMap); //set bg tiles
 
-    //debug msg
-    printf("pocket monsters 2");
+    //set player sprites into memory
+    set_sprite_data(0,24,playerSprites);
 
-    set_bkg_data(0,12,homeTownTiles);
-    set_bkg_tiles(0,0,32,32,homeTownMap);
-    SHOW_BKG;
+    //draw left player sprite
+    set_sprite_tile(0,0); 
+    move_sprite(0,player_x,player_y); 
 
-    //player top left
-    set_sprite_data(0,1,player);
-    set_sprite_tile(0,2);
-    move_sprite(0,playerX,playerY);
+    //draw right player sprite
+    set_sprite_tile(1,2);
+    move_sprite(1,player_x + player_size,player_y);
 
-    //player top right
-    set_sprite_data(1,2,player);
-    set_sprite_tile(1,5);
-    move_sprite(1,playerX+8,playerY);
+    SHOW_BKG; //draw gb background
+    SHOW_SPRITES; //gb draw sprites function
+    SPRITES_8x16; //enable tall sprites
+    DISPLAY_ON; //turn on the gb display
 
-    //player bottom left
-    set_sprite_data(2,3,player);
-    set_sprite_tile(2,4);
-    move_sprite(2,playerX,playerY+8);
-
-    //player bottom right
-    set_sprite_data(3,6,player);
-    set_sprite_tile(3,6);
-    move_sprite(3,playerX+8,playerY+8);
-
-    SHOW_SPRITES; // gb draw sprites function
-    DISPLAY_ON;
+    //CreatePlayer();
 
     //main game loop
     while(1)
-    {   
+    { 
+        if (animation_timer < animation_timer_max) animation_timer++; else animation_timer = 0;
+
+        switch(state)
+        {
+        case 0: //LEFT
+            set_sprite_prop(0,0);
+            set_sprite_prop(1,0);
+            
+            if (animation_timer < animation_timer_max/2)
+            {
+            set_sprite_tile(0,16);
+            set_sprite_tile(1,18);
+            }
+
+            if ((player_move) && (animation_timer >= animation_timer_max/2))
+            {
+            set_sprite_tile(0,20);
+            set_sprite_tile(1,22);
+            }
+        break;
+        case 1: //RIGHT
+            set_sprite_prop(0,S_FLIPX);
+            set_sprite_prop(1,S_FLIPX);
+
+            if (animation_timer < animation_timer_max/2)
+            {
+            set_sprite_tile(0,18);
+            set_sprite_tile(1,16);
+            }
+            
+            if ((player_move) && (animation_timer >= animation_timer_max/2))
+            {
+            set_sprite_tile(0,22);
+            set_sprite_tile(1,20);
+            }
+        break;
+        case 2: //UP
+            set_sprite_prop(0,0);
+            set_sprite_prop(1,0);
+
+            if (animation_timer < animation_timer_max/2)
+            {
+            set_sprite_tile(0,8);
+            set_sprite_tile(1,10);
+            }
+            
+            if ((player_move) && (animation_timer >= animation_timer_max/2))
+            {
+            set_sprite_tile(0,12);
+            set_sprite_tile(1,14);
+            }   
+        break;
+        case 3: //DOWN
+            set_sprite_prop(0,0);
+            set_sprite_prop(1,0);
+
+            if (animation_timer < animation_timer_max/2)
+            {
+            set_sprite_tile(0,0);
+            set_sprite_tile(1,2);
+            }
+            
+            if ((player_move) && (animation_timer >= animation_timer_max/2))
+            {
+            set_sprite_tile(0,4);
+            set_sprite_tile(1,6);
+            }
+        break;
+        }
+
         mButtons = joypad();
 
-        switch(joypad()){
-            case J_LEFT:
-            scroll_sprite(0,-playerSpeed,0);
-            scroll_sprite(1,-playerSpeed,0);
-            scroll_sprite(2,-playerSpeed,0);
-            scroll_sprite(3,-playerSpeed,0);
-            scroll_bkg(-bkgSpeed,0);
-            break;
+        if (!player_move) // if we arent moving
+        {
+            //LEFT BUTTON PRESS
+            if (mButtons == J_LEFT)
+            {
+                state = 0;
+                player_move = TRUE;
+            } else
 
-            case J_RIGHT:
-            scroll_sprite(0,playerSpeed,0);
-            scroll_sprite(1,playerSpeed,0);
-            scroll_sprite(2,playerSpeed,0);
-            scroll_sprite(3,playerSpeed,0);
-            scroll_bkg(bkgSpeed,0);
-            break;
+            //RIGHT BUTTON PRESS
+            if (mButtons == J_RIGHT)
+            {
+                state = 1;
+                player_move = TRUE;
+            } else        
 
-            case J_UP:
-            scroll_sprite(0,0,-playerSpeed);
-            scroll_sprite(1,0,-playerSpeed);
-            scroll_sprite(2,0,-playerSpeed);
-            scroll_sprite(3,0,-playerSpeed);
-            scroll_bkg(0,-bkgSpeed);
-            break;
-
-            case J_DOWN:
-            scroll_sprite(0,0,playerSpeed);
-            scroll_sprite(1,0,playerSpeed);
-            scroll_sprite(2,0,playerSpeed);
-            scroll_sprite(3,0,playerSpeed);
-            scroll_bkg(0,bkgSpeed);
-            break;
-
-            case J_A:
-            //printf("A");
-            break;
-
-            case J_B:
-            //printf("B");
-            break;
-
-            case J_SELECT:
-            //printf("select");
-            break;
-
-            case J_START:
-            //printf("start");
-            break;
+            //UP BUTTON PRESS
+            if (mButtons == J_UP)
+            {
+                state = 2;
+                player_move = TRUE;  
+            } else		
+            
+            //DOWN BUTTON PRESS
+            if (mButtons == J_DOWN)
+            {
+                state = 3;
+                player_move = TRUE;
+            }
         }
-        delay(25);
 
+        //If we are moving increase timer
+        //so we only move for a certain time
+        //then stop moving ~ similar to pokemon movement
+
+        if (player_move)
+        {
+            if (state == 0)
+            scroll_bkg(-1,0);
+            if (state == 1)
+                scroll_bkg(1,0);
+            if (state == 2)
+                scroll_bkg(0,-1);
+            if (state == 3)
+                scroll_bkg(0,1);
+            
+            if (move_timer < 15)
+            {
+            move_timer++;
+            }
+            else
+            {
+                move_timer = 0;
+                player_move = FALSE;
+            }
+
+        }
+
+        //Done processing
+        //yield CPU and wait for start of next frame
+        delay(animation_delay);
+        wait_vbl_done();
     }
 }

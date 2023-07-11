@@ -1,6 +1,6 @@
 /*
 
- PLAYER.H
+ PLAYERSPRITES.H
 
  Include File.
 
@@ -10,7 +10,7 @@
   Compression          : None.
   Counter              : None.
   Tile size            : 16 x 16
-  Tiles                : 0 to 1
+  Tiles                : 0 to 24
 
   Palette colors       : None.
   SGB Palette          : None.
@@ -22,14 +22,14 @@
 
 */
 
-#ifndef __player_h_INCLUDE
-#define __player_h_INCLUDE
+#ifndef __playerSprites_h_INCLUDE
+#define __playerSprites_h_INCLUDE
 
 /* Bank of tiles. */
-#define playerBank 0
+#define playerSpritesBank 0
 /* Start of tile array. */
-extern const unsigned char player[];
+extern const unsigned char playerSprites[];
 
 #endif
 
-/* End of PLAYER.H */
+/* End of PLAYERSPRITES.H */
